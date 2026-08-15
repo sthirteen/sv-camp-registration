@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 300" width="660" height="300" role="img" aria-label="Shalom Family Camp poster">
+  <defs>
+    <linearGradient id="fSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"  stop-color="#7A2A0C"/>
+      <stop offset="46%" stop-color="#C25E22"/>
+      <stop offset="100%" stop-color="#F2AE68"/>
+    </linearGradient>
+    <linearGradient id="fPool" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#63CFD4"/>
+      <stop offset="100%" stop-color="#2A8C99"/>
+    </linearGradient>
+    <clipPath id="fClip"><rect width="660" height="300"/></clipPath>
+  </defs>
+
+  <g clip-path="url(#fClip)">
+    <rect width="660" height="300" fill="url(#fSky)"/>
+
+    <circle cx="330" cy="126" r="88" fill="#FFE3B0" opacity=".55"/>
+    <circle cx="330" cy="126" r="60" fill="#FFF3D6" opacity=".95"/>
+
+    <g fill="#FFF1DC" opacity=".38">
+      <ellipse cx="128" cy="58" rx="46" ry="15"/><ellipse cx="168" cy="50" rx="32" ry="13"/>
+      <ellipse cx="536" cy="76" rx="40" ry="13"/><ellipse cx="566" cy="68" rx="26" ry="11"/>
+    </g>
+
+    <path d="M0 176 L128 132 L262 180 L392 128 L520 180 L660 136 L660 300 L0 300 Z" fill="#9C4218" opacity=".55"/>
+    <path d="M0 206 L150 176 L300 212 L442 172 L560 210 L660 180 L660 300 L0 300 Z" fill="#7A3210"/>
+
+    <g transform="translate(120,168)">
+      <path d="M-58 28 L0 -16 L58 28 Z" fill="#8A3D16"/>
+      <rect x="-44" y="28" width="88" height="50" fill="#FFF1DC"/>
+      <rect x="-15" y="48" width="30" height="30" fill="#8A3D16"/>
+      <rect x="-35" y="38" width="15" height="15" fill="#63CFD4"/>
+      <rect x="20" y="38" width="15" height="15" fill="#63CFD4"/>
+    </g>
+
+    <rect x="228" y="222" width="264" height="52" rx="24" fill="url(#fPool)"/>
+    <g stroke="#E4FAFB" stroke-width="3" opacity=".55" fill="none">
+      <path d="M258 242 q13 -7 26 0 t26 0"/>
+      <path d="M410 256 q13 -7 26 0 t26 0"/>
+    </g>
+
+    <g fill="none" stroke-linecap="round">
+      <g transform="translate(288,164)">
+        <circle cx="0" cy="0" r="11" fill="#FFF1DC" stroke="none"/>
+        <path d="M0 11 L0 38 M0 18 L-16 29 M0 18 L16 29 M0 38 L-11 56 M0 38 L11 56" stroke="#FFF1DC" stroke-width="5.5"/>
+      </g>
+      <g transform="translate(334,176)">
+        <circle cx="0" cy="0" r="8" fill="#FFE3B0" stroke="none"/>
+        <path d="M0 8 L0 29 M0 13 L-12 23 M0 13 L12 23 M0 29 L-9 44 M0 29 L9 44" stroke="#FFE3B0" stroke-width="4.5"/>
+      </g>
+      <g transform="translate(372,180)">
+        <circle cx="0" cy="0" r="7" fill="#FFE3B0" stroke="none"/>
+        <path d="M0 7 L0 25 M0 11 L-10 20 M0 11 L10 20 M0 25 L-8 38 M0 25 L8 38" stroke="#FFE3B0" stroke-width="4.2"/>
+      </g>
+      <g transform="translate(418,164)">
+        <circle cx="0" cy="0" r="11" fill="#FFF1DC" stroke="none"/>
+        <path d="M0 11 L0 38 M0 18 L-16 29 M0 18 L16 29 M0 38 L-11 56 M0 38 L11 56" stroke="#FFF1DC" stroke-width="5.5"/>
+      </g>
+    </g>
+
+    <g fill="#5E240B">
+      <path d="M574 274 q7 -54 18 -78 q5 24 7 78 Z"/>
+      <path d="M592 190 q-34 -14 -52 4 q30 -5 52 7 Z"/>
+      <path d="M592 190 q34 -16 54 4 q-32 -5 -54 7 Z"/>
+      <path d="M592 188 q-9 -30 7 -46 q4 26 -2 48 Z"/>
+      <path d="M56 274 q-7 -48 -16 -70 q-5 22 -7 70 Z"/>
+      <path d="M40 200 q32 -14 50 4 q-30 -5 -50 7 Z"/>
+      <path d="M40 200 q-32 -16 -50 6 q30 -7 50 4 Z"/>
+    </g>
+
+    <rect y="278" width="660" height="22" fill="#5E240B"/>
+  </g>
+</svg>

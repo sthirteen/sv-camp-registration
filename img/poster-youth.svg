@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 300" width="660" height="300" role="img" aria-label="Youth Adventure Camp poster">
+  <defs>
+    <linearGradient id="ySky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"  stop-color="#06231A"/>
+      <stop offset="48%" stop-color="#0F4A33"/>
+      <stop offset="100%" stop-color="#2C8A5E"/>
+    </linearGradient>
+    <linearGradient id="ySun" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFE8A3"/>
+      <stop offset="100%" stop-color="#F2A03C"/>
+    </linearGradient>
+    <clipPath id="yClip"><rect width="660" height="300"/></clipPath>
+  </defs>
+
+  <g clip-path="url(#yClip)">
+    <rect width="660" height="300" fill="url(#ySky)"/>
+
+    <circle cx="452" cy="118" r="74" fill="url(#ySun)" opacity=".95"/>
+    <g stroke="#06231A" stroke-width="7" opacity=".5">
+      <path d="M378 106 H526"/><path d="M378 130 H526"/><path d="M378 154 H526"/>
+    </g>
+
+    <g fill="#FFFFFF" opacity=".7">
+      <circle cx="72" cy="44" r="2.4"/><circle cx="148" cy="82" r="1.7"/>
+      <circle cx="228" cy="38" r="2"/><circle cx="298" cy="72" r="1.5"/>
+      <circle cx="606" cy="52" r="2.2"/><circle cx="562" cy="30" r="1.5"/>
+    </g>
+
+    <path d="M0 196 L118 118 L206 176 L318 96 L430 186 L540 128 L660 190 L660 300 L0 300 Z" fill="#0A3A28"/>
+    <path d="M0 226 L104 176 L214 224 L330 168 L448 226 L566 178 L660 224 L660 300 L0 300 Z" fill="#072A1D"/>
+
+    <path d="M22 88 L640 46" stroke="#EAF7F0" stroke-width="3" opacity=".8"/>
+    <g transform="translate(268,72)">
+      <rect x="-11" y="-14" width="22" height="9" rx="4" fill="#EAF7F0"/>
+      <path d="M0 -5 L0 8" stroke="#EAF7F0" stroke-width="3"/>
+      <circle cx="0" cy="18" r="11" fill="#FFD9A0"/>
+      <path d="M0 29 L0 52 M0 35 L-15 25 M0 35 L15 25 M0 52 L-12 70 M0 52 L12 70"
+            stroke="#EAF7F0" stroke-width="5.5" stroke-linecap="round" fill="none"/>
+    </g>
+
+    <g>
+      <path d="M70 262 L116 194 L162 262 Z" fill="#F2A03C"/>
+      <path d="M116 194 L116 262" stroke="#B3641A" stroke-width="4"/>
+      <path d="M158 262 L200 202 L242 262 Z" fill="#EAF7F0" opacity=".92"/>
+      <path d="M200 202 L200 262" stroke="#9BB3A6" stroke-width="4"/>
+    </g>
+
+    <g transform="translate(500,250)">
+      <path d="M0 -30 C14 -16 17 -5 8 6 C3 12 -3 12 -8 6 C-17 -5 -14 -16 0 -30 Z" fill="#FFB33C"/>
+      <path d="M0 -16 C7 -8 8 -2 4 4 C1 8 -1 8 -4 4 C-8 -2 -7 -8 0 -16 Z" fill="#FFF0BE"/>
+      <path d="M-22 14 L22 6 M-22 6 L22 14" stroke="#7A5C34" stroke-width="7" stroke-linecap="round"/>
+    </g>
+
+    <g fill="#04180F">
+      <path d="M596 262 L622 200 L648 262 Z"/><path d="M602 230 L622 180 L642 230 Z"/>
+      <path d="M14 262 L38 208 L62 262 Z"/>
+    </g>
+    <rect y="270" width="660" height="30" fill="#04180F"/>
+  </g>
+</svg>
