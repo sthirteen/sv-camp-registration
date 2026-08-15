@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Camp Registration | Shalom Valley</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Khmer:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="camps.js"></script>
+<style>
+/* ==============================================================
+   SHALOM VALLEY CAMP REGISTRATION FORM
+   Do not edit camp details in this file — open admin.html instead.
+   All camp details and site settings live in camps.js.
+
+   Each camp gets its own link:   index.html?camp=your-camp-slug
+   ============================================================== */
+
+:root{
+  --green:#2F6B47;
+  --green-dark:#245537;
+  --green-light:#E8F1EB;
+  --sand:#F7F4EE;
+  --ink:#1F2421;
+  --muted:#6B7772;
+  --line:#DCD9D1;
+  --white:#fff;
+  --red:#C1443B;
+  --amber:#B7791F;
+  --radius:12px;
+  --shadow:0 1px 3px rgba(31,36,33,.08), 0 8px 24px rgba(31,36,33,.06);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--sand); color:var(--ink);
+  font-family:'Inter',system-ui,sans-serif; font-size:16px; line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+body.lang-km, body.lang-km input, body.lang-km select, body.lang-km textarea, body.lang-km button{
+  font-family:'Noto Sans Khmer','Inter',sans-serif; line-height:1.85;
+}
+img{max-width:100%;display:block}
+
+/* ---------- language visibility ---------- */
+.en,.km{display:none}
+body.lang-en .en{display:inline}
+body.lang-km .km{display:inline}
+body.lang-en div.en, body.lang-en p.en, body.lang-en li.en{display:block}
+body.lang-km div.km, body.lang-km p.km, body.lang-km li.km{display:block}
+
+/* ---------- header ---------- */
+header{
+  background:var(--green); color:#fff; padding:0;
+  position:sticky; top:0; z-index:50; box-shadow:0 2px 12px rgba(0,0,0,.12);
+}
+.bar{
+  max-width:1000px; margin:0 auto; padding:14px 20px;
+  display:flex; align-items:center; gap:16px; justify-content:space-between;
+}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.brand .mark{
+  width:38px;height:38px;border-radius:9px;background:rgba(255,255,255,.16);
+  display:grid;place-items:center;font-weight:700;font-size:15px;flex:none;
+}
+.brand b{font-size:16px;font-weight:600;letter-spacing:.2px;white-space:nowrap}
+.brand small{display:block;font-size:12px;opacity:.8;font-weight:400}
+.langtoggle{display:flex;background:rgba(255,255,255,.15);border-radius:999px;padding:3px;flex:none}
+.langtoggle button{
+  border:0;background:transparent;color:#fff;padding:6px 14px;border-radius:999px;
+  font-size:13px;font-weight:600;cursor:pointer;transition:.15s;
+}
+.langtoggle button[aria-pressed="true"]{background:#fff;color:var(--green)}
+
+/* ---------- hero ---------- */
+.hero{
+  background:linear-gradient(160deg,var(--green-dark),var(--green));
+  color:#fff; padding:52px 20px 60px; text-align:center;
+}
+.hero-in{max-width:760px;margin:0 auto}
+.hero h1{margin:0 0 10px;font-size:clamp(26px,5vw,40px);line-height:1.25;font-weight:700}
+.hero .tag{font-size:17px;opacity:.92;margin:0 0 26px}
+.facts{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:12px;margin-top:8px;text-align:left;
+}
+.fact{background:rgba(255,255,255,.12);border-radius:var(--radius);padding:14px 16px}
+.fact .k{font-size:11px;text-transform:uppercase;letter-spacing:.9px;opacity:.75;font-weight:600}
+.fact .v{font-size:15px;font-weight:600;margin-top:3px}
+.deadline{
+  display:inline-block;margin-top:24px;background:rgba(255,255,255,.16);
+  border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:8px 18px;font-size:14px;
+}
+
+/* ---------- layout ---------- */
+main{max-width:820px;margin:-32px auto 60px;padding:0 20px}
+.card{
+  background:var(--white);border:1px solid var(--line);border-radius:16px;
+  padding:28px;margin-bottom:20px;box-shadow:var(--shadow);
+}
+.card > h2{
+  margin:0 0 4px;font-size:20px;font-weight:700;display:flex;align-items:center;gap:10px;
+}
+.card > h2 .num{
+  width:26px;height:26px;border-radius:50%;background:var(--green-light);color:var(--green-dark);
+  display:grid;place-items:center;font-size:13px;font-weight:700;flex:none;
+}
+.card > .sub{color:var(--muted);font-size:14px;margin:0 0 20px;padding-left:36px}
+
+/* ---------- mode picker ---------- */
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:600px){.modes{grid-template-columns:1fr}}
+.mode{
+  border:2px solid var(--line);border-radius:var(--radius);padding:18px;cursor:pointer;
+  background:var(--white);text-align:left;transition:.15s;
+}
+.mode:hover{border-color:var(--green);background:var(--green-light)}
+.mode[aria-pressed="true"]{border-color:var(--green);background:var(--green-light);box-shadow:0 0 0 3px rgba(47,107,71,.12)}
+.mode .ico{font-size:22px;margin-bottom:8px}
+.mode .t{font-weight:700;font-size:15px;margin-bottom:4px}
+.mode .d{font-size:13px;color:var(--muted);line-height:1.5}
+
+/* ---------- form ---------- */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:640px){.grid{grid-template-columns:1fr}}
+.f{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.f.full{grid-column:1/-1}
+label{font-size:14px;font-weight:600}
+label .req{color:var(--red);margin-left:2px}
+label .hint{display:block;font-weight:400;font-size:12.5px;color:var(--muted);margin-top:2px}
+input[type=text],input[type=tel],input[type=email],input[type=number],input[type=date],select,textarea{
+  font:inherit;font-size:15px;padding:11px 13px;border:1px solid var(--line);
+  border-radius:9px;background:var(--white);color:var(--ink);width:100%;transition:.15s;
+}
+input:focus,select:focus,textarea:focus{
+  outline:0;border-color:var(--green);box-shadow:0 0 0 3px rgba(47,107,71,.14);
+}
+input:invalid:not(:placeholder-shown){border-color:var(--red)}
+textarea{resize:vertical;min-height:80px}
+fieldset{border:0;margin:0;padding:0}
+legend{font-size:14px;font-weight:600;margin-bottom:8px;padding:0}
+.radios{display:flex;flex-wrap:wrap;gap:10px}
+.radios label{
+  display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:9px;
+  padding:10px 14px;font-weight:500;cursor:pointer;background:var(--white);transition:.15s;flex:1;min-width:120px;
+}
+.radios label:hover{border-color:var(--green)}
+.radios input{accent-color:var(--green);margin:0;flex:none}
+.radios input:checked + span{font-weight:700;color:var(--green-dark)}
+.check{
+  display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);
+  border-radius:var(--radius);padding:14px;margin-bottom:12px;background:#FCFCFA;
+}
+.check input{margin:3px 0 0;accent-color:var(--green);width:18px;height:18px;flex:none}
+.check .txt{font-size:14px;line-height:1.55}
+.check .txt strong{display:block;margin-bottom:2px;font-size:14.5px}
+.check a{color:var(--green-dark);font-weight:600}
+.hidden{display:none !important}
+
+/* ---------- roster ---------- */
+#roster{display:flex;flex-direction:column;gap:10px;margin-bottom:12px}
+.row{
+  display:grid;grid-template-columns:2.2fr .9fr 1.1fr 1.3fr 36px;gap:8px;align-items:start;
+}
+.row .rlabels{display:none}
+@media(max-width:720px){
+  .row{
+    grid-template-columns:1fr 1fr;gap:8px;border:1px solid var(--line);
+    border-radius:var(--radius);padding:12px;background:#FCFCFA;position:relative;
+  }
+  .row > *:first-child{grid-column:1/-1}
+  .row .del{position:absolute;top:8px;right:8px}
+}
+.row input,.row select{font-size:14px;padding:9px 10px}
+.del{
+  border:1px solid var(--line);background:var(--white);color:var(--red);border-radius:8px;
+  width:36px;height:38px;font-size:17px;cursor:pointer;line-height:1;flex:none;
+}
+.del:hover{background:#FDF0EF;border-color:var(--red)}
+.rhead{
+  display:grid;grid-template-columns:2.2fr .9fr 1.1fr 1.3fr 36px;gap:8px;
+  font-size:11.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);
+  font-weight:600;margin-bottom:6px;
+}
+@media(max-width:720px){.rhead{display:none}}
+.addbtn{
+  border:1px dashed var(--green);background:var(--green-light);color:var(--green-dark);
+  padding:11px 18px;border-radius:9px;font:inherit;font-size:14px;font-weight:600;cursor:pointer;
+}
+.addbtn:hover{background:#DBEAE1}
+.rcount{font-size:13px;color:var(--muted);margin-left:12px}
+
+/* ---------- payment ---------- */
+.pay{display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:start}
+@media(max-width:600px){.pay{grid-template-columns:1fr}}
+.qrbox{
+  border:1px solid var(--line);border-radius:var(--radius);padding:12px;background:var(--white);
+  width:200px;text-align:center;
+}
+.qrbox img{border-radius:8px}
+.qrbox .ph{
+  width:174px;height:174px;background:var(--green-light);border-radius:8px;display:grid;
+  place-items:center;color:var(--green-dark);font-size:12.5px;padding:16px;text-align:center;line-height:1.5;
+}
+.qrbox .cap{font-size:12px;color:var(--muted);margin-top:8px}
+.feetable{width:100%;border-collapse:collapse;font-size:14.5px;margin-bottom:14px}
+.feetable td{padding:9px 0;border-bottom:1px solid var(--line)}
+.feetable td:last-child{text-align:right;font-weight:700;white-space:nowrap}
+.feetable tr:last-child td{border-bottom:0}
+.note{
+  background:#FFFBF0;border:1px solid #F0E2BE;border-left:3px solid var(--amber);
+  border-radius:8px;padding:13px 15px;font-size:13.5px;line-height:1.6;
+}
+
+/* ---------- submit ---------- */
+.submitwrap{text-align:center;padding:4px 0 0}
+.btn{
+  background:var(--green);color:#fff;border:0;border-radius:10px;padding:15px 44px;
+  font:inherit;font-size:16.5px;font-weight:700;cursor:pointer;transition:.15s;
+  box-shadow:0 2px 8px rgba(47,107,71,.25);
+}
+.btn:hover:not(:disabled){background:var(--green-dark);transform:translateY(-1px)}
+.btn:disabled{opacity:.55;cursor:not-allowed;transform:none}
+.status{margin-top:14px;font-size:14px;min-height:20px}
+.status.err{color:var(--red);font-weight:600}
+.privacy{font-size:12.5px;color:var(--muted);margin-top:14px;line-height:1.6}
+
+/* ---------- success ---------- */
+#done{text-align:center;padding:44px 24px}
+#done .tick{
+  width:62px;height:62px;border-radius:50%;background:var(--green-light);color:var(--green);
+  display:grid;place-items:center;font-size:32px;margin:0 auto 18px;
+}
+#done h2{margin:0 0 8px;font-size:23px}
+#done p{color:var(--muted);max-width:460px;margin:0 auto 8px}
+#done .ref{
+  display:inline-block;margin-top:16px;background:var(--green-light);color:var(--green-dark);
+  border-radius:9px;padding:10px 20px;font-weight:700;font-size:15px;letter-spacing:.5px;
+}
+#done .again{
+  margin-top:24px;background:none;border:1px solid var(--line);color:var(--ink);
+  padding:11px 24px;border-radius:9px;font:inherit;font-size:14px;font-weight:600;cursor:pointer;
+}
+#done .again:hover{border-color:var(--green);color:var(--green-dark)}
+
+/* ---------- gate (no camp / closed camp) ---------- */
+#gate{text-align:center;padding:44px 26px}
+#gate .em{font-size:38px;margin-bottom:14px}
+#gate h2{margin:0 0 10px;font-size:22px}
+#gate p{color:var(--muted);max-width:480px;margin:0 auto 6px}
+#gate .contact{
+  margin-top:22px;display:inline-flex;flex-wrap:wrap;gap:10px;justify-content:center;
+}
+#gate .contact a{
+  border:1px solid var(--line);border-radius:9px;padding:11px 20px;text-decoration:none;
+  color:var(--green-dark);font-weight:600;font-size:14.5px;background:var(--white);
+}
+#gate .contact a:hover{border-color:var(--green);background:var(--green-light)}
+.preview{
+  background:var(--amber);color:#fff;text-align:center;padding:9px 20px;
+  font-size:13.5px;font-weight:600;
+}
+
+footer{
+  text-align:center;padding:32px 20px 40px;color:var(--muted);font-size:13.5px;
+  border-top:1px solid var(--line);
+}
+footer a{color:var(--green-dark)}
+footer .org{font-weight:600;color:var(--ink);margin-bottom:4px}
+</style>
+</head>
+<body class="lang-en">
+
+<header>
+  <div class="bar">
+    <div class="brand">
+      <div class="mark">SV</div>
+      <div>
+        <b>Shalom Valley</b>
+        <small><span class="en">Camp Registration</span><span class="km">ការចុះឈ្មោះជំរុំ</span></small>
+      </div>
+    </div>
+    <div class="langtoggle" role="group" aria-label="Language">
+      <button type="button" data-lang="en" aria-pressed="true">English</button>
+      <button type="button" data-lang="km" aria-pressed="false">ខ្មែរ</button>
+    </div>
+  </div>
+</header>
+
+<div class="preview hidden" id="previewBar">
+  <span class="en">PREVIEW — this camp is not published yet. Registrations still save normally.</span>
+  <span class="km">ការមើលជាមុន — ជំរុំនេះមិនទាន់ផ្សាយទេ។ ការចុះឈ្មោះនឹងរក្សាទុកជាធម្មតា។</span>
+</div>
+
+<section class="hero hidden" id="hero">
+  <div class="hero-in">
+    <h1><span class="en" id="h-name-en"></span><span class="km" id="h-name-km"></span></h1>
+    <p class="tag"><span class="en" id="h-tag-en"></span><span class="km" id="h-tag-km"></span></p>
+    <div class="facts">
+      <div class="fact">
+        <div class="k"><span class="en">Dates</span><span class="km">កាលបរិច្ឆេទ</span></div>
+        <div class="v" id="f-dates">—</div>
+      </div>
+      <div class="fact">
+        <div class="k"><span class="en">Location</span><span class="km">ទីតាំង</span></div>
+        <div class="v" id="f-loc">—</div>
+      </div>
+      <div class="fact">
+        <div class="k"><span class="en">Ages</span><span class="km">អាយុ</span></div>
+        <div class="v" id="f-ages">—</div>
+      </div>
+      <div class="fact">
+        <div class="k"><span class="en">Cost</span><span class="km">តម្លៃ</span></div>
+        <div class="v" id="f-cost">—</div>
+      </div>
+    </div>
+    <div class="deadline">
+      <span class="en">Registration closes</span><span class="km">បិទការចុះឈ្មោះ</span>
+      <b id="f-deadline">—</b>
+    </div>
+  </div>
+</section>
+
+<main>
+
+<!-- shown when the link has no valid camp, or the camp is closed/full -->
+<div class="card hidden" id="gate">
+  <div class="em" id="gateIcon">🔗</div>
+  <h2><span class="en" id="gateTitleEn"></span><span class="km" id="gateTitleKm"></span></h2>
+  <p><span class="en" id="gateBodyEn"></span><span class="km" id="gateBodyKm"></span></p>
+  <div class="contact" id="gateContact"></div>
+</div>
+
+<form id="form" class="hidden" novalidate>
+
+  <!-- 1. WHO IS REGISTERING -->
+  <div class="card">
+    <h2><span class="num">1</span><span class="en">Who is registering?</span><span class="km">តើអ្នកណាកំពុងចុះឈ្មោះ?</span></h2>
+    <p class="sub"><span class="en">Choose one. Group leaders can register everyone in their group at once.</span><span class="km">សូមជ្រើសរើសមួយ។ អ្នកដឹកនាំក្រុមអាចចុះឈ្មោះសមាជិកទាំងអស់ក្នុងក្រុមរបស់ខ្លួនក្នុងពេលតែមួយ។</span></p>
+    <div class="modes">
+      <button type="button" class="mode" data-mode="individual" aria-pressed="true">
+        <div class="ico">🧍</div>
+        <div class="t"><span class="en">Just myself</span><span class="km">ខ្លួនខ្ញុំតែម្នាក់</span></div>
+        <div class="d"><span class="en">I am signing up on my own — as a camper or as a leader.</span><span class="km">ខ្ញុំចុះឈ្មោះដោយខ្លួនឯង — ជាអ្នកចូលរួមជំរុំ ឬជាអ្នកដឹកនាំ។</span></div>
+      </button>
+      <button type="button" class="mode" data-mode="group" aria-pressed="false">
+        <div class="ico">👥</div>
+        <div class="t"><span class="en">My whole group</span><span class="km">ក្រុមទាំងមូលរបស់ខ្ញុំ</span></div>
+        <div class="d"><span class="en">I am the group leader registering my church, school or organisation.</span><span class="km">ខ្ញុំជាអ្នកដឹកនាំក្រុម ចុះឈ្មោះសម្រាប់ក្រុមជំនុំ សាលារៀន ឬអង្គការរបស់ខ្ញុំ។</span></div>
+      </button>
+    </div>
+    <input type="hidden" name="mode" id="mode" value="individual">
+  </div>
+
+  <!-- 2. YOUR DETAILS -->
+  <div class="card">
+    <h2><span class="num">2</span>
+      <span class="en"><span data-mode-text="individual">Your details</span><span data-mode-text="group" class="hidden">Group leader details</span></span>
+      <span class="km"><span data-mode-text="individual">ព័ត៌មានរបស់អ្នក</span><span data-mode-text="group" class="hidden">ព័ត៌មានអ្នកដឹកនាំក្រុម</span></span>
+    </h2>
+    <p class="sub"><span class="en">This is the person we will contact about the registration.</span><span class="km">នេះជាបុគ្គលដែលយើងនឹងទាក់ទងអំពីការចុះឈ្មោះនេះ។</span></p>
+
+    <div class="grid">
+      <div class="f">
+        <label for="fullName"><span class="en">Full name (English)</span><span class="km">ឈ្មោះពេញ (អង់គ្លេស)</span><span class="req">*</span></label>
+        <input type="text" id="fullName" name="fullName" required autocomplete="name">
+      </div>
+      <div class="f">
+        <label for="nameKhmer"><span class="en">Full name (Khmer)</span><span class="km">ឈ្មោះពេញ (ខ្មែរ)</span></label>
+        <input type="text" id="nameKhmer" name="nameKhmer">
+      </div>
+      <div class="f">
+        <label for="phone"><span class="en">Phone number</span><span class="km">លេខទូរស័ព្ទ</span><span class="req">*</span>
+          <span class="hint"><span class="en">Telegram number preferred</span><span class="km">ចូលចិត្តលេខតេលេក្រាម</span></span>
+        </label>
+        <input type="tel" id="phone" name="phone" required autocomplete="tel" placeholder="0XX XXX XXX">
+      </div>
+      <div class="f">
+        <label for="email"><span class="en">Email address</span><span class="km">អ៊ីមែល</span></label>
+        <input type="email" id="email" name="email" autocomplete="email" placeholder="name@example.com">
+      </div>
+      <div class="f">
+        <label for="church"><span class="en">Church / school / organisation</span><span class="km">ក្រុមជំនុំ / សាលារៀន / អង្គការ</span></label>
+        <input type="text" id="church" name="church">
+      </div>
+      <div class="f">
+        <label for="province"><span class="en">Province / city</span><span class="km">ខេត្ត / ក្រុង</span></label>
+        <input type="text" id="province" name="province">
+      </div>
+    </div>
+
+    <!-- individual-only -->
+    <div data-only="individual">
+      <div class="grid">
+        <div class="f">
+          <fieldset>
+            <legend><span class="en">I am registering as</span><span class="km">ខ្ញុំចុះឈ្មោះជា</span><span class="req">*</span></legend>
+            <div class="radios">
+              <label><input type="radio" name="role" value="Camper" required><span class="en">Camper</span><span class="km">អ្នកចូលរួមជំរុំ</span></label>
+              <label><input type="radio" name="role" value="Leader"><span class="en">Leader / staff</span><span class="km">អ្នកដឹកនាំ / បុគ្គលិក</span></label>
+            </div>
+          </fieldset>
+        </div>
+        <div class="f">
+          <fieldset>
+            <legend><span class="en">Gender</span><span class="km">ភេទ</span><span class="req">*</span></legend>
+            <div class="radios">
+              <label><input type="radio" name="gender" value="Male" required><span class="en">Male</span><span class="km">ប្រុស</span></label>
+              <label><input type="radio" name="gender" value="Female"><span class="en">Female</span><span class="km">ស្រី</span></label>
+            </div>
+          </fieldset>
+        </div>
+        <div class="f">
+          <label for="dob"><span class="en">Date of birth</span><span class="km">ថ្ងៃខែឆ្នាំកំណើត</span><span class="req">*</span></label>
+          <input type="date" id="dob" name="dob" required>
+        </div>
+        <div class="f">
+          <label for="age"><span class="en">Age at camp</span><span class="km">អាយុនៅពេលជំរុំ</span></label>
+          <input type="number" id="age" name="age" min="3" max="99" readonly style="background:#F7F4EE">
+        </div>
+      </div>
+
+      <h3 style="font-size:15px;margin:22px 0 12px"><span class="en">Emergency contact</span><span class="km">អ្នកទំនាក់ទំនងពេលមានអាសន្ន</span></h3>
+      <div class="grid">
+        <div class="f">
+          <label for="ecName"><span class="en">Name</span><span class="km">ឈ្មោះ</span><span class="req">*</span></label>
+          <input type="text" id="ecName" name="ecName" required>
+        </div>
+        <div class="f">
+          <label for="ecPhone"><span class="en">Phone number</span><span class="km">លេខទូរស័ព្ទ</span><span class="req">*</span></label>
+          <input type="tel" id="ecPhone" name="ecPhone" required>
+        </div>
+        <div class="f full">
+          <label for="ecRelation"><span class="en">Relationship to camper</span><span class="km">ត្រូវជាអ្វីនឹងអ្នកចូលរួមជំរុំ</span><span class="req">*</span></label>
+          <input type="text" id="ecRelation" name="ecRelation" required placeholder="e.g. Mother, Guardian, Pastor">
+        </div>
+      </div>
+    </div>
+
+    <!-- group-only -->
+    <div data-only="group" class="hidden">
+      <div class="grid">
+        <div class="f">
+          <label for="groupName"><span class="en">Group name</span><span class="km">ឈ្មោះក្រុម</span><span class="req">*</span></label>
+          <input type="text" id="groupName" name="groupName">
+        </div>
+        <div class="f">
+          <label for="leaderCount"><span class="en">Number of adult leaders (including you)</span><span class="km">ចំនួនអ្នកដឹកនាំពេញវ័យ (រួមទាំងអ្នក)</span><span class="req">*</span></label>
+          <input type="number" id="leaderCount" name="leaderCount" min="1" max="200" value="1">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. ROSTER (group only) -->
+  <div class="card hidden" data-only="group" id="rosterCard">
+    <h2><span class="num">3</span><span class="en">Your group list</span><span class="km">បញ្ជីឈ្មោះក្រុមរបស់អ្នក</span></h2>
+    <p class="sub"><span class="en">Add every person attending, campers and leaders. You can update this list with us later if numbers change.</span><span class="km">សូមបញ្ចូលឈ្មោះមនុស្សគ្រប់រូបដែលនឹងចូលរួម ទាំងអ្នកចូលរួមជំរុំ និងអ្នកដឹកនាំ។ អ្នកអាចកែប្រែបញ្ជីនេះជាមួយយើងក្រោយបាន ប្រសិនបើចំនួនផ្លាស់ប្តូរ។</span></p>
+
+    <div class="rhead">
+      <div><span class="en">Full name</span><span class="km">ឈ្មោះពេញ</span></div>
+      <div><span class="en">Age</span><span class="km">អាយុ</span></div>
+      <div><span class="en">Gender</span><span class="km">ភេទ</span></div>
+      <div><span class="en">Camper / Leader</span><span class="km">អ្នកចូលរួម / អ្នកដឹកនាំ</span></div>
+      <div></div>
+    </div>
+    <div id="roster"></div>
+    <div style="display:flex;align-items:center;flex-wrap:wrap">
+      <button type="button" class="addbtn" id="addRow">＋ <span class="en">Add person</span><span class="km">បន្ថែមមនុស្ស</span></button>
+      <span class="rcount"><b id="rcount">0</b> <span class="en">people added</span><span class="km">នាក់ត្រូវបានបញ្ចូល</span></span>
+    </div>
+  </div>
+
+  <!-- 4. TRANSPORT -->
+  <div class="card">
+    <h2><span class="num" data-step="transport">4</span><span class="en">Getting to camp</span><span class="km">ការធ្វើដំណើរទៅជំរុំ</span></h2>
+    <p class="sub"><span class="en">Shalom Valley is in Kep Province. Transport is arranged by each group, but tell us your plan so we can prepare parking and driver meals.</span><span class="km">Shalom Valley ស្ថិតនៅខេត្តកែប។ ការធ្វើដំណើរត្រូវរៀបចំដោយក្រុមនីមួយៗ ប៉ុន្តែសូមប្រាប់យើងអំពីផែនការរបស់អ្នក ដើម្បីយើងអាចរៀបចំកន្លែងចតរថយន្ត និងអាហារសម្រាប់អ្នកបើកបរ។</span></p>
+
+    <div class="f">
+      <fieldset>
+        <legend><span class="en">How will you travel?</span><span class="km">តើអ្នកនឹងធ្វើដំណើរដោយរបៀបណា?</span><span class="req">*</span></legend>
+        <div class="radios">
+          <label><input type="radio" name="transport" value="Own transport" required><span class="en">Own transport</span><span class="km">មធ្យោបាយផ្ទាល់ខ្លួន</span></label>
+          <label><input type="radio" name="transport" value="Group bus"><span class="en">Group bus / van</span><span class="km">រថយន្តក្រុង / រថយន្តក្រុម</span></label>
+          <label><input type="radio" name="transport" value="Need help arranging"><span class="en">Need help arranging</span><span class="km">ត្រូវការជំនួយក្នុងការរៀបចំ</span></label>
+        </div>
+      </fieldset>
+    </div>
+
+    <div class="grid">
+      <div class="f">
+        <label for="departFrom"><span class="en">Travelling from</span><span class="km">ធ្វើដំណើរចេញពី</span></label>
+        <input type="text" id="departFrom" name="departFrom" placeholder="e.g. Phnom Penh">
+      </div>
+      <div class="f">
+        <label for="arriveTime"><span class="en">Expected arrival time</span><span class="km">ពេលវេលាមកដល់ប៉ាន់ស្មាន</span></label>
+        <input type="text" id="arriveTime" name="arriveTime" placeholder="e.g. around 2pm">
+      </div>
+    </div>
+
+    <div data-only="group" class="hidden">
+      <div class="grid">
+        <div class="f">
+          <label for="busCount"><span class="en">Number of buses / vans</span><span class="km">ចំនួនរថយន្តក្រុង / រថយន្តតូច</span></label>
+          <input type="number" id="busCount" name="busCount" min="0" max="30" value="0">
+        </div>
+        <div class="f">
+          <label for="driverCount"><span class="en">Number of drivers staying overnight</span><span class="km">ចំនួនអ្នកបើកបរដែលស្នាក់នៅមួយយប់</span>
+            <span class="hint"><span class="en">Driver meals are free. Drivers usually sleep in their vehicle.</span><span class="km">អាហារអ្នកបើកបរឥតគិតថ្លៃ។ អ្នកបើកបរជាធម្មតាគេងក្នុងរថយន្ត។</span></span>
+          </label>
+          <input type="number" id="driverCount" name="driverCount" min="0" max="30" value="0">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. PAYMENT -->
+  <div class="card">
+    <h2><span class="num" data-step="payment">5</span><span class="en">Camp fee &amp; payment</span><span class="km">ថ្លៃជំរុំ និងការទូទាត់</span></h2>
+    <p class="sub"><span class="en">Pay by KHQR bank transfer, or bring cash on arrival.</span><span class="km">អាចទូទាត់តាម KHQR ឬយកសាច់ប្រាក់មកនៅថ្ងៃមកដល់។</span></p>
+
+    <div class="pay">
+      <div class="qrbox">
+        <img id="qrImg" class="hidden" alt="KHQR payment code">
+        <div class="ph" id="qrPh">
+          <span class="en">Add your KHQR image as <b>qr-code.png</b> in this folder</span>
+          <span class="km">សូមដាក់រូប KHQR ឈ្មោះ <b>qr-code.png</b> ក្នុងថតនេះ</span>
+        </div>
+        <div class="cap" id="qrCap"></div>
+      </div>
+      <div>
+        <table class="feetable" id="feetable"></table>
+        <div class="f">
+          <fieldset>
+            <legend><span class="en">How will you pay?</span><span class="km">តើអ្នកនឹងទូទាត់ដោយរបៀបណា?</span><span class="req">*</span></legend>
+            <div class="radios">
+              <label><input type="radio" name="payment" value="KHQR transfer" required><span class="en">KHQR / bank transfer</span><span class="km">KHQR / ផ្ទេរតាមធនាគារ</span></label>
+              <label><input type="radio" name="payment" value="Cash on arrival"><span class="en">Cash on arrival</span><span class="km">សាច់ប្រាក់ថ្ងៃមកដល់</span></label>
+            </div>
+          </fieldset>
+        </div>
+        <div class="f">
+          <label for="payRef"><span class="en">Transfer reference or receipt name</span><span class="km">លេខយោង ឬឈ្មោះលើបង្កាន់ដៃ</span>
+            <span class="hint"><span class="en">If you have already transferred, tell us the name it was sent under.</span><span class="km">ប្រសិនបើអ្នកបានផ្ទេរប្រាក់រួច សូមប្រាប់យើងឈ្មោះដែលបានផ្ញើ។</span></span>
+          </label>
+          <input type="text" id="payRef" name="payRef">
+        </div>
+        <div class="note">
+          <span class="en">Your place is confirmed once we receive your registration. Payment can follow — we will contact you with an invoice and total.</span>
+          <span class="km">កន្លែងរបស់អ្នកត្រូវបានបញ្ជាក់ បន្ទាប់ពីយើងទទួលបានការចុះឈ្មោះរបស់អ្នក។ ការទូទាត់អាចធ្វើក្រោយបាន — យើងនឹងទាក់ទងអ្នកជាមួយវិក្កយបត្រ និងចំនួនសរុប។</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. AGREEMENTS -->
+  <div class="card">
+    <h2><span class="num" data-step="agree">6</span><span class="en">Agreements</span><span class="km">កិច្ចព្រមព្រៀង</span></h2>
+    <p class="sub"><span class="en">Please read and tick each box.</span><span class="km">សូមអាន និងគូសធីកគ្រប់ប្រអប់។</span></p>
+
+    <label class="check">
+      <input type="checkbox" name="agreeRules" value="Yes" required>
+      <span class="txt">
+        <strong><span class="en">Camp rules &amp; Child Protection Agreement</span><span class="km">បទបញ្ជាជំរុំ និងកិច្ចព្រមព្រៀងការពារកុមារ</span></strong>
+        <span class="en">I have read and agree to the <a href="#" id="lnkRules" target="_blank" rel="noopener">Shalom Valley Camp Rules &amp; Child Protection Agreement</a>. I understand Shalom Valley is a no-alcohol, no-smoking, no-drugs site.</span>
+        <span class="km">ខ្ញុំបានអាន និងយល់ព្រមតាម <a href="#" id="lnkRulesKm" target="_blank" rel="noopener">បទបញ្ជាជំរុំ និងកិច្ចព្រមព្រៀងការពារកុមារ Shalom Valley</a>។ ខ្ញុំយល់ថា Shalom Valley ជាកន្លែងគ្មានស្រា គ្មានការជក់បារី និងគ្មានសារធាតុញៀន។</span>
+      </span>
+    </label>
+
+    <label class="check">
+      <input type="checkbox" name="agreePhoto" value="Yes">
+      <span class="txt">
+        <strong><span class="en">Photo &amp; media release</span><span class="km">ការអនុញ្ញាតប្រើរូបភាព និងវីដេអូ</span></strong>
+        <span class="en">I give permission for photos and video taken at camp to be used by Shalom Valley and Alongsiders in reports, websites and social media. <em>Leave unticked if you do not consent.</em></span>
+        <span class="km">ខ្ញុំអនុញ្ញាតឱ្យរូបភាព និងវីដេអូដែលថតនៅជំរុំ ត្រូវប្រើប្រាស់ដោយ Shalom Valley និង Alongsiders ក្នុងរបាយការណ៍ គេហទំព័រ និងបណ្តាញសង្គម។ <em>សូមកុំគូសធីក ប្រសិនបើអ្នកមិនយល់ព្រម។</em></span>
+      </span>
+    </label>
+
+    <div class="f full" style="margin-top:6px">
+      <label for="notes"><span class="en">Anything else we should know?</span><span class="km">មានអ្វីផ្សេងទៀតដែលយើងគួរដឹង?</span>
+        <span class="hint"><span class="en">Allergies, medical needs, dietary requirements, accessibility, special requests.</span><span class="km">ការរំខានដោយអាហារ តម្រូវការវេជ្ជសាស្ត្រ អាហារូបត្ថម្ភ ការចូលដំណើរការ ឬសំណើពិសេស។</span></span>
+      </label>
+      <textarea id="notes" name="notes"></textarea>
+    </div>
+  </div>
+
+  <div class="submitwrap">
+    <button type="submit" class="btn" id="submitBtn">
+      <span class="en">Submit registration</span><span class="km">ដាក់ស្នើការចុះឈ្មោះ</span>
+    </button>
+    <div class="status" id="status" role="status" aria-live="polite"></div>
+    <p class="privacy">
+      <span class="en">Your information is used only to run this camp and keep campers safe. We do not share it with anyone else.</span>
+      <span class="km">ព័ត៌មានរបស់អ្នកត្រូវប្រើសម្រាប់តែការដំណើរការជំរុំនេះ និងរក្សាសុវត្ថិភាពអ្នកចូលរួម។ យើងមិនចែករំលែកទៅអ្នកផ្សេងទេ។</span>
+    </p>
+  </div>
+</form>
+
+<!-- SUCCESS -->
+<div class="card hidden" id="done">
+  <div class="tick">✓</div>
+  <h2><span class="en">Registration received</span><span class="km">បានទទួលការចុះឈ្មោះ</span></h2>
+  <p><span class="en">Thank you. We have your details and will be in touch on the phone number you gave us with confirmation and payment information.</span><span class="km">អរគុណ។ យើងបានទទួលព័ត៌មានរបស់អ្នក ហើយនឹងទាក់ទងតាមលេខទូរស័ព្ទដែលអ្នកបានផ្តល់ ជាមួយការបញ្ជាក់ និងព័ត៌មានទូទាត់។</span></p>
+  <div class="ref"><span class="en">Reference</span><span class="km">លេខយោង</span>: <span id="refNo"></span></div>
+  <div><button type="button" class="again" id="again"><span class="en">Register someone else</span><span class="km">ចុះឈ្មោះមនុស្សផ្សេងទៀត</span></button></div>
+</div>
+</main>
+
+<footer>
+  <div class="org">Shalom Valley &middot; Alongsiders Organization</div>
+  <div id="footContact"></div>
+</footer>
+
+<script>
+const $  = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+
+/* ---------- load camp data ---------- */
+const DB       = (window.CAMPS && typeof window.CAMPS === 'object') ? window.CAMPS : null;
+const SETTINGS = (DB && DB.settings) || {};
+const ALL      = (DB && Array.isArray(DB.camps)) ? DB.camps : [];
+
+const params  = new URLSearchParams(location.search);
+const slug    = (params.get('camp') || '').trim().toLowerCase();
+const preview = params.get('preview') === '1';
+
+let c = ALL.find(x => (x.slug || '').toLowerCase() === slug) || null;
+
+/* ---------- shared helpers ---------- */
+const bi = (el, en, km) => {
+  el.innerHTML = '';
+  const a = document.createElement('span'); a.className = 'en'; a.textContent = en || '';
+  const b = document.createElement('span'); b.className = 'km'; b.textContent = km || a.textContent;
+  el.append(a, b);
+};
+const esc = s => String(s == null ? '' : s)
+  .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+
+/* ---------- footer contact (always shown) ---------- */
+(() => {
+  const ph = SETTINGS.contactPhone || '';
+  const em = SETTINGS.contactEmail || '';
+  const parts = [];
+  if (ph) parts.push(`<a href="tel:${esc(ph.replace(/\s/g,''))}">${esc(ph)}</a>`);
+  if (em) parts.push(`<a href="mailto:${esc(em)}">${esc(em)}</a>`);
+  $('#footContact').innerHTML = parts.join(' &middot; ');
+  $('#gateContact').innerHTML = parts.map(p =>
+    p.replace('<a ', '<a class="gbtn" ')).join('');
+})();
+
+/* ---------- gate: no camp, unknown camp, or closed camp ---------- */
+const GATE = {
+  nodata: { icon:'⚠️',
+    tEn:'Camp list not loaded', tKm:'មិនអាចផ្ទុកបញ្ជីជំរុំ',
+    bEn:'The file camps.js could not be found next to this page. Upload the whole folder together, then reload.',
+    bKm:'រកមិនឃើញឯកសារ camps.js នៅជាមួយទំព័រនេះទេ។ សូមផ្ទុកឡើងថតទាំងមូលជាមួយគ្នា រួចផ្ទុកទំព័រឡើងវិញ។' },
+  missing:{ icon:'🔗',
+    tEn:'Which camp are you registering for?', tKm:'តើអ្នកចុះឈ្មោះសម្រាប់ជំរុំណា?',
+    bEn:'This link is incomplete. Please use the exact registration link your camp organiser sent you, or contact us and we will send it again.',
+    bKm:'តំណនេះមិនពេញលេញទេ។ សូមប្រើតំណចុះឈ្មោះពិតប្រាកដដែលអ្នករៀបចំជំរុំបានផ្ញើឱ្យអ្នក ឬទាក់ទងយើង យើងនឹងផ្ញើម្តងទៀត។' },
+  unknown:{ icon:'🔍',
+    tEn:'Camp not found', tKm:'រកមិនឃើញជំរុំ',
+    bEn:'We could not find a camp matching this link. It may have been renamed or removed. Please contact us for the current link.',
+    bKm:'យើងរកមិនឃើញជំរុំដែលត្រូវនឹងតំណនេះទេ។ វាអាចត្រូវបានប្តូរឈ្មោះ ឬលុបចោល។ សូមទាក់ទងយើងដើម្បីទទួលតំណថ្មី។' },
+  draft:  { icon:'🚧',
+    tEn:'Not open yet', tKm:'មិនទាន់បើកទេ',
+    bEn:'Registration for this camp has not opened yet. Please check back soon, or contact us to be told when it does.',
+    bKm:'ការចុះឈ្មោះសម្រាប់ជំរុំនេះមិនទាន់បើកទេ។ សូមពិនិត្យមកវិញឆាប់ៗ ឬទាក់ទងយើងដើម្បីដឹងពេលបើក។' },
+  closed: { icon:'🔒',
+    tEn:'Registration is closed', tKm:'ការចុះឈ្មោះបានបិទ',
+    bEn:'Registration for this camp has now closed. Please contact us if you still need to join or make a change.',
+    bKm:'ការចុះឈ្មោះសម្រាប់ជំរុំនេះបានបិទហើយ។ សូមទាក់ទងយើង ប្រសិនបើអ្នកនៅចង់ចូលរួម ឬចង់កែប្រែ។' },
+  full:   { icon:'🏕️',
+    tEn:'This camp is full', tKm:'ជំរុំនេះពេញហើយ',
+    bEn:'Every place at this camp has been taken. Contact us to be added to the waiting list.',
+    bKm:'កន្លែងទាំងអស់នៅជំរុំនេះត្រូវបានយកអស់ហើយ។ សូមទាក់ទងយើងដើម្បីបញ្ចូលក្នុងបញ្ជីរង់ចាំ។' }
+};
+
+function showGate(key, campName){
+  const g = GATE[key] || GATE.missing;
+  $('#gateIcon').textContent  = g.icon;
+  $('#gateTitleEn').textContent = campName ? campName + ' — ' + g.tEn.toLowerCase() : g.tEn;
+  $('#gateTitleKm').textContent = campName ? campName + ' — ' + g.tKm : g.tKm;
+  $('#gateBodyEn').textContent  = g.bEn;
+  $('#gateBodyKm').textContent  = g.bKm;
+  $('#gate').classList.remove('hidden');
+  $('#form').classList.add('hidden');
+  $('#hero').classList.add('hidden');
+}
+
+const status = c ? String(c.status || 'open').toLowerCase() : '';
+let blocked = null;
+if (!DB)                                   blocked = 'nodata';
+else if (!slug)                            blocked = 'missing';
+else if (!c)                               blocked = 'unknown';
+else if (status === 'closed')              blocked = 'closed';
+else if (status === 'full')                blocked = 'full';
+else if (status === 'draft' && !preview)   blocked = 'draft';
+
+if (blocked){
+  showGate(blocked, c ? c.nameEn : '');
+} else {
+  renderCamp();
+}
+
+/* ---------- render the chosen camp ---------- */
+function renderCamp(){
+  document.title = c.nameEn + ' — Registration | Shalom Valley';
+  if (status === 'draft') $('#previewBar').classList.remove('hidden');
+
+  $('#hero').classList.remove('hidden');
+  $('#form').classList.remove('hidden');
+
+  $('#h-name-en').textContent = c.nameEn || '';
+  $('#h-name-km').textContent = c.nameKm || c.nameEn || '';
+  $('#h-tag-en').textContent  = c.taglineEn || '';
+  $('#h-tag-km').textContent  = c.taglineKm || c.taglineEn || '';
+
+  bi($('#f-dates'),    c.datesEn,    c.datesKm);
+  bi($('#f-loc'),      c.locationEn || 'Shalom Valley, Kep', c.locationKm);
+  bi($('#f-ages'),     c.agesEn,     c.agesKm);
+  bi($('#f-cost'),     c.costEn,     c.costKm);
+  bi($('#f-deadline'), c.deadlineEn, c.deadlineKm);
+
+  const fees = Array.isArray(c.fees) ? c.fees : [];
+  $('#feetable').innerHTML = fees.map(f =>
+    `<tr><td><span class="en">${esc(f.en)}</span><span class="km">${esc(f.km || f.en)}</span></td>` +
+    `<td>${esc(f.amount)}</td></tr>`).join('');
+
+  // QR image — only replaces the placeholder if the file actually loads
+  const qr = c.qrImage || SETTINGS.qrImage;
+  if (qr){
+    const img = $('#qrImg');
+    img.onload  = () => { img.classList.remove('hidden'); $('#qrPh').classList.add('hidden'); };
+    img.src = qr;
+    $('#qrCap').textContent = SETTINGS.qrCaption || '';
+  }
+
+  if (SETTINGS.rulesPdfEn) $('#lnkRules').href   = SETTINGS.rulesPdfEn;
+  if (SETTINGS.rulesPdfKm) $('#lnkRulesKm').href = SETTINGS.rulesPdfKm;
+}
+
+
+/* ---------- language ---------- */
+function setLang(l){
+  document.body.classList.remove('lang-en','lang-km');
+  document.body.classList.add('lang-' + l);
+  document.documentElement.lang = l === 'km' ? 'km' : 'en';
+  $$('.langtoggle button').forEach(b => b.setAttribute('aria-pressed', b.dataset.lang === l));
+  try { localStorage.setItem('svLang', l); } catch(e){}
+}
+$$('.langtoggle button').forEach(b => b.onclick = () => setLang(b.dataset.lang));
+try { const saved = localStorage.getItem('svLang'); if (saved) setLang(saved); } catch(e){}
+
+
+/* ---------- mode: individual vs group ---------- */
+function setMode(m){
+  $('#mode').value = m;
+  $$('.mode').forEach(b => b.setAttribute('aria-pressed', b.dataset.mode === m));
+
+  $$('[data-only]').forEach(el => el.classList.toggle('hidden', el.dataset.only !== m));
+  $$('[data-mode-text]').forEach(el => el.classList.toggle('hidden', el.dataset.modeText !== m));
+
+  // required attributes must follow visibility or the browser blocks submit on hidden fields
+  const indReq = ['role','gender','dob','ecName','ecPhone','ecRelation'];
+  const grpReq = ['groupName','leaderCount'];
+  indReq.forEach(n => $$(`[name="${n}"]`).forEach(i => i.required = (m === 'individual')));
+  grpReq.forEach(n => $$(`[name="${n}"]`).forEach(i => i.required = (m === 'group')));
+
+  // renumber the visible step badges
+  let n = 3;
+  if (m === 'group') { $('#rosterCard').querySelector('.num').textContent = n++; }
+  ['transport','payment','agree'].forEach(k => $(`[data-step="${k}"]`).textContent = n++);
+
+  if (m === 'group' && !$('#roster').children.length) { addRow(); addRow(); }
+}
+$$('.mode').forEach(b => b.onclick = () => setMode(b.dataset.mode));
+
+
+/* ---------- age from date of birth ---------- */
+$('#dob').addEventListener('change', e => {
+  const d = new Date(e.target.value);
+  if (isNaN(d)) { $('#age').value = ''; return; }
+  const now = new Date();
+  let a = now.getFullYear() - d.getFullYear();
+  const mm = now.getMonth() - d.getMonth();
+  if (mm < 0 || (mm === 0 && now.getDate() < d.getDate())) a--;
+  $('#age').value = (a >= 0 && a < 120) ? a : '';
+});
+
+
+/* ---------- roster rows ---------- */
+function addRow(){
+  const row = document.createElement('div');
+  row.className = 'row';
+  row.innerHTML = `
+    <input type="text"   class="r-name"   placeholder="Full name" aria-label="Full name">
+    <input type="number"  class="r-age"    placeholder="Age" min="3" max="99" aria-label="Age">
+    <select class="r-gender" aria-label="Gender">
+      <option value="">Gender…</option>
+      <option value="Male">Male / ប្រុស</option>
+      <option value="Female">Female / ស្រី</option>
+    </select>
+    <select class="r-role" aria-label="Camper or leader">
+      <option value="Camper">Camper / អ្នកចូលរួម</option>
+      <option value="Leader">Leader / អ្នកដឹកនាំ</option>
+    </select>
+    <button type="button" class="del" aria-label="Remove this person">×</button>`;
+  row.querySelector('.del').onclick = () => { row.remove(); countRows(); };
+  row.querySelector('.r-name').addEventListener('input', countRows);
+  $('#roster').append(row);
+  countRows();
+  return row;
+}
+function countRows(){
+  $('#rcount').textContent = readRoster().length;
+}
+function readRoster(){
+  return $$('#roster .row').map(r => ({
+    name:   r.querySelector('.r-name').value.trim(),
+    age:    r.querySelector('.r-age').value.trim(),
+    gender: r.querySelector('.r-gender').value,
+    role:   r.querySelector('.r-role').value
+  })).filter(p => p.name);
+}
+$('#addRow').onclick = addRow;
+
+
+/* ---------- submit ---------- */
+const T = {
+  fix:      { en:"Please fill in the highlighted fields above.", km:"សូមបំពេញកន្លែងដែលបានបញ្ជាក់ខាងលើ។" },
+  roster:   { en:"Please add at least one person to your group list.", km:"សូមបញ្ចូលមនុស្សយ៉ាងហោចណាស់ម្នាក់ក្នុងបញ្ជីក្រុម។" },
+  sending:  { en:"Sending…", km:"កំពុងផ្ញើ…" },
+  failed:   { en:"Could not send. Please check your connection and try again, or contact us directly.", km:"មិនអាចផ្ញើបានទេ។ សូមពិនិត្យការតភ្ជាប់ ហើយព្យាយាមម្តងទៀត ឬទាក់ទងយើងដោយផ្ទាល់។" },
+  notset:   { en:"Form is not connected yet — open admin.html and paste your Google Sheet link into Site settings.", km:"ទម្រង់នេះមិនទាន់ភ្ជាប់ទេ — សូមបើក admin.html ហើយបញ្ចូលតំណ Google Sheet។" }
+};
+const say = (k, isErr) => {
+  const s = $('#status');
+  s.className = 'status' + (isErr ? ' err' : '');
+  s.innerHTML = `<span class="en">${T[k].en}</span><span class="km">${T[k].km}</span>`;
+};
+
+$('#form').addEventListener('submit', async e => {
+  e.preventDefault();
+  const form = e.target;
+  const mode = $('#mode').value;
+
+  if (!form.checkValidity()){
+    const bad = form.querySelector(':invalid');
+    if (bad){ bad.scrollIntoView({block:'center'}); bad.focus(); }
+    say('fix', true);
+    return;
+  }
+  const roster = readRoster();
+  if (mode === 'group' && roster.length === 0){
+    say('roster', true);
+    $('#roster').scrollIntoView({block:'center'});
+    return;
+  }
+
+  const fd = new FormData(form);
+  const data = Object.fromEntries(fd.entries());
+
+  // drop fields belonging to the mode that is not active, in case the
+  // registrant filled one section then switched
+  const dropFor = {
+    individual: ['groupName','leaderCount','busCount','driverCount'],
+    group:      ['role','gender','dob','age','ecName','ecPhone','ecRelation']
+  };
+  dropFor[mode].forEach(k => delete data[k]);
+
+  data.agreePhoto  = fd.get('agreePhoto')  ? 'Yes' : 'No';
+  data.agreeRules  = 'Yes';
+  data.roster      = roster;
+  data.rosterCount = roster.length;
+  data.campName    = c.nameEn;
+  data.campSlug    = c.slug;
+  data.campDates   = c.datesEn || '';
+  data.submittedAt = new Date().toISOString();
+  data.language    = document.body.classList.contains('lang-km') ? 'Khmer' : 'English';
+
+  const btn = $('#submitBtn');
+  btn.disabled = true;
+  say('sending');
+
+  const ref = 'SV-' + Date.now().toString(36).slice(-5).toUpperCase();
+  data.ref = ref;
+
+  if (!SETTINGS.endpoint){
+    btn.disabled = false;
+    say('notset', true);
+    console.log('Registration payload (not sent — no endpoint configured):', data);
+    return;
+  }
+
+  try {
+    // text/plain avoids a CORS preflight, which Apps Script does not answer
+    await fetch(SETTINGS.endpoint, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(data)
+    });
+    $('#refNo').textContent = ref;
+    form.classList.add('hidden');
+    $('#done').classList.remove('hidden');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } catch (err) {
+    console.error(err);
+    btn.disabled = false;
+    say('failed', true);
+  }
+});
+
+$('#again').onclick = () => {
+  $('#form').reset();
+  $('#roster').innerHTML = '';
+  $('#status').innerHTML = '';
+  $('#submitBtn').disabled = false;
+  $('#done').classList.add('hidden');
+  $('#form').classList.remove('hidden');
+  setMode('individual');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+setMode('individual');
+</script>
+</body>
+</html>
