@@ -25,15 +25,19 @@
   --bg:#08060A;
   --bg2:#120B0A;
   --ink:#F6EFE8;
-  --muted:#B7A79C;
-  --dim:#8C7A70;
+  --muted:#CDBFB5;
+  --dim:#A69588;
 
   /* glass */
-  --g-bg:rgba(255,240,225,.055);
-  --g-bg-2:rgba(255,240,225,.09);
-  --g-line:rgba(255,225,200,.15);
-  --g-line-2:rgba(255,225,200,.26);
-  --g-blur:blur(30px) saturate(165%);
+  --g-bg:rgba(14,9,8,.52);
+  --g-bg-2:rgba(14,9,8,.64);
+  --g-line:rgba(255,228,205,.16);
+  --g-line-2:rgba(255,228,205,.3);
+  --g-blur:blur(28px) saturate(115%);
+  /* nested surfaces sit DARKER than their parent, never lighter — a white wash
+     over bright firelight amplifies it and destroys text contrast */
+  --g-sunk:rgba(0,0,0,.26);
+  --g-sunk-2:rgba(0,0,0,.36);
   --rim:inset 0 1px 0 rgba(255,235,215,.3), inset 0 -1px 0 rgba(255,200,150,.06);
   --lift:0 1px 2px rgba(0,0,0,.5), 0 12px 32px rgba(0,0,0,.5);
   --lift-2:0 2px 6px rgba(0,0,0,.55), 0 28px 64px rgba(0,0,0,.62);
@@ -79,28 +83,30 @@ img{max-width:100%;display:block}
 }
 /* the deep base heat, low and wide like a fire bed */
 .aurora i:nth-child(1){
-  width:78vw;height:46vw;left:-8vw;bottom:-22vh;background:#FF4A0F;opacity:.42;
+  width:78vw;height:46vw;left:-8vw;bottom:-22vh;background:#FF4A0F;opacity:.3;
   animation:emberDrift1 26s ease-in-out infinite, flicker 7s ease-in-out infinite;
 }
 /* the bright core, travelling across the middle */
 .aurora i:nth-child(2){
-  width:52vw;height:52vw;left:6vw;top:14vh;background:#FF8A1E;opacity:.34;
+  width:52vw;height:52vw;left:6vw;top:14vh;background:#FF8A1E;opacity:.2;
   animation:emberDrift2 34s ease-in-out infinite, flicker 5.5s ease-in-out infinite .6s;
 }
 /* a deep red counter-drift */
 .aurora i:nth-child(3){
-  width:60vw;height:44vw;right:-12vw;top:-8vh;background:#C41B12;opacity:.3;
+  width:60vw;height:44vw;right:-12vw;top:-8vh;background:#C41B12;opacity:.2;
   animation:emberDrift3 44s ease-in-out infinite, flicker 9s ease-in-out infinite 1.4s;
 }
 /* the hot yellow tip, small and quick */
 .aurora i:nth-child(4){
-  width:30vw;height:30vw;right:16vw;bottom:2vh;background:#FFC53D;opacity:.26;
+  width:30vw;height:30vw;right:16vw;bottom:2vh;background:#FFC53D;opacity:.16;
   animation:emberDrift4 21s ease-in-out infinite, flicker 4.2s ease-in-out infinite .3s;
 }
 /* darkens the top so the header and headings stay readable */
 .aurora::after{
   content:'';position:absolute;inset:0;
-  background:radial-gradient(130% 78% at 50% 104%, transparent 24%, rgba(8,6,10,.8) 82%);
+  background:
+    radial-gradient(120% 62% at 50% 108%, transparent 16%, rgba(8,6,10,.62) 74%),
+    linear-gradient(180deg, rgba(8,6,10,.5) 0%, rgba(8,6,10,.72) 42%, rgba(8,6,10,.5) 100%);
 }
 
 @keyframes emberDrift1{
@@ -128,10 +134,95 @@ img{max-width:100%;display:block}
   58%    {opacity:calc(var(--o,.34) * 1.16)}
   74%    {opacity:calc(var(--o,.34) * .9)}
 }
-.aurora i:nth-child(1){--o:.42}
-.aurora i:nth-child(2){--o:.34}
-.aurora i:nth-child(3){--o:.3}
-.aurora i:nth-child(4){--o:.26}
+.aurora i:nth-child(1){--o:.3}
+.aurora i:nth-child(2){--o:.2}
+.aurora i:nth-child(3){--o:.2}
+.aurora i:nth-child(4){--o:.16}
+
+/* ---------- the flames themselves ----------
+   The big blobs above are ambient heat: they set the colour of the room and
+   move slowly. Liveliness comes from here — small tongues licking upward on
+   roughly one-second cycles, each on its own timing so they never move as a
+   block. Kept to the bottom third of the screen and modest in area, because a
+   large fast luminance swing across a whole page is both distracting to read
+   against and a photosensitivity risk. */
+.flames{
+  position:absolute;left:-4vw;right:-4vw;bottom:-8vh;height:56vh;
+  filter:blur(26px);mix-blend-mode:screen;pointer-events:none;
+}
+.flames span{
+  position:absolute;bottom:0;transform-origin:50% 100%;
+  border-radius:48% 52% 44% 46% / 64% 66% 36% 34%;
+  will-change:transform,opacity;
+}
+.flames span:nth-child(1){left:2%;  width:26vw;height:32vh;background:#FF4A0F;animation:lick1 1.7s ease-in-out -0.2s infinite}
+.flames span:nth-child(2){left:16%; width:20vw;height:44vh;background:#FF7A16;animation:lick2 1.15s ease-in-out -0.7s infinite}
+.flames span:nth-child(3){left:31%; width:24vw;height:36vh;background:#FF5A12;animation:lick3 2.1s ease-in-out -1.1s infinite}
+.flames span:nth-child(4){left:46%; width:18vw;height:50vh;background:#FFA226;animation:lick2 1.35s ease-in-out -0.35s infinite}
+.flames span:nth-child(5){left:59%; width:26vw;height:34vh;background:#FF4A0F;animation:lick1 1.9s ease-in-out -1.4s infinite}
+.flames span:nth-child(6){left:74%; width:20vw;height:42vh;background:#FF8A1E;animation:lick3 1.5s ease-in-out -0.9s infinite}
+.flames span:nth-child(7){left:86%; width:22vw;height:30vh;background:#E03A0C;animation:lick1 1.25s ease-in-out -0.55s infinite}
+
+@keyframes lick1{
+  0%  {transform:translateY(8%)  scale(1,.82) skewX(0deg);   opacity:.5}
+  22% {transform:translateY(-3%) scale(.93,1.16) skewX(4deg); opacity:.78}
+  44% {transform:translateY(4%)  scale(1.05,.94) skewX(-2deg);opacity:.58}
+  68% {transform:translateY(-6%) scale(.9,1.24) skewX(5deg);  opacity:.84}
+  86% {transform:translateY(2%)  scale(1.02,.98) skewX(-3deg);opacity:.62}
+  100%{transform:translateY(8%)  scale(1,.82) skewX(0deg);   opacity:.5}
+}
+@keyframes lick2{
+  0%  {transform:translateY(6%)  scale(1.04,.88) skewX(-3deg);opacity:.46}
+  30% {transform:translateY(-8%) scale(.88,1.3) skewX(6deg);  opacity:.82}
+  52% {transform:translateY(1%)  scale(1.08,.9) skewX(-5deg); opacity:.55}
+  78% {transform:translateY(-5%) scale(.92,1.18) skewX(2deg); opacity:.76}
+  100%{transform:translateY(6%)  scale(1.04,.88) skewX(-3deg);opacity:.46}
+}
+@keyframes lick3{
+  0%  {transform:translateY(5%)  scale(.98,.9) skewX(2deg);   opacity:.44}
+  26% {transform:translateY(-4%) scale(1.06,1.12) skewX(-4deg);opacity:.7}
+  48% {transform:translateY(6%)  scale(.94,.86) skewX(3deg);  opacity:.5}
+  74% {transform:translateY(-9%) scale(1,1.28) skewX(-6deg);  opacity:.8}
+  100%{transform:translateY(5%)  scale(.98,.9) skewX(2deg);   opacity:.44}
+}
+
+/* embers drifting up off the fire */
+.sparks{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.sparks span{
+  position:absolute;bottom:6vh;width:3px;height:3px;border-radius:50%;
+  background:#FFD684;box-shadow:0 0 7px 2px rgba(255,168,64,.75);
+  opacity:0;will-change:transform,opacity;
+}
+@keyframes rise{
+  0%  {transform:translate(0,0) scale(1);opacity:0}
+  8%  {opacity:.85}
+  55% {opacity:.6}
+  100%{transform:translate(var(--dx,4vw),-78vh) scale(.25);opacity:0}
+}
+.sparks span:nth-child(1) {left:8%; --dx: 5vw;  animation:rise 5.2s linear -0.4s infinite}
+.sparks span:nth-child(2) {left:14%;--dx:-3vw;  animation:rise 6.8s linear -2.1s infinite}
+.sparks span:nth-child(3) {left:22%;--dx: 7vw;  animation:rise 4.6s linear -3.3s infinite}
+.sparks span:nth-child(4) {left:29%;--dx:-5vw;  animation:rise 7.4s linear -1.2s infinite}
+.sparks span:nth-child(5) {left:37%;--dx: 3vw;  animation:rise 5.8s linear -4.6s infinite}
+.sparks span:nth-child(6) {left:44%;--dx: 8vw;  animation:rise 6.2s linear -0.9s infinite}
+.sparks span:nth-child(7) {left:51%;--dx:-6vw;  animation:rise 4.9s linear -2.8s infinite}
+.sparks span:nth-child(8) {left:58%;--dx: 4vw;  animation:rise 7.1s linear -5.2s infinite}
+.sparks span:nth-child(9) {left:65%;--dx:-4vw;  animation:rise 5.5s linear -1.7s infinite}
+.sparks span:nth-child(10){left:72%;--dx: 6vw;  animation:rise 6.5s linear -3.9s infinite}
+.sparks span:nth-child(11){left:79%;--dx:-7vw;  animation:rise 5.1s linear -0.2s infinite}
+.sparks span:nth-child(12){left:86%;--dx: 2vw;  animation:rise 7.8s linear -4.1s infinite}
+.sparks span:nth-child(13){left:92%;--dx:-5vw;  animation:rise 4.4s linear -2.4s infinite}
+.sparks span:nth-child(14){left:97%;--dx: 5vw;  animation:rise 6.9s linear -6.0s infinite}
+
+/* phones: fewer moving parts, cheaper blur — this is the most expensive
+   thing on the page and a mid-range Android has to run the form too */
+@media (max-width:640px){
+  .flames{filter:blur(20px);height:44vh}
+  .flames span:nth-child(3),
+  .flames span:nth-child(6){display:none}
+  .sparks span:nth-child(n+8){display:none}
+}
+
 
 /* subtle noise so large glass panes don't band */
 body::after{
@@ -157,7 +248,7 @@ body.lang-km div.km, body.lang-km p.km, body.lang-km li.km{display:block}
 /* ---------- header ---------- */
 header{
   position:sticky; top:0; z-index:60; padding:10px 0;
-  background:rgba(16,10,8,.6);
+  background:rgba(10,7,6,.72);
   -webkit-backdrop-filter:blur(26px) saturate(180%); backdrop-filter:blur(26px) saturate(180%);
   border-bottom:1px solid rgba(255,255,255,.09);
 }
@@ -166,7 +257,7 @@ header{
   display:flex; align-items:center; gap:16px; justify-content:space-between;
 }
 .brand{display:flex;align-items:center;gap:13px;min-width:0;cursor:pointer;border-radius:12px;padding:4px 6px;margin-left:-6px;transition:.2s}
-.brand:hover{background:rgba(255,240,225,.07)}
+.brand:hover{background:var(--g-sunk)}
 .brand:focus-visible{outline:2px solid var(--ember);outline-offset:2px}
 /* the logo is a light-on-nothing wave mark; a soft dark halo keeps it legible
    when the firelight drifts brightly behind the header */
@@ -180,7 +271,7 @@ header{
 
 .langtoggle{
   display:flex;padding:4px;border-radius:999px;flex:none;
-  background:rgba(255,255,255,.07);border:1px solid var(--g-line);
+  background:var(--g-sunk);border:1px solid var(--g-line);
   -webkit-backdrop-filter:blur(14px); backdrop-filter:blur(14px);
 }
 .langtoggle button{
@@ -218,33 +309,46 @@ header{
   -webkit-backdrop-filter:blur(18px); backdrop-filter:blur(18px);
   box-shadow:var(--rim);transition:.2s;
 }
-.arrow:hover:not(:disabled){background:rgba(255,255,255,.16);border-color:var(--g-line-2);transform:scale(1.06)}
+.arrow:hover:not(:disabled){background:var(--g-sunk-2);border-color:var(--g-line-2);transform:scale(1.06)}
 .arrow:active:not(:disabled){transform:scale(.96)}
 .arrow:disabled{opacity:.25;cursor:default}
 @media(max-width:640px){.arrows{display:none}}
 
-.carousel-wrap{max-width:1180px;margin:0 auto;position:relative}
+.carousel-wrap{max-width:1180px;margin:0 auto;position:relative;padding:10px 26px 34px}
+/* The deck. Cards are absolutely positioned on top of one another; the ones
+   behind peek out to the right so you can see there is more to come. Only
+   transform and opacity animate, so the whole thing stays on the GPU. */
 .rail{
-  display:flex;gap:22px;overflow-x:auto;scroll-behavior:smooth;
-  padding:10px 26px 30px;scroll-snap-type:x mandatory;
-  scrollbar-width:none;-ms-overflow-style:none;cursor:grab;
+  position:relative;margin:0 auto;
+  width:min(340px, 76vw);
+  touch-action:pan-y;              /* let the page scroll vertically, we take the sideways drag */
+  cursor:grab;
+  transform:translateX(-9%);       /* optically centres the fanned group */
 }
-.rail::-webkit-scrollbar{display:none}
-.rail.dragging{cursor:grabbing;scroll-behavior:auto;scroll-snap-type:none}
-.rail.dragging .ccard{pointer-events:none}
+.rail.dragging{cursor:grabbing}
+@media(max-width:640px){.rail{transform:translateX(-11%);width:min(320px,72vw)}}
 
 /* ---------- the camp card ---------- */
 .ccard{
-  flex:0 0 330px;scroll-snap-align:start;position:relative;isolation:isolate;
+  position:absolute;top:0;left:0;width:100%;
+  isolation:isolate;transform-origin:50% 92%;
   border-radius:var(--r);overflow:hidden;cursor:pointer;padding:0;
   display:flex;flex-direction:column;text-align:left;font:inherit;color:var(--ink);
   background:var(--g-bg);
   -webkit-backdrop-filter:var(--g-blur); backdrop-filter:var(--g-blur);
   border:1px solid var(--g-line);
   box-shadow:var(--rim), var(--lift);
-  transition:transform .38s cubic-bezier(.2,.9,.25,1), box-shadow .38s, border-color .38s;
+  transition:transform .46s cubic-bezier(.22,.92,.28,1),
+             opacity .34s ease,
+             box-shadow .34s, border-color .34s;
+  will-change:transform,opacity;
 }
-@media(max-width:400px){.ccard{flex-basis:280px}}
+.rail.dragging .ccard{transition:none}
+/* cards waiting behind get a wash of shade so the front one reads as nearest */
+.ccard::after{
+  content:'';position:absolute;inset:0;z-index:4;pointer-events:none;border-radius:inherit;
+  background:rgba(6,4,8,.55);opacity:var(--shade,0);transition:opacity .34s;
+}
 
 /* specular sweep across the top of the glass */
 .ccard::before{
@@ -254,14 +358,12 @@ header{
     transparent 46%, transparent 100%);
   opacity:.75;transition:opacity .38s;
 }
-.ccard:hover, .ccard:focus-visible{
-  transform:translateY(-8px);
+.ccard.front:hover, .ccard.front:focus-visible{
   border-color:var(--g-line-2);
   box-shadow:var(--rim), var(--lift-2), 0 0 0 1px color-mix(in srgb, var(--accent) 35%, transparent);
   outline:none;
 }
-.ccard:hover::before{opacity:1}
-.ccard:active{transform:translateY(-3px) scale(.995)}
+.ccard.front:hover::before{opacity:1}
 
 .ccard .banner{
   height:150px;position:relative;flex:none;
@@ -329,7 +431,7 @@ header{
   -webkit-backdrop-filter:blur(18px); backdrop-filter:blur(18px);
   box-shadow:var(--rim);transition:.2s;
 }
-.backbtn:hover{background:rgba(255,255,255,.16);border-color:var(--g-line-2);transform:translateX(-3px)}
+.backbtn:hover{background:var(--g-sunk-2);border-color:var(--g-line-2);transform:translateX(-3px)}
 
 #regview{display:none}
 #regview.on{display:block}
@@ -389,12 +491,12 @@ main{max-width:860px;margin:26px auto 70px;padding:0 22px}
 @media(max-width:600px){.modes{grid-template-columns:1fr}}
 .mode{
   border-radius:var(--r-sm);padding:20px;cursor:pointer;text-align:left;font:inherit;color:var(--ink);
-  background:rgba(255,255,255,.045);border:1px solid var(--g-line);
+  background:var(--g-sunk);border:1px solid var(--g-line);
   -webkit-backdrop-filter:blur(14px); backdrop-filter:blur(14px);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.16);
   transition:.28s cubic-bezier(.2,.9,.25,1);
 }
-.mode:hover{background:rgba(255,255,255,.09);border-color:var(--g-line-2);transform:translateY(-2px)}
+.mode:hover{background:var(--g-sunk-2);border-color:var(--g-line-2);transform:translateY(-2px)}
 .mode[aria-pressed="true"]{
   background:var(--ember-soft);border-color:rgba(255,154,60,.6);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.22), 0 0 0 1px rgba(255,154,60,.34), 0 10px 26px rgba(224,82,27,.22);
@@ -414,7 +516,7 @@ label .hint{display:block;font-weight:400;font-size:12.5px;color:var(--dim);marg
 
 input[type=text],input[type=tel],input[type=email],input[type=number],input[type=date],select,textarea{
   font:inherit;font-size:15px;padding:13px 15px;width:100%;color:var(--ink);
-  background:rgba(255,255,255,.07);
+  background:var(--g-sunk);
   border:1px solid var(--g-line);border-radius:14px;
   -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.1);
@@ -422,11 +524,11 @@ input[type=text],input[type=tel],input[type=email],input[type=number],input[type
 }
 input::placeholder,textarea::placeholder{color:#8A7568}
 input:focus,select:focus,textarea:focus{
-  outline:0;background:rgba(255,255,255,.11);border-color:rgba(255,154,60,.7);
+  outline:0;background:rgba(0,0,0,.42);border-color:rgba(255,154,60,.85);
   box-shadow:0 0 0 4px rgba(255,154,60,.18), inset 0 1px 0 rgba(255,255,255,.16);
 }
 input:invalid:not(:placeholder-shown){border-color:rgba(255,122,110,.6)}
-input[readonly]{background:rgba(255,255,255,.03);color:var(--muted)}
+input[readonly]{background:rgba(0,0,0,.34);color:var(--muted)}
 select option{background:#170F0C;color:var(--ink)}
 textarea{resize:vertical;min-height:92px}
 input[type=date]::-webkit-calendar-picker-indicator{filter:invert(1);opacity:.55;cursor:pointer}
@@ -437,10 +539,10 @@ legend{font-size:14px;font-weight:600;margin-bottom:9px;padding:0}
 .radios label{
   display:flex;align-items:center;gap:9px;border-radius:14px;padding:12px 16px;
   font-weight:500;cursor:pointer;flex:1;min-width:126px;transition:.22s;
-  background:rgba(255,255,255,.05);border:1px solid var(--g-line);
+  background:var(--g-sunk);border:1px solid var(--g-line);
   -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
 }
-.radios label:hover{background:rgba(255,255,255,.1);border-color:var(--g-line-2)}
+.radios label:hover{background:var(--g-sunk-2);border-color:var(--g-line-2)}
 .radios label:has(input:checked){
   background:var(--ember-soft);border-color:rgba(255,154,60,.6);
   box-shadow:0 0 0 1px rgba(255,154,60,.32);
@@ -450,11 +552,11 @@ legend{font-size:14px;font-weight:600;margin-bottom:9px;padding:0}
 
 .check{
   display:flex;gap:14px;align-items:flex-start;border-radius:var(--r-sm);padding:16px;margin-bottom:13px;
-  background:rgba(255,255,255,.04);border:1px solid var(--g-line);
+  background:var(--g-sunk);border:1px solid var(--g-line);
   -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
   transition:.22s;
 }
-.check:hover{background:rgba(255,255,255,.075)}
+.check:hover{background:var(--g-sunk-2)}
 .check:has(input:checked){border-color:rgba(255,154,60,.5);background:rgba(255,154,60,.09)}
 .check input{margin:3px 0 0;accent-color:var(--ember);width:19px;height:19px;flex:none}
 .check .txt{font-size:14px;line-height:1.6;color:var(--muted)}
@@ -468,7 +570,7 @@ legend{font-size:14px;font-weight:600;margin-bottom:9px;padding:0}
 @media(max-width:720px){
   .row{
     grid-template-columns:1fr 1fr;gap:9px;position:relative;padding:14px;
-    border-radius:var(--r-sm);background:rgba(255,255,255,.04);border:1px solid var(--g-line);
+    border-radius:var(--r-sm);background:var(--g-sunk);border:1px solid var(--g-line);
   }
   .row > *:first-child{grid-column:1/-1}
   .row .del{position:absolute;top:9px;right:9px}
@@ -577,7 +679,7 @@ ul.prog li .when{font-weight:700;color:var(--ember);flex:none;min-width:104px;fo
   cursor:pointer;color:var(--ink);background:var(--g-bg-2);border:1px solid var(--g-line);
   -webkit-backdrop-filter:blur(14px); backdrop-filter:blur(14px);transition:.2s;
 }
-#done .again:hover{background:rgba(255,255,255,.16);border-color:var(--g-line-2)}
+#done .again:hover{background:var(--g-sunk-2);border-color:var(--g-line-2)}
 
 /* ---------- gate ---------- */
 #gate{text-align:center;padding:50px 28px}
@@ -590,7 +692,7 @@ ul.prog li .when{font-weight:700;color:var(--ember);flex:none;min-width:104px;fo
   color:var(--ink);background:var(--g-bg-2);border:1px solid var(--g-line);
   -webkit-backdrop-filter:blur(14px); backdrop-filter:blur(14px);transition:.2s;
 }
-#gate .contact a:hover{background:rgba(255,255,255,.16);border-color:var(--g-line-2)}
+#gate .contact a:hover{background:var(--g-sunk-2);border-color:var(--g-line-2)}
 
 footer{
   text-align:center;padding:38px 22px 52px;color:var(--dim);font-size:13.5px;
@@ -613,7 +715,7 @@ footer .footlogo{height:38px;width:auto;margin:0 auto 14px;opacity:.85}
   .glass,.card,.ccard,.fact,.arrow,.backbtn,.deadline,.mode,.check,.radios label,
   header,.langtoggle,#done .again,#gate .contact a,.note,
   input[type=text],input[type=tel],input[type=email],input[type=number],input[type=date],select,textarea{
-    background:#17100D;
+    background:#14100E;
   }
   .card,.ccard,.fact{border-color:rgba(255,255,255,.16)}
   .aurora i{opacity:.28}
@@ -623,10 +725,14 @@ footer .footlogo{height:38px;width:auto;margin:0 auto 14px;opacity:.85}
 @media (prefers-reduced-transparency: reduce){
   .card,.ccard,.fact,.mode,.check,header{background:#17100D}
   .aurora i{opacity:.2;animation:none}
+  .flames{display:none}
+  .sparks{display:none}
 }
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto}
   .aurora i{animation:none}
+  .flames span{animation:none;opacity:.5}
+  .sparks{display:none}
   .rail{scroll-behavior:auto}
   .ccard,.mode,.btn,.arrow,.backbtn{transition:none}
   #done .tick{animation:none}
@@ -646,7 +752,7 @@ footer .footlogo{height:38px;width:auto;margin:0 auto 14px;opacity:.85}
 </style>
 </head>
 <body class="lang-en">
-<div class="aurora" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+<div class="aurora" aria-hidden="true"><i></i><i></i><i></i><i></i><div class="flames"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="sparks"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div>
 
 <header>
   <div class="bar">
@@ -670,8 +776,8 @@ footer .footlogo{height:38px;width:auto;margin:0 auto 14px;opacity:.85}
     <img class="herologo" src="img/logo.png" alt="Shalom Valley">
     <h1><span class="en">Camps at Shalom Valley</span><span class="km">ជំរុំនៅ Shalom Valley</span></h1>
     <p>
-      <span class="en">Choose a camp below to see the details and register.</span>
-      <span class="km">សូមជ្រើសរើសជំរុំខាងក្រោម ដើម្បីមើលព័ត៌មានលម្អិត និងចុះឈ្មោះ។</span>
+      <span class="en">Swipe through the camps, then tap one to see the details and register.</span>
+      <span class="km">សូមអូសមើលជំរុំនានា រួចចុចលើមួយ ដើម្បីមើលព័ត៌មានលម្អិត និងចុះឈ្មោះ។</span>
     </p>
   </section>
 
@@ -1194,12 +1300,21 @@ function buildCards(){
        </div>`;
 
     btn.append(banner, body);
-    btn.addEventListener('click', () => { if (!dragMoved) openCamp(camp.slug, true); });
+    btn.addEventListener('click', () => {
+      if (dragMoved) return;
+      if (i !== active) setActive(i);          // bring a card from behind to the front
+      else openCamp(camp.slug, true);
+    });
     rail.append(btn);
   });
 
   buildDots();
-  updateArrows();
+  active = 0;
+  layout();
+  sizeDeck();
+  // fonts and the poster images land after first paint and change the height
+  requestAnimationFrame(sizeDeck);
+  window.addEventListener('load', () => { sizeDeck(); layout(); });
 }
 /** Always renders a row — an empty camp field shows a dash rather than
  *  collapsing, which would knock this card's rows out of line with its neighbours. */
@@ -1210,21 +1325,66 @@ function metaRow(en, km, vEn, vKm){
          `<span class="val"><span class="en">${esc(a)}</span><span class="km">${esc(b)}</span></span></div>`;
 }
 
-/* --- arrows, dots, drag --- */
+/* --- the deck: which card is on top, and how the rest fan behind it --- */
 const rail = $('#rail');
-function cardStep(){
-  const first = rail.querySelector('.ccard');
-  if (!first) return 340;
-  const gap = parseFloat(getComputedStyle(rail).gap) || 20;
-  return first.getBoundingClientRect().width + gap;
+let active = 0, dragMoved = false;
+
+/* offset from the front card → where that card sits.
+   Positive offsets peek out to the right; anything already passed flies left. */
+const SLOTS = [
+  { x: 0,   s: 1,    o: 1,   shade: 0    },   // front
+  { x: 21,  s: .945, o: 1,   shade: .28  },   // next up — ~20% of it showing
+  { x: 38,  s: .9,   o: .92, shade: .45  },
+  { x: 51,  s: .865, o: .6,  shade: .58  }
+];
+
+function layout(){
+  const cards = $$('#rail .ccard');
+  cards.forEach((el, i) => {
+    const off = i - active;
+    let t, z, op, shade, hit;
+
+    if (off < 0){                                   // already seen — parked off to the left
+      t = 'translateX(-128%) rotate(-8deg) scale(.9)';
+      z = 1; op = 0; shade = .6; hit = 'none';
+    } else if (off < SLOTS.length){
+      const k = SLOTS[off];
+      t = `translateX(${k.x}%) scale(${k.s})`;
+      z = 40 - off; op = k.o; shade = k.shade; hit = 'auto';
+    } else {                                        // deeper in the pile — hidden but in place
+      const k = SLOTS[SLOTS.length - 1];
+      t = `translateX(${k.x}%) scale(${k.s})`;
+      z = 40 - SLOTS.length; op = 0; shade = .6; hit = 'none';
+    }
+
+    el.style.transform = t;
+    el.style.zIndex = z;
+    el.style.opacity = op;
+    el.style.pointerEvents = hit;
+    el.style.setProperty('--shade', shade);
+    el.classList.toggle('front', off === 0);
+    el.tabIndex = off === 0 ? 0 : -1;
+  });
+
+  $('#prevBtn').disabled = active <= 0;
+  $('#nextBtn').disabled = active >= cards.length - 1;
+  $$('#dots button').forEach((d, i) => d.setAttribute('aria-current', i === active));
 }
-function updateArrows(){
-  const max = rail.scrollWidth - rail.clientWidth - 2;
-  $('#prevBtn').disabled = rail.scrollLeft <= 2;
-  $('#nextBtn').disabled = rail.scrollLeft >= max;
-  const idx = Math.round(rail.scrollLeft / cardStep());
-  $$('#dots button').forEach((d, i) => d.setAttribute('aria-current', i === idx));
+
+function setActive(i, cards){
+  const n = (cards || $$('#rail .ccard')).length;
+  active = Math.max(0, Math.min(n - 1, i));
+  layout();
 }
+
+/** The deck is absolutely positioned, so it has no height of its own. */
+function sizeDeck(){
+  const cards = $$('#rail .ccard');
+  if (!cards.length) return;
+  const tallest = Math.max(...cards.map(c => c.offsetHeight));
+  rail.style.height = tallest + 'px';
+}
+
 function buildDots(){
   const d = $('#dots');
   d.innerHTML = '';
@@ -1232,46 +1392,83 @@ function buildDots(){
   OPEN.forEach((camp, i) => {
     const b = document.createElement('button');
     b.type = 'button';
-    b.setAttribute('aria-label', 'Go to ' + (camp.nameEn || ('camp ' + (i + 1))));
-    b.onclick = () => rail.scrollTo({ left: i * cardStep(), behavior: 'smooth' });
+    b.setAttribute('aria-label', 'Show ' + (camp.nameEn || ('camp ' + (i + 1))));
+    b.onclick = () => setActive(i);
     d.append(b);
   });
 }
-$('#prevBtn').onclick = () => rail.scrollBy({ left: -cardStep(), behavior: 'smooth' });
-$('#nextBtn').onclick = () => rail.scrollBy({ left:  cardStep(), behavior: 'smooth' });
-rail.addEventListener('scroll', () => {
-  clearTimeout(rail._t);
-  rail._t = setTimeout(updateArrows, 60);
-});
-window.addEventListener('resize', updateArrows);
 
-// drag / swipe
-let dragging = false, dragStartX = 0, dragStartScroll = 0, dragMoved = false;
+$('#prevBtn').onclick = () => setActive(active - 1);
+$('#nextBtn').onclick = () => setActive(active + 1);
+
+window.addEventListener('resize', () => { sizeDeck(); layout(); });
+
+/* --- drag / swipe ---------------------------------------------------------
+   Dragging moves the front card with the finger and tips the one behind
+   forward, so the gesture feels connected to the deck rather than triggering
+   an animation on release. Past a third of the card's width, it commits. */
+let dragging = false, startX = 0, startY = 0, dx = 0, axis = null;
+
+function frontCard(){ return $$('#rail .ccard')[active] || null; }
+function peekCard(){  return $$('#rail .ccard')[active + 1] || null; }
+
 rail.addEventListener('pointerdown', e => {
   if (e.pointerType === 'mouse' && e.button !== 0) return;
-  dragging = true; dragMoved = false;
-  dragStartX = e.clientX; dragStartScroll = rail.scrollLeft;
+  dragging = true; dragMoved = false; axis = null;
+  startX = e.clientX; startY = e.clientY; dx = 0;
   rail.classList.add('dragging');
+  if (rail.setPointerCapture) { try { rail.setPointerCapture(e.pointerId); } catch(err){} }
 });
+
 rail.addEventListener('pointermove', e => {
   if (!dragging) return;
-  const dx = e.clientX - dragStartX;
-  if (Math.abs(dx) > 4) dragMoved = true;
-  rail.scrollLeft = dragStartScroll - dx;
+  const mx = e.clientX - startX, my = e.clientY - startY;
+
+  // decide once whether this is a sideways swipe or the page being scrolled
+  if (!axis && (Math.abs(mx) > 6 || Math.abs(my) > 6)){
+    axis = Math.abs(mx) > Math.abs(my) ? 'x' : 'y';
+    if (axis === 'y'){ endDrag(); return; }
+  }
+  if (axis !== 'x') return;
+
+  dx = mx;
+  if (Math.abs(dx) > 5) dragMoved = true;
+
+  // resist at the two ends so the deck feels bounded
+  if ((active === 0 && dx > 0) ||
+      (active === $$('#rail .ccard').length - 1 && dx < 0)) dx *= .28;
+
+  const w = rail.offsetWidth || 320;
+  const p = Math.max(-1, Math.min(1, dx / w));
+  const f = frontCard(), n = peekCard();
+  if (f) f.style.transform = `translateX(${p * 62}%) rotate(${p * 7}deg) scale(${1 - Math.abs(p) * .04})`;
+  if (n){
+    const k = SLOTS[1], adv = Math.max(0, -p);
+    n.style.transform = `translateX(${k.x - adv * k.x}%) scale(${k.s + adv * (1 - k.s)})`;
+    n.style.setProperty('--shade', (k.shade * (1 - adv)).toFixed(3));
+  }
 });
+
 function endDrag(){
   if (!dragging) return;
   dragging = false;
   rail.classList.remove('dragging');
-  updateArrows();
-  setTimeout(() => { dragMoved = false; }, 30);
+
+  const w = rail.offsetWidth || 320;
+  if (axis === 'x' && Math.abs(dx) > w * 0.32){
+    setActive(active + (dx < 0 ? 1 : -1));
+  } else {
+    layout();                      // snap back
+  }
+  dx = 0; axis = null;
+  setTimeout(() => { dragMoved = false; }, 40);
 }
 rail.addEventListener('pointerup', endDrag);
 rail.addEventListener('pointercancel', endDrag);
-rail.addEventListener('pointerleave', endDrag);
+
 rail.addEventListener('keydown', e => {
-  if (e.key === 'ArrowRight') $('#nextBtn').click();
-  if (e.key === 'ArrowLeft')  $('#prevBtn').click();
+  if (e.key === 'ArrowRight'){ e.preventDefault(); setActive(active + 1); }
+  if (e.key === 'ArrowLeft'){  e.preventDefault(); setActive(active - 1); }
 });
 
 /* ══════════════════ VIEW ROUTING ══════════════════ */
@@ -1282,7 +1479,7 @@ function showLanding(push){
   document.title = 'Camps at Shalom Valley';
   if (push) history.pushState({ view:'landing' }, '', location.pathname);
   window.scrollTo({ top: 0, behavior: 'auto' });
-  requestAnimationFrame(updateArrows);
+  requestAnimationFrame(() => { sizeDeck(); layout(); });
 }
 
 function openCamp(wanted, push){
