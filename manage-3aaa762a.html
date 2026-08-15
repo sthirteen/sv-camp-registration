@@ -12,13 +12,15 @@
 :root{
   --bg:#08060A;
   --ink:#F6EFE8;
-  --muted:#B7A79C;
-  --dim:#8C7A70;
-  --g-bg:rgba(255,240,225,.055);
-  --g-bg-2:rgba(255,240,225,.09);
-  --g-line:rgba(255,225,200,.15);
-  --g-line-2:rgba(255,225,200,.26);
-  --g-blur:blur(28px) saturate(165%);
+  --muted:#CDBFB5;
+  --dim:#A69588;
+  --g-bg:rgba(14,9,8,.52);
+  --g-bg-2:rgba(14,9,8,.64);
+  --g-line:rgba(255,228,205,.16);
+  --g-line-2:rgba(255,228,205,.3);
+  --g-blur:blur(28px) saturate(115%);
+  --g-sunk:rgba(0,0,0,.26);
+  --g-sunk-2:rgba(0,0,0,.36);
   --rim:inset 0 1px 0 rgba(255,235,215,.28);
   --lift:0 1px 2px rgba(0,0,0,.5), 0 14px 36px rgba(0,0,0,.5);
   --ember:#FF9A3C;
@@ -43,9 +45,9 @@ body{
     linear-gradient(180deg,#08060A 0%,#0E0908 55%,#170C08 100%);
 }
 .aurora i{position:absolute;display:block;border-radius:50%;filter:blur(100px);mix-blend-mode:screen;will-change:transform,opacity}
-.aurora i:nth-child(1){width:78vw;height:46vw;left:-8vw;bottom:-24vh;background:#FF4A0F;opacity:.36;animation:d1 26s ease-in-out infinite}
-.aurora i:nth-child(2){width:52vw;height:52vw;left:6vw;top:12vh;background:#FF8A1E;opacity:.26;animation:d2 34s ease-in-out infinite}
-.aurora i:nth-child(3){width:58vw;height:42vw;right:-12vw;top:-8vh;background:#C41B12;opacity:.24;animation:d3 44s ease-in-out infinite}
+.aurora i:nth-child(1){width:78vw;height:46vw;left:-8vw;bottom:-24vh;background:#FF4A0F;opacity:.26;animation:d1 26s ease-in-out infinite}
+.aurora i:nth-child(2){width:52vw;height:52vw;left:6vw;top:12vh;background:#FF8A1E;opacity:.18;animation:d2 34s ease-in-out infinite}
+.aurora i:nth-child(3){width:58vw;height:42vw;right:-12vw;top:-8vh;background:#C41B12;opacity:.17;animation:d3 44s ease-in-out infinite}
 .aurora::after{content:'';position:absolute;inset:0;background:radial-gradient(130% 78% at 50% 104%, transparent 24%, rgba(8,6,10,.84) 82%)}
 @keyframes d1{0%,100%{transform:translate3d(-6vw,0,0) scale(1)}50%{transform:translate3d(10vw,-5vh,0) scale(1.16)}}
 @keyframes d2{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(30vw,6vh,0) scale(1.1)}}
@@ -54,7 +56,7 @@ body{
 /* header */
 header{
   position:sticky;top:0;z-index:60;
-  background:rgba(16,10,8,.62);
+  background:rgba(10,7,6,.74);
   -webkit-backdrop-filter:blur(26px) saturate(180%);backdrop-filter:blur(26px) saturate(180%);
   border-bottom:1px solid rgba(255,225,200,.1);
 }
@@ -66,7 +68,7 @@ header{
   font-size:12.5px;border-radius:999px;padding:6px 14px;font-weight:700;
   background:linear-gradient(150deg,#FFC24A,#F2701C);color:#2A1002;
 }
-.dirty.clean{background:rgba(255,240,225,.1);color:var(--muted);border:1px solid var(--g-line)}
+.dirty.clean{background:var(--g-sunk-2);color:var(--muted);border:1px solid var(--g-line)}
 
 main{max-width:1080px;margin:24px auto 80px;padding:0 22px}
 .card{
@@ -84,7 +86,7 @@ button{
   color:var(--ink);background:var(--g-bg-2);border:1px solid var(--g-line);
   -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);transition:.2s;
 }
-button:hover{background:rgba(255,240,225,.17);border-color:var(--g-line-2)}
+button:hover{background:var(--g-sunk-2);border-color:var(--g-line-2)}
 button.p{
   background:linear-gradient(150deg,#FFC24A,#F2701C);color:#2A1002;border-color:transparent;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 8px 22px rgba(242,112,28,.34);
@@ -99,12 +101,12 @@ label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
 label .hint{display:block;font-weight:400;font-size:12px;color:var(--dim);margin-top:3px}
 input[type=text],input[type=url],input[type=email],select,textarea{
   font:inherit;font-size:14.5px;width:100%;padding:11px 13px;color:var(--ink);
-  background:rgba(255,240,225,.07);border:1px solid var(--g-line);border-radius:12px;
+  background:var(--g-sunk);border:1px solid var(--g-line);border-radius:12px;
   -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);transition:.2s;
 }
 input::placeholder,textarea::placeholder{color:#8A7568}
 input:focus,select:focus,textarea:focus{
-  outline:0;background:rgba(255,240,225,.11);border-color:rgba(255,154,60,.7);
+  outline:0;background:rgba(0,0,0,.42);border-color:rgba(255,154,60,.85);
   box-shadow:0 0 0 4px rgba(255,154,60,.16);
 }
 select option{background:#170F0C;color:var(--ink)}
@@ -118,7 +120,7 @@ textarea{resize:vertical}
 table.list{width:100%;border-collapse:collapse;font-size:14.5px}
 table.list th{text-align:left;font-size:10.5px;text-transform:uppercase;letter-spacing:.9px;color:var(--dim);padding:0 10px 10px 0;font-weight:700}
 table.list td{padding:13px 10px 13px 0;border-top:1px solid rgba(255,225,200,.1);vertical-align:middle}
-table.list tr:hover td{background:rgba(255,240,225,.04)}
+table.list tr:hover td{background:var(--g-sunk)}
 .badge{display:inline-block;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;padding:4px 11px;border-radius:999px;border:1px solid transparent}
 .b-open{background:rgba(255,154,60,.16);color:#FFB86B;border-color:rgba(255,154,60,.35)}
 .b-draft{background:rgba(255,196,107,.12);color:var(--amber);border-color:rgba(255,196,107,.3)}
@@ -142,7 +144,7 @@ table.list tr:hover td{background:rgba(255,240,225,.04)}
 
 .fee{display:grid;grid-template-columns:1fr 1fr 130px 40px;gap:9px;margin-bottom:9px;align-items:start}
 @media(max-width:760px){
-  .fee{grid-template-columns:1fr 1fr;position:relative;border:1px solid var(--g-line);border-radius:14px;padding:13px;background:rgba(255,240,225,.04)}
+  .fee{grid-template-columns:1fr 1fr;position:relative;border:1px solid var(--g-line);border-radius:14px;padding:13px;background:var(--g-sunk)}
   .fee .del{position:absolute;top:8px;right:8px}
 }
 .del{
@@ -174,7 +176,7 @@ table.list tr:hover td{background:rgba(255,240,225,.04)}
 .toast.on{transform:translateX(-50%) translateY(0)}
 
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))){
-  .card,header,button,input,select,textarea,#editor .panel{background:#17100D}
+  .card,header,button,input,select,textarea,#editor .panel{background:#14100E}
   .aurora i{opacity:.2}
 }
 @media (prefers-reduced-motion: reduce){
@@ -241,9 +243,25 @@ table.list tr:hover td{background:rgba(255,240,225,.04)}
       </label>
       <input type="url" id="s_endpoint" placeholder="https://script.google.com/macros/s/AKfy.../exec">
     </div>
+    <div class="f">
+      <label for="s_email">Contact email
+        <span class="hint">Shown in the page footer and in the Contact tab</span>
+      </label>
+      <input type="email" id="s_email">
+    </div>
     <div class="pair">
-      <div class="f"><label for="s_phone">Contact phone</label><input type="text" id="s_phone"></div>
-      <div class="f"><label for="s_email">Contact email</label><input type="email" id="s_email"></div>
+      <div class="f">
+        <label for="s_whatsapp">WhatsApp link
+          <span class="hint">Your wa.me link. Leave blank to hide it from the Contact tab.</span>
+        </label>
+        <input type="url" id="s_whatsapp" placeholder="https://wa.me/...">
+      </div>
+      <div class="f">
+        <label for="s_telegram">Telegram link
+          <span class="hint">Your t.me link. Leave blank to hide it.</span>
+        </label>
+        <input type="url" id="s_telegram" placeholder="https://t.me/...">
+      </div>
     </div>
     <div class="pair">
       <div class="f"><label for="s_qr">Payment QR image file<span class="hint">File name in the same folder</span></label><input type="text" id="s_qr" placeholder="qr-code.png"></div>
@@ -473,7 +491,8 @@ const esc = s => String(s == null ? '' : s)
 
 /* ---------- settings ---------- */
 const SMAP = {
-  s_endpoint:'endpoint', s_phone:'contactPhone', s_email:'contactEmail',
+  s_endpoint:'endpoint', s_email:'contactEmail',
+  s_whatsapp:'whatsappUrl', s_telegram:'telegramUrl',
   s_qr:'qrImage', s_qrcap:'qrCaption', s_pdfen:'rulesPdfEn', s_pdfkm:'rulesPdfKm'
 };
 Object.keys(SMAP).forEach(id => {

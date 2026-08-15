@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 300" width="660" height="300" role="img" aria-label="School Leadership Week poster">
+  <defs>
+    <linearGradient id="sSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"  stop-color="#241448"/>
+      <stop offset="52%" stop-color="#4A2A86"/>
+      <stop offset="100%" stop-color="#8A62C8"/>
+    </linearGradient>
+    <linearGradient id="sPeak" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#EDE4FF"/>
+      <stop offset="100%" stop-color="#9E86D0"/>
+    </linearGradient>
+    <clipPath id="sClip"><rect width="660" height="300"/></clipPath>
+  </defs>
+
+  <g clip-path="url(#sClip)">
+    <rect width="660" height="300" fill="url(#sSky)"/>
+
+    <g fill="#F0E9FF">
+      <circle cx="72" cy="52" r="2.2" opacity=".85"/><circle cx="152" cy="30" r="1.5" opacity=".6"/>
+      <circle cx="238" cy="66" r="1.8" opacity=".7"/><circle cx="486" cy="36" r="2" opacity=".8"/>
+      <circle cx="566" cy="72" r="1.5" opacity=".55"/><circle cx="614" cy="34" r="1.8" opacity=".7"/>
+      <circle cx="404" cy="24" r="1.4" opacity=".55"/>
+    </g>
+
+    <circle cx="330" cy="96" r="56" fill="#FFD98A" opacity=".22"/>
+    <circle cx="330" cy="96" r="34" fill="#FFE9B8" opacity=".5"/>
+
+    <path d="M118 262 L262 92 L406 262 Z" fill="url(#sPeak)" opacity=".95"/>
+    <path d="M262 92 L316 156 L262 152 L220 176 Z" fill="#FFFFFF" opacity=".8"/>
+    <path d="M330 262 L458 122 L586 262 Z" fill="#5B3A9E"/>
+    <path d="M458 122 L500 172 L458 168 L424 188 Z" fill="#D9CBF5" opacity=".7"/>
+    <path d="M-40 262 L74 148 L188 262 Z" fill="#3B2270"/>
+
+    <g transform="translate(262,92)">
+      <path d="M0 -4 L0 -58" stroke="#FFD24A" stroke-width="4.5" stroke-linecap="round"/>
+      <path d="M2 -56 L46 -46 L2 -34 Z" fill="#FFD24A"/>
+    </g>
+
+    <g stroke-linecap="round" fill="none">
+      <g transform="translate(206,206)">
+        <circle cx="0" cy="0" r="10" fill="#FFE9B8" stroke="none"/>
+        <path d="M0 10 L0 34 M0 15 L-14 26 M0 15 L16 6 M0 34 L-10 52 M0 34 L10 52" stroke="#FFE9B8" stroke-width="5"/>
+      </g>
+      <g transform="translate(268,222)">
+        <circle cx="0" cy="0" r="9" fill="#F0E9FF" stroke="none"/>
+        <path d="M0 9 L0 30 M0 14 L-13 24 M0 14 L14 16 M0 30 L-9 46 M0 30 L9 46" stroke="#F0E9FF" stroke-width="4.6"/>
+      </g>
+      <g transform="translate(330,234)">
+        <circle cx="0" cy="0" r="8.5" fill="#F0E9FF" stroke="none"/>
+        <path d="M0 8.5 L0 28 M0 13 L-12 22 M0 13 L13 20 M0 28 L-8 42 M0 28 L8 42" stroke="#F0E9FF" stroke-width="4.4"/>
+      </g>
+    </g>
+
+    <rect y="268" width="660" height="32" fill="#1B0F38"/>
+  </g>
+</svg>
