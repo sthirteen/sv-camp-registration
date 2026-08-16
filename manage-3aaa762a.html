@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>Camp Manager — Shalom Valley (private)</title>
-<link rel="icon" type="image/png" href="img/logo.png">
+<link rel="icon" type="image/png" href="img/app-icon-32.png">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Khmer:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="camps.js"></script>
 <style>
@@ -243,11 +243,19 @@ table.list tr:hover td{background:var(--g-sunk)}
       </label>
       <input type="url" id="s_endpoint" placeholder="https://script.google.com/macros/s/AKfy.../exec">
     </div>
-    <div class="f">
-      <label for="s_email">Contact email
-        <span class="hint">Shown in the page footer and in the Contact tab</span>
-      </label>
-      <input type="email" id="s_email">
+    <div class="pair">
+      <div class="f">
+        <label for="s_email">Contact email
+          <span class="hint">Sits behind the envelope icon at the bottom of the page</span>
+        </label>
+        <input type="email" id="s_email">
+      </div>
+      <div class="f">
+        <label for="s_website">Website
+          <span class="hint">Shown as a link under the campsite name</span>
+        </label>
+        <input type="url" id="s_website" placeholder="https://www.shalomvalley.org">
+      </div>
     </div>
     <div class="pair">
       <div class="f">
@@ -491,7 +499,7 @@ const esc = s => String(s == null ? '' : s)
 
 /* ---------- settings ---------- */
 const SMAP = {
-  s_endpoint:'endpoint', s_email:'contactEmail',
+  s_endpoint:'endpoint', s_email:'contactEmail', s_website:'websiteUrl',
   s_whatsapp:'whatsappUrl', s_telegram:'telegramUrl',
   s_qr:'qrImage', s_qrcap:'qrCaption', s_pdfen:'rulesPdfEn', s_pdfkm:'rulesPdfKm'
 };

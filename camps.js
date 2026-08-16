@@ -13,6 +13,7 @@ window.CAMPS = {
     "whatsappUrl": "https://wa.me/qr/PMDGIQLFHZ22O1",
     "telegramUrl": "https://t.me/s_thirteen",
     "contactEmail": "bookings@shalomvalley.org",
+    "websiteUrl": "https://www.shalomvalley.org",
     "qrImage": "qr-code.png",
     "qrCaption": "ABA PAY / KHQR — Alongsiders Organization · Shalom Valley · 007 190 860",
     "rulesPdfEn": "camp-rules-en.pdf",
