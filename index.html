@@ -899,7 +899,99 @@ footer .place{color:var(--dim);margin-bottom:6px}
   .aurora i{filter:blur(70px)}
 }
 
+/* ---------- the homepage holds still ----------
+   The whole first screen fits inside the window: no scrolling, nothing below
+   the fold. The deck is scaled down by however much it takes to fit, so this
+   works on a short phone as well as it does on a laptop. Only the homepage
+   behaves this way — the registration form still scrolls normally. */
+html.home, body.home{height:100vh;height:100dvh;overflow:hidden;overscroll-behavior:none}
+body.home{display:flex;flex-direction:column}
+body.home header{flex:none}
+body.home #landing.on{flex:1 1 auto;min-height:0;display:flex;flex-direction:column}
+
+body.home .lhero{padding:14px 22px 2px;flex:none}
+body.home .lhero h1{font-size:clamp(21px, 5.4vw, 32px);margin-bottom:4px}
+body.home .lhero p{font-size:14px}
+body.home .carousel-head{padding-top:6px;padding-bottom:0;flex:none}
+
+body.home .carousel-wrap{
+  flex:1 1 auto;min-height:0;padding:6px 20px 0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  /* deliberately NOT overflow:hidden — clipping here cuts the front card's soft
+     shadow off square and the cut edge reads as a line across the page. The
+     page cannot scroll anyway, so there is nothing here that needs clipping. */
+}
+/* --fit is worked out in script. The negative margin brings the layout box down
+   with the scale — without it the dots would be shoved off the bottom, because
+   a transform shrinks what you see but not the space the deck reserves. */
+body.home .rail{
+  flex:none;transform:scale(var(--fit, 1));transform-origin:50% 0;
+  margin-bottom:calc((var(--fit, 1) - 1) * var(--deckH, 0px));
+}
+body.home .dots{flex:none;padding:12px 0 2px}
+body.home footer{flex:none;padding:6px 22px 14px;font-size:12.5px}
+body.home footer .org{font-size:13.5px;margin-bottom:0}
+body.home footer .place{margin-bottom:2px}
+/* on a short screen the strapline goes first, then the whole heading */
+@media (max-height:720px){ body.home .lhero p{display:none} }
+@media (max-height:600px){ body.home .lhero{display:none} }
+
+/* ---------- the opening ----------
+   A fresh launch starts on plain dark. The Shalom Valley mark fades up, holds a
+   moment, then a band of firelight rises and takes the whole panel with it,
+   leaving the homepage underneath. Only opacity, transform and mask-position
+   move, so it costs almost nothing even on a phone. It plays once a visit. */
+#splash{
+  position:fixed;inset:0;z-index:9999;
+  pointer-events:none;                 /* never trap a tap, even if the script fails */
+  background:#08060A;
+  display:grid;place-items:center;overflow:hidden;
+  /* the wipe itself: an opaque sheet whose clear edge travels up the screen */
+  -webkit-mask-image:linear-gradient(to top, transparent 0%, transparent 18%, #000 42%, #000 100%);
+          mask-image:linear-gradient(to top, transparent 0%, transparent 18%, #000 42%, #000 100%);
+  -webkit-mask-size:100% 250%;   mask-size:100% 250%;
+  -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat;
+  -webkit-mask-position:50% 0%;  mask-position:50% 0%;
+  animation:svWipe 1.15s cubic-bezier(.55,0,.25,1) 1.25s forwards,
+            svGone .42s linear 2.12s forwards;
+}
+/* the second animation is also the safety net: on anything that cannot do masks
+   the panel still clears, it just fades instead of burning away */
+@keyframes svWipe{ to{ -webkit-mask-position:50% 100%; mask-position:50% 100%; } }
+@keyframes svGone{ to{ opacity:0 } }
+
+#splash .mark{
+  width:min(200px, 50vw);opacity:0;
+  filter:drop-shadow(0 0 30px rgba(255,150,60,.28));
+  animation:svMark 1.2s cubic-bezier(.2,.85,.25,1) .2s forwards;
+}
+@keyframes svMark{
+  0%  {opacity:0;transform:translateY(12px) scale(.94)}
+  100%{opacity:1;transform:translateY(0)    scale(1)}
+}
+
+/* the firelight: one soft warm band that rises just ahead of the wipe */
+#splash .leak{
+  position:absolute;left:-25%;right:-25%;height:52vh;bottom:-52vh;
+  background:radial-gradient(58% 100% at 50% 100%,
+    rgba(255,226,152,.95) 0%, rgba(255,146,38,.8) 28%,
+    rgba(214,48,18,.5) 56%, transparent 80%);
+  filter:blur(30px);
+  animation:svLeak 1.5s cubic-bezier(.55,0,.25,1) 1.05s forwards;
+}
+@keyframes svLeak{ to{ transform:translateY(-175vh) } }
+
+body.intro{overflow:hidden}
+@media (max-width:640px){ #splash .leak{filter:blur(20px)} }
+/* asked for less movement: show the mark briefly, then simply clear */
+@media (prefers-reduced-motion: reduce){
+  #splash{animation:svGone .3s linear .35s forwards}
+  #splash .leak{display:none}
+  #splash .mark{animation:svMark .25s ease forwards}
+}
+
 @media print{
+  #splash{display:none}
   .aurora,header,.arrows,.dots,.backbar{display:none}
   body{background:#fff;color:#000}
   .card,.ccard{background:#fff;border:1px solid #ccc;box-shadow:none}
@@ -907,6 +999,37 @@ footer .place{color:var(--dim);margin-bottom:6px}
 </style>
 </head>
 <body class="lang-en">
+
+<!-- ══════════ THE OPENING ══════════ -->
+<div id="splash" aria-hidden="true">
+  <img class="mark" src="img/logo.png" alt="">
+  <span class="leak"></span>
+</div>
+<script>
+/* Runs here, immediately below the panel, so that on a repeat view the panel is
+   gone before the browser has painted anything — no flash of black. */
+(function(){
+  var sp = document.getElementById('splash');
+  if (!sp) return;
+  var seen = false, quiet = false;
+  try { seen = sessionStorage.getItem('svIntro') === '1'; } catch(e){}
+  try { quiet = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches; } catch(e){}
+  // once a visit only: moving between camps should not replay it
+  if (seen) { sp.parentNode.removeChild(sp); return; }
+  try { sessionStorage.setItem('svIntro','1'); } catch(e){}
+  document.documentElement.classList.add('intro');
+  setTimeout(function(){
+    if (sp.parentNode) sp.parentNode.removeChild(sp);
+    document.documentElement.classList.remove('intro');
+    if (document.body) document.body.classList.remove('intro');
+  }, quiet ? 700 : 2600);
+  // the body element does not exist yet at this point on some browsers
+  document.addEventListener('DOMContentLoaded', function(){
+    if (document.getElementById('splash')) document.body.classList.add('intro');
+  });
+})();
+</script>
+
 <div class="aurora" aria-hidden="true"><i></i><i></i><i></i><i></i><div class="stars" id="stars"></div><div class="flames"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="sparks"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div>
 
 <header>
@@ -1659,6 +1782,30 @@ function sizeDeck(){
   rail.style.setProperty('--deckH', 'auto');       // let each card find its own height
   const h = Math.max(...cards.map(c => c.offsetHeight));
   rail.style.setProperty('--deckH', h + 'px');     // then hold them all at the tallest
+  fitHome();
+}
+
+/* The homepage does not scroll, so whatever room is left after the heading,
+   the dots and the footer is all the deck gets. Work out how much it has to
+   shrink by to sit in that room, and never shrink past half size. */
+function fitHome(){
+  if (!document.body.classList.contains('home')) return;
+  const wrap = $('.carousel-wrap');
+  if (!wrap) return;
+  rail.style.setProperty('--fit', '1');            // measure at full size first
+  const deckH = parseFloat(getComputedStyle(rail).getPropertyValue('--deckH'));
+  if (!deckH) return;
+  const dots  = $('#dots');
+  const room  = wrap.clientHeight - (dots ? dots.offsetHeight : 0) - 4;
+  const fit   = Math.max(.45, Math.min(1, room / deckH));
+  rail.style.setProperty('--fit', fit.toFixed(3));
+}
+
+/* the homepage locks; the registration form is left free to scroll */
+function setHome(on){
+  document.documentElement.classList.toggle('home', !!on);
+  document.body.classList.toggle('home', !!on);
+  if (!on) rail.style.removeProperty('--fit');
 }
 
 function buildDots(){
@@ -1767,6 +1914,7 @@ function showLanding(push){
   c = null;
   $('#landing').classList.add('on');
   $('#regview').classList.remove('on');
+  setHome(true);
   document.title = 'Camps at Shalom Valley';
   if (push) history.pushState({ view:'landing' }, '', location.pathname);
   window.scrollTo({ top: 0, behavior: 'auto' });
@@ -1789,6 +1937,7 @@ function openCamp(wanted, push){
   c = found || null;
   $('#landing').classList.remove('on');
   $('#regview').classList.add('on');
+  setHome(false);
   // only offer "All camps" if there is a landing worth returning to
   $('#backbar').classList.toggle('hidden', OPEN.length === 0);
 
