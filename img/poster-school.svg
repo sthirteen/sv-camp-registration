@@ -1,56 +1,37 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 300" width="660" height="300" role="img" aria-label="School Leadership Week poster">
   <defs>
-    <linearGradient id="sSky" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%"  stop-color="#241448"/>
-      <stop offset="52%" stop-color="#4A2A86"/>
+    <linearGradient id="skys" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#241448"/>
+      <stop offset="52%"  stop-color="#4E2E8E"/>
       <stop offset="100%" stop-color="#8A62C8"/>
     </linearGradient>
-    <linearGradient id="sPeak" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#EDE4FF"/>
-      <stop offset="100%" stop-color="#9E86D0"/>
+    <linearGradient id="suns" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFE9B8"/>
+      <stop offset="100%" stop-color="#D9B36A"/>
     </linearGradient>
-    <clipPath id="sClip"><rect width="660" height="300"/></clipPath>
+    <clipPath id="clips"><rect width="660" height="300" rx="0"/></clipPath>
   </defs>
 
-  <g clip-path="url(#sClip)">
-    <rect width="660" height="300" fill="url(#sSky)"/>
+  <g clip-path="url(#clips)">
+    <rect width="660" height="300" fill="url(#skys)"/>
 
-    <g fill="#F0E9FF">
-      <circle cx="72" cy="52" r="2.2" opacity=".85"/><circle cx="152" cy="30" r="1.5" opacity=".6"/>
-      <circle cx="238" cy="66" r="1.8" opacity=".7"/><circle cx="486" cy="36" r="2" opacity=".8"/>
-      <circle cx="566" cy="72" r="1.5" opacity=".55"/><circle cx="614" cy="34" r="1.8" opacity=".7"/>
-      <circle cx="404" cy="24" r="1.4" opacity=".55"/>
-    </g>
+    <!-- sun / moon: same size and place on every poster -->
+    <circle cx="330" cy="112" r="86" fill="#FFE9B8" opacity=".16"/>
+    <circle cx="330" cy="112" r="58" fill="url(#suns)" opacity=".95"/>
 
-    <circle cx="330" cy="96" r="56" fill="#FFD98A" opacity=".22"/>
-    <circle cx="330" cy="96" r="34" fill="#FFE9B8" opacity=".5"/>
+    <g fill="#FFFFFF" opacity=".55"><circle cx="86" cy="42" r="2.1"/><circle cx="168" cy="72" r="1.5"/><circle cx="512" cy="48" r="1.9"/><circle cx="592" cy="80" r="1.4"/><circle cx="248" cy="36" r="1.6"/><circle cx="430" cy="30" r="1.7"/></g>
 
-    <path d="M118 262 L262 92 L406 262 Z" fill="url(#sPeak)" opacity=".95"/>
-    <path d="M262 92 L316 156 L262 152 L220 176 Z" fill="#FFFFFF" opacity=".8"/>
-    <path d="M330 262 L458 122 L586 262 Z" fill="#5B3A9E"/>
-    <path d="M458 122 L500 172 L458 168 L424 188 Z" fill="#D9CBF5" opacity=".7"/>
-    <path d="M-40 262 L74 148 L188 262 Z" fill="#3B2270"/>
+    <!-- back ridge, then front ridge: same heights on every poster -->
+    <path d="M0 182 L118 128 L226 180 L330 122 L438 180 L548 132 L660 184 L660 300 L0 300 Z"
+          fill="#33206B"/>
+    <path d="M0 216 L132 176 L262 220 L392 172 L512 218 L660 180 L660 300 L0 300 Z"
+          fill="#231452"/>
 
-    <g transform="translate(262,92)">
-      <path d="M0 -4 L0 -58" stroke="#FFD24A" stroke-width="4.5" stroke-linecap="round"/>
-      <path d="M2 -56 L46 -46 L2 -34 Z" fill="#FFD24A"/>
-    </g>
+    <!-- the motif sits in the same band on every poster -->
+    <g transform="translate(288,206.76)"><circle cx="0" cy="0" r="6.9" fill="#F0E9FF"/><path d="M0 6.9 L0 19 M0 10 L-9 17 M0 10 L9 17 M0 19 L-7 29 M0 19 L7 29" stroke="#F0E9FF" stroke-width="3.8" stroke-linecap="round" fill="none"/></g><g transform="translate(330,202.0)"><circle cx="0" cy="0" r="8.0" fill="#F0E9FF"/><path d="M0 8.0 L0 22 M0 12 L-11 20 M0 12 L11 20 M0 22 L-8 34 M0 22 L8 34" stroke="#F0E9FF" stroke-width="4.4" stroke-linecap="round" fill="none"/></g><g transform="translate(374,208.8)"><circle cx="0" cy="0" r="6.4" fill="#F0E9FF"/><path d="M0 6.4 L0 18 M0 10 L-9 16 M0 10 L9 16 M0 18 L-6 27 M0 18 L6 27" stroke="#F0E9FF" stroke-width="3.5" stroke-linecap="round" fill="none"/></g><g transform="translate(330,122)"><path d="M0 0 L0 -46" stroke="#FFD24A" stroke-width="4" stroke-linecap="round"/><path d="M2 -44 L40 -35 L2 -25 Z" fill="#FFD24A"/></g>
 
-    <g stroke-linecap="round" fill="none">
-      <g transform="translate(206,206)">
-        <circle cx="0" cy="0" r="10" fill="#FFE9B8" stroke="none"/>
-        <path d="M0 10 L0 34 M0 15 L-14 26 M0 15 L16 6 M0 34 L-10 52 M0 34 L10 52" stroke="#FFE9B8" stroke-width="5"/>
-      </g>
-      <g transform="translate(268,222)">
-        <circle cx="0" cy="0" r="9" fill="#F0E9FF" stroke="none"/>
-        <path d="M0 9 L0 30 M0 14 L-13 24 M0 14 L14 16 M0 30 L-9 46 M0 30 L9 46" stroke="#F0E9FF" stroke-width="4.6"/>
-      </g>
-      <g transform="translate(330,234)">
-        <circle cx="0" cy="0" r="8.5" fill="#F0E9FF" stroke="none"/>
-        <path d="M0 8.5 L0 28 M0 13 L-12 22 M0 13 L13 20 M0 28 L-8 42 M0 28 L8 42" stroke="#F0E9FF" stroke-width="4.4"/>
-      </g>
-    </g>
-
-    <rect y="268" width="660" height="32" fill="#1B0F38"/>
+    <!-- foreground: same shape and height throughout -->
+    
+    <rect y="272" width="660" height="28" fill="#1B0F38"/>
   </g>
 </svg>

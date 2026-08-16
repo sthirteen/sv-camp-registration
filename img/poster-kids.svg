@@ -1,63 +1,37 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 300" width="660" height="300" role="img" aria-label="Kids Discovery Camp poster">
   <defs>
-    <linearGradient id="kSky" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%"  stop-color="#0A3A46"/>
-      <stop offset="50%" stop-color="#12707F"/>
-      <stop offset="100%" stop-color="#4FBFC4"/>
+    <linearGradient id="skyk" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#0A3A46"/>
+      <stop offset="52%"  stop-color="#157A88"/>
+      <stop offset="100%" stop-color="#54C4C8"/>
     </linearGradient>
-    <linearGradient id="kPond" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#7FE3E0"/>
-      <stop offset="100%" stop-color="#1F8E96"/>
+    <linearGradient id="sunk" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFF1B8"/>
+      <stop offset="100%" stop-color="#F5C558"/>
     </linearGradient>
-    <clipPath id="kClip"><rect width="660" height="300"/></clipPath>
+    <clipPath id="clipk"><rect width="660" height="300" rx="0"/></clipPath>
   </defs>
 
-  <g clip-path="url(#kClip)">
-    <rect width="660" height="300" fill="url(#kSky)"/>
+  <g clip-path="url(#clipk)">
+    <rect width="660" height="300" fill="url(#skyk)"/>
 
-    <circle cx="140" cy="86" r="46" fill="#FFEFAF" opacity=".9"/>
-    <g stroke="#FFEFAF" stroke-width="4" stroke-linecap="round" opacity=".55">
-      <path d="M140 20 v-14"/><path d="M140 152 v14"/>
-      <path d="M74 86 h-14"/><path d="M206 86 h14"/>
-      <path d="M96 42 l-10 -10"/><path d="M184 130 l10 10"/>
-      <path d="M184 42 l10 -10"/><path d="M96 130 l-10 10"/>
-    </g>
+    <!-- sun / moon: same size and place on every poster -->
+    <circle cx="330" cy="112" r="86" fill="#FFF1B8" opacity=".16"/>
+    <circle cx="330" cy="112" r="58" fill="url(#sunk)" opacity=".95"/>
 
-    <path d="M0 190 L120 146 L232 192 L352 140 L470 194 L580 148 L660 190 L660 300 L0 300 Z" fill="#0C4C55"/>
-    <path d="M0 220 L140 186 L268 224 L396 182 L520 224 L660 190 L660 300 L0 300 Z" fill="#083840"/>
+    <g fill="#FFFFFF" opacity=".2"><ellipse cx="140" cy="62" rx="44" ry="14"/><ellipse cx="178" cy="55" rx="30" ry="12"/><ellipse cx="520" cy="76" rx="38" ry="12"/></g>
 
-    <ellipse cx="330" cy="256" rx="196" ry="34" fill="url(#kPond)"/>
-    <g stroke="#DFFAF9" stroke-width="2.5" opacity=".5" fill="none">
-      <path d="M232 250 q14 -7 28 0 t28 0"/>
-      <path d="M372 264 q14 -7 28 0 t28 0"/>
-    </g>
-    <g fill="#1B6E5A" opacity=".85">
-      <ellipse cx="258" cy="248" rx="22" ry="8"/>
-      <ellipse cx="404" cy="258" rx="18" ry="7"/>
-    </g>
+    <!-- back ridge, then front ridge: same heights on every poster -->
+    <path d="M0 182 L118 128 L226 180 L330 122 L438 180 L548 132 L660 184 L660 300 L0 300 Z"
+          fill="#0C4C55"/>
+    <path d="M0 216 L132 176 L262 220 L392 172 L512 218 L660 180 L660 300 L0 300 Z"
+          fill="#083840"/>
 
-    <g transform="translate(462,120)">
-      <path d="M0 0 C-30 -32 -62 -22 -56 4 C-52 24 -22 26 0 8 Z" fill="#FFC93C"/>
-      <path d="M0 0 C30 -32 62 -22 56 4 C52 24 22 26 0 8 Z" fill="#FFB01F"/>
-      <path d="M0 -10 L0 24" stroke="#3A2A08" stroke-width="4" stroke-linecap="round"/>
-      <path d="M0 -10 l-9 -13 M0 -10 l9 -13" stroke="#3A2A08" stroke-width="3" stroke-linecap="round"/>
-    </g>
+    <!-- the motif sits in the same band on every poster -->
+    <g transform="translate(300,208.12)"><circle cx="0" cy="0" r="6.6" fill="#FFF3D6"/><path d="M0 6.6 L0 18 M0 10 L-9 16 M0 10 L9 16 M0 18 L-7 28 M0 18 L7 28" stroke="#FFF3D6" stroke-width="3.6" stroke-linecap="round" fill="none"/></g><g transform="translate(360,211.52)"><circle cx="0" cy="0" r="5.8" fill="#FFF3D6"/><path d="M0 5.8 L0 16 M0 9 L-8 14 M0 9 L8 14 M0 16 L-6 24 M0 16 L6 24" stroke="#FFF3D6" stroke-width="3.2" stroke-linecap="round" fill="none"/></g><g transform="translate(470,150)"><path d="M0 0 C-24 -26 -50 -18 -45 3 C-42 19 -18 21 0 6 Z" fill="#FFC93C"/><path d="M0 0 C24 -26 50 -18 45 3 C42 19 18 21 0 6 Z" fill="#FFB01F"/><path d="M0 -8 L0 20" stroke="#3A2A08" stroke-width="3.5" stroke-linecap="round"/></g>
 
-    <g stroke-linecap="round" fill="none">
-      <g transform="translate(228,180)">
-        <circle cx="0" cy="0" r="9" fill="#FFF3D6" stroke="none"/>
-        <path d="M0 9 L0 30 M0 14 L-13 24 M0 14 L15 8 M0 30 L-9 46 M0 30 L9 46" stroke="#FFF3D6" stroke-width="5"/>
-      </g>
-      <g transform="translate(300,188)">
-        <circle cx="0" cy="0" r="8" fill="#DFFAF9" stroke="none"/>
-        <path d="M0 8 L0 27 M0 13 L-12 22 M0 13 L12 22 M0 27 L-8 42 M0 27 L8 42" stroke="#DFFAF9" stroke-width="4.6"/>
-      </g>
-    </g>
-
-    <g fill="#062A31">
-      <path d="M600 250 L626 186 L652 250 Z"/><path d="M606 218 L626 168 L646 218 Z"/>
-      <path d="M20 250 L44 196 L68 250 Z"/>
-    </g>
+    <!-- foreground: same shape and height throughout -->
+    <ellipse cx="330" cy="262" rx="200" ry="26" fill="#1F8E96"/>
     <rect y="272" width="660" height="28" fill="#062A31"/>
   </g>
 </svg>

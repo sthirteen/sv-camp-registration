@@ -1,60 +1,37 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 300" width="660" height="300" role="img" aria-label="Leaders Rest and Renewal Retreat poster">
   <defs>
-    <linearGradient id="lSky" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%"  stop-color="#0A1A2C"/>
-      <stop offset="55%" stop-color="#1D4463"/>
-      <stop offset="100%" stop-color="#42809E"/>
+    <linearGradient id="skyl" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#0A1A2C"/>
+      <stop offset="52%"  stop-color="#204A6B"/>
+      <stop offset="100%" stop-color="#4986A6"/>
     </linearGradient>
-    <linearGradient id="lWater" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#0C2438"/>
-      <stop offset="100%" stop-color="#061421"/>
+    <linearGradient id="sunl" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F7F1E2"/>
+      <stop offset="100%" stop-color="#CFC3A8"/>
     </linearGradient>
-    <clipPath id="lClip"><rect width="660" height="300"/></clipPath>
+    <clipPath id="clipl"><rect width="660" height="300" rx="0"/></clipPath>
   </defs>
 
-  <g clip-path="url(#lClip)">
-    <rect width="660" height="300" fill="url(#lSky)"/>
+  <g clip-path="url(#clipl)">
+    <rect width="660" height="300" fill="url(#skyl)"/>
 
-    <circle cx="330" cy="108" r="58" fill="#F5EEDC" opacity=".95"/>
-    <circle cx="330" cy="108" r="58" fill="none" stroke="#F5EEDC" stroke-width="1.5" opacity=".35" transform="scale(1)"/>
-    <circle cx="330" cy="108" r="80" fill="none" stroke="#F5EEDC" stroke-width="1.5" opacity=".2"/>
-    <circle cx="330" cy="108" r="104" fill="none" stroke="#F5EEDC" stroke-width="1.5" opacity=".12"/>
+    <!-- sun / moon: same size and place on every poster -->
+    <circle cx="330" cy="112" r="86" fill="#F7F1E2" opacity=".16"/>
+    <circle cx="330" cy="112" r="58" fill="url(#sunl)" opacity=".95"/>
 
-    <g fill="#EAF2F7">
-      <circle cx="86" cy="46" r="2.2" opacity=".85"/><circle cx="156" cy="86" r="1.5" opacity=".6"/>
-      <circle cx="512" cy="40" r="2" opacity=".8"/><circle cx="588" cy="82" r="1.5" opacity=".55"/>
-      <circle cx="440" cy="30" r="1.6" opacity=".7"/><circle cx="120" cy="128" r="1.4" opacity=".5"/>
-      <circle cx="614" cy="140" r="1.6" opacity=".5"/><circle cx="48" cy="96" r="1.6" opacity=".6"/>
-    </g>
+    <g fill="#FFFFFF" opacity=".55"><circle cx="86" cy="42" r="2.1"/><circle cx="168" cy="72" r="1.5"/><circle cx="512" cy="48" r="1.9"/><circle cx="592" cy="80" r="1.4"/><circle cx="248" cy="36" r="1.6"/><circle cx="430" cy="30" r="1.7"/></g>
 
-    <path d="M0 190 L128 138 L246 188 L330 152 L420 190 L536 140 L660 194 L660 300 L0 300 Z" fill="#102B41"/>
-    <path d="M0 216 L146 182 L280 220 L400 180 L520 220 L660 186 L660 300 L0 300 Z" fill="#0A1D2E"/>
+    <!-- back ridge, then front ridge: same heights on every poster -->
+    <path d="M0 182 L118 128 L226 180 L330 122 L438 180 L548 132 L660 184 L660 300 L0 300 Z"
+          fill="#122C42"/>
+    <path d="M0 216 L132 176 L262 220 L392 172 L512 218 L660 180 L660 300 L0 300 Z"
+          fill="#0B1D2E"/>
 
-    <rect y="232" width="660" height="68" fill="url(#lWater)"/>
-    <g fill="#F5EEDC" opacity=".22">
-      <rect x="306" y="240" width="48" height="4" rx="2"/>
-      <rect x="312" y="252" width="36" height="3" rx="1.5"/>
-      <rect x="318" y="263" width="24" height="3" rx="1.5"/>
-      <rect x="322" y="274" width="16" height="2.5" rx="1.2"/>
-    </g>
+    <!-- the motif sits in the same band on every poster -->
+    <g transform="translate(330,202.0)"><circle cx="0" cy="0" r="8.0" fill="#F5EEDC"/><path d="M0 8.0 L0 22 M0 12 L-11 20 M0 12 L11 20 M0 22 L-8 34 M0 22 L8 34" stroke="#F5EEDC" stroke-width="4.4" stroke-linecap="round" fill="none"/></g>
 
-    <g transform="translate(330,196)">
-      <rect x="-64" y="30" width="128" height="7" rx="3" fill="#0A1826"/>
-      <rect x="-46" y="37" width="6" height="18" fill="#0A1826"/>
-      <rect x="40" y="37" width="6" height="18" fill="#0A1826"/>
-      <circle cx="0" cy="0" r="11" fill="#F5EEDC"/>
-      <path d="M0 11 L0 30 M0 17 L-15 26 M0 17 L15 26"
-            stroke="#F5EEDC" stroke-width="5.5" stroke-linecap="round" fill="none"/>
-    </g>
-
-    <g fill="#061421">
-      <path d="M612 262 q5 -46 14 -66 q5 20 7 66 Z"/>
-      <path d="M626 198 q-30 -12 -46 2 q26 -3 46 7 Z"/>
-      <path d="M626 198 q30 -14 48 2 q-28 -3 -48 7 Z"/>
-      <path d="M626 196 q-7 -28 7 -42 q3 23 -3 44 Z"/>
-      <path d="M46 262 q-5 -42 -14 -60 q-5 18 -7 60 Z"/>
-      <path d="M32 202 q28 -12 44 2 q-26 -3 -44 7 Z"/>
-      <path d="M32 202 q-28 -14 -44 4 q26 -5 44 4 Z"/>
-    </g>
+    <!-- foreground: same shape and height throughout -->
+    <rect y="244" width="660" height="30" fill="#0A1826"/><g fill="#F5EEDC" opacity=".18"><rect x="306" y="250" width="48" height="4" rx="2"/><rect x="314" y="260" width="32" height="3" rx="1.5"/></g>
+    <rect y="272" width="660" height="28" fill="#061421"/>
   </g>
 </svg>
