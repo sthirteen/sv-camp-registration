@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" preserveAspectRatio="xMidYMid slice" role="img" aria-label="School Leadership Week poster">
+  <defs>
+    <linearGradient id="skys" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#241448"/><stop offset="52%" stop-color="#4E2E8E"/><stop offset="100%" stop-color="#8E68CC"/>
+    </linearGradient>
+    <linearGradient id="suns" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFE9B8"/><stop offset="100%" stop-color="#D9B36A"/>
+    </linearGradient>
+    <linearGradient id="wats" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6E52B8"/><stop offset="100%" stop-color="#3A2478"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1920" height="1080" fill="url(#skys)"/>
+  <g fill="#FFFFFF" opacity=".62"><circle cx="262" cy="136" r="7"/><circle cx="512" cy="236" r="5"/><circle cx="726" cy="112" r="5.5"/><circle cx="1362" cy="120" r="5"/><circle cx="1580" cy="224" r="6.5"/><circle cx="1784" cy="140" r="5"/><circle cx="150" cy="286" r="4.5"/><circle cx="1090" cy="96" r="4.5"/></g>
+
+  <circle cx="960" cy="470" r="300" fill="#FFE9B8" opacity=".16"/>
+  <circle cx="960" cy="470" r="196" fill="url(#suns)" opacity=".97"/>
+
+  <path d="M0 640 L280 486 L620 626 L980 540 L1320 612 L1650 474 L1920 636 L1920 1080 L0 1080 Z" fill="#38246F"/>
+  <path d="M0 748 L360 640 L720 762 L1100 624 L1460 744 L1920 652 L1920 1080 L0 1080 Z" fill="#291959"/>
+  <path d="M0 848 L440 754 L860 858 L1280 746 L1660 852 L1920 792 L1920 1080 L0 1080 Z" fill="#1D1043"/>
+
+  <g transform="translate(326,726)"><path d="M-158 78 L0 -46 L158 78 Z" fill="#38246F"/><rect x="-122" y="78" width="244" height="140" fill="#EDE6FF"/><rect x="-40" y="138" width="80" height="80" fill="#291959"/><rect x="-102" y="104" width="46" height="44" fill="#B79BEA"/><rect x="56" y="104" width="46" height="44" fill="#B79BEA"/></g>
+  <g transform="translate(1668,846) scale(1.18)"><path d="M-74 130 L0 -60 L74 130 Z" fill="#1B0F38"/><path d="M-56 28 L0 -134 L56 28 Z" fill="#1B0F38"/><rect x="-14" y="102" width="28" height="42" fill="#1B0F38"/></g>
+
+  <rect x="660" y="856" width="736" height="112" rx="56" fill="url(#wats)"/>
+  <g stroke="#EDE6FF" stroke-width="9" opacity=".5" fill="none" stroke-linecap="round">
+    <path d="M746 902 q40 -20 80 0 t80 0"/><path d="M1170 930 q40 -20 80 0 t80 0"/>
+  </g>
+  <g transform="translate(802,726)"><circle cx="0" cy="0" r="25" fill="#F0E9FF"/><path d="M0 25 L0 74 M0 39 L-37 65 M0 39 L37 65 M0 74 L-28 130 M0 74 L28 130" stroke="#F0E9FF" stroke-width="12" stroke-linecap="round" fill="none"/></g><g transform="translate(966,708)"><circle cx="0" cy="0" r="28" fill="#F0E9FF"/><path d="M0 28 L0 84 M0 44 L-42 74 M0 44 L42 74 M0 84 L-32 148 M0 84 L32 148" stroke="#F0E9FF" stroke-width="14" stroke-linecap="round" fill="none"/></g><g transform="translate(1132,735)"><circle cx="0" cy="0" r="23" fill="#F0E9FF"/><path d="M0 23 L0 69 M0 36 L-34 61 M0 36 L34 61 M0 69 L-26 121 M0 69 L26 121" stroke="#F0E9FF" stroke-width="11" stroke-linecap="round" fill="none"/></g>
+  <g transform="translate(980,540)"><path d="M0 0 L0 -150" stroke="#FFD24A" stroke-width="13" stroke-linecap="round"/><path d="M7 -144 L128 -114 L7 -84 Z" fill="#FFD24A"/></g>
+
+  <rect y="968" width="1920" height="112" fill="#1B0F38"/>
+</svg>

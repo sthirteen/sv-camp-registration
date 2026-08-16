@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Shalom Family Camp poster">
+  <defs>
+    <linearGradient id="skyf" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7A2A0C"/><stop offset="52%" stop-color="#C25E22"/><stop offset="100%" stop-color="#F2AE68"/>
+    </linearGradient>
+    <linearGradient id="sunf" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFF3D6"/><stop offset="100%" stop-color="#FFD08A"/>
+    </linearGradient>
+    <linearGradient id="watf" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3FB3BC"/><stop offset="100%" stop-color="#1E7F8A"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1920" height="1080" fill="url(#skyf)"/>
+  <g fill="#FFFFFF" opacity=".2"><ellipse cx="1530" cy="212" rx="150" ry="46"/><ellipse cx="1652" cy="182" rx="98" ry="34"/><ellipse cx="352" cy="168" rx="112" ry="36"/></g>
+
+  <circle cx="960" cy="470" r="300" fill="#FFF3D6" opacity=".16"/>
+  <circle cx="960" cy="470" r="196" fill="url(#sunf)" opacity=".97"/>
+
+  <path d="M0 640 L280 486 L620 626 L980 540 L1320 612 L1650 474 L1920 636 L1920 1080 L0 1080 Z" fill="#A94A1C"/>
+  <path d="M0 748 L360 640 L720 762 L1100 624 L1460 744 L1920 652 L1920 1080 L0 1080 Z" fill="#8A3A14"/>
+  <path d="M0 848 L440 754 L860 858 L1280 746 L1660 852 L1920 792 L1920 1080 L0 1080 Z" fill="#6C2B0F"/>
+
+  <g transform="translate(326,726)"><path d="M-158 78 L0 -46 L158 78 Z" fill="#8A3D16"/><rect x="-122" y="78" width="244" height="140" fill="#FFF1DC"/><rect x="-40" y="138" width="80" height="80" fill="#8A3D16"/><rect x="-102" y="104" width="46" height="44" fill="#63CFD4"/><rect x="56" y="104" width="46" height="44" fill="#63CFD4"/></g>
+  <g transform="translate(1668,846) scale(1.18)"><path d="M0 130 q16 -148 50 -208 q16 68 24 208 Z" fill="#5E240B"/><path d="M48 -86 q-100 -40 -154 6 q88 -10 154 24 Z" fill="#5E240B"/><path d="M48 -86 q100 -46 160 6 q-94 -10 -160 24 Z" fill="#5E240B"/><path d="M48 -94 q-28 -94 20 -140 q14 80 -6 148 Z" fill="#5E240B"/></g>
+
+  <rect x="660" y="856" width="736" height="112" rx="56" fill="url(#watf)"/>
+  <g stroke="#E4FAFB" stroke-width="9" opacity=".5" fill="none" stroke-linecap="round">
+    <path d="M746 902 q40 -20 80 0 t80 0"/><path d="M1170 930 q40 -20 80 0 t80 0"/>
+  </g>
+  <g transform="translate(776,708)"><circle cx="0" cy="0" r="28" fill="#FFF1DC"/><path d="M0 28 L0 84 M0 44 L-42 74 M0 44 L42 74 M0 84 L-32 148 M0 84 L32 148" stroke="#FFF1DC" stroke-width="14" stroke-linecap="round" fill="none"/></g><g transform="translate(922,746)"><circle cx="0" cy="0" r="21" fill="#FFF1DC"/><path d="M0 21 L0 62 M0 33 L-31 55 M0 33 L31 55 M0 62 L-24 110 M0 62 L24 110" stroke="#FFF1DC" stroke-width="10" stroke-linecap="round" fill="none"/></g><g transform="translate(1058,755)"><circle cx="0" cy="0" r="19" fill="#FFF1DC"/><path d="M0 19 L0 57 M0 30 L-29 50 M0 30 L29 50 M0 57 L-22 101 M0 57 L22 101" stroke="#FFF1DC" stroke-width="10" stroke-linecap="round" fill="none"/></g><g transform="translate(1180,708)"><circle cx="0" cy="0" r="28" fill="#FFF1DC"/><path d="M0 28 L0 84 M0 44 L-42 74 M0 44 L42 74 M0 84 L-32 148 M0 84 L32 148" stroke="#FFF1DC" stroke-width="14" stroke-linecap="round" fill="none"/></g>
+  
+
+  <rect y="968" width="1920" height="112" fill="#5E240B"/>
+</svg>

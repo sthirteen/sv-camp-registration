@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Kids Discovery Camp poster">
+  <defs>
+    <linearGradient id="skyk" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0A3A46"/><stop offset="52%" stop-color="#157A88"/><stop offset="100%" stop-color="#5CC9CC"/>
+    </linearGradient>
+    <linearGradient id="sunk" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFF1B8"/><stop offset="100%" stop-color="#F5C558"/>
+    </linearGradient>
+    <linearGradient id="watk" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#63CFD4"/><stop offset="100%" stop-color="#238F98"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1920" height="1080" fill="url(#skyk)"/>
+  <g fill="#FFFFFF" opacity=".2"><ellipse cx="1530" cy="212" rx="150" ry="46"/><ellipse cx="1652" cy="182" rx="98" ry="34"/><ellipse cx="352" cy="168" rx="112" ry="36"/></g>
+
+  <circle cx="960" cy="470" r="300" fill="#FFF1B8" opacity=".16"/>
+  <circle cx="960" cy="470" r="196" fill="url(#sunk)" opacity=".97"/>
+
+  <path d="M0 640 L280 486 L620 626 L980 540 L1320 612 L1650 474 L1920 636 L1920 1080 L0 1080 Z" fill="#0F5560"/>
+  <path d="M0 748 L360 640 L720 762 L1100 624 L1460 744 L1920 652 L1920 1080 L0 1080 Z" fill="#0A414B"/>
+  <path d="M0 848 L440 754 L860 858 L1280 746 L1660 852 L1920 792 L1920 1080 L0 1080 Z" fill="#072F37"/>
+
+  <g transform="translate(326,726)"><path d="M-158 78 L0 -46 L158 78 Z" fill="#0F5560"/><rect x="-122" y="78" width="244" height="140" fill="#FFF3D6"/><rect x="-40" y="138" width="80" height="80" fill="#0A414B"/><rect x="-102" y="104" width="46" height="44" fill="#63CFD4"/><rect x="56" y="104" width="46" height="44" fill="#63CFD4"/></g>
+  <g transform="translate(1668,846) scale(1.18)"><path d="M-74 130 L0 -60 L74 130 Z" fill="#062A31"/><path d="M-56 28 L0 -134 L56 28 Z" fill="#062A31"/><rect x="-14" y="102" width="28" height="42" fill="#062A31"/></g>
+
+  <rect x="660" y="856" width="736" height="112" rx="56" fill="url(#watk)"/>
+  <g stroke="#E4FAFB" stroke-width="9" opacity=".5" fill="none" stroke-linecap="round">
+    <path d="M746 902 q40 -20 80 0 t80 0"/><path d="M1170 930 q40 -20 80 0 t80 0"/>
+  </g>
+  <g transform="translate(830,738)"><circle cx="0" cy="0" r="22" fill="#FFF3D6"/><path d="M0 22 L0 67 M0 35 L-34 59 M0 35 L34 59 M0 67 L-26 118 M0 67 L26 118" stroke="#FFF3D6" stroke-width="11" stroke-linecap="round" fill="none"/></g><g transform="translate(984,749)"><circle cx="0" cy="0" r="20" fill="#FFF3D6"/><path d="M0 20 L0 60 M0 32 L-30 53 M0 32 L30 53 M0 60 L-23 107 M0 60 L23 107" stroke="#FFF3D6" stroke-width="10" stroke-linecap="round" fill="none"/></g><g transform="translate(1130,741)"><circle cx="0" cy="0" r="22" fill="#FFF3D6"/><path d="M0 22 L0 66 M0 34 L-33 58 M0 34 L33 58 M0 66 L-25 115 M0 66 L25 115" stroke="#FFF3D6" stroke-width="11" stroke-linecap="round" fill="none"/></g>
+  <g transform="translate(1440,470) scale(.72)"><path d="M0 0 C-66 -74 -140 -50 -126 10 C-116 54 -50 60 0 16 Z" fill="#FFC93C"/><path d="M0 0 C66 -74 140 -50 126 10 C116 54 50 60 0 16 Z" fill="#FFB01F"/><path d="M0 -20 L0 54" stroke="#3A2A08" stroke-width="10" stroke-linecap="round"/></g>
+
+  <rect y="968" width="1920" height="112" fill="#062A31"/>
+</svg>

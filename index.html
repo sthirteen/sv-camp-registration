@@ -378,6 +378,11 @@ header{
 .rail{
   position:relative;margin:0 auto;
   width:340px;
+  /* Every card is dropped into the SAME grid cell. The cell takes the height of
+     the tallest card and every card stretches to fill it, so all of them are
+     exactly the same height — which is the only way their top and bottom edges
+     can line up once they are scaled down at the sides. */
+  display:grid;grid-template-columns:100%;
   --peek:24;                       /* how far the side cards sit out, in % of card width */
   touch-action:pan-y;              /* let the page scroll vertically, we take the sideways drag */
   cursor:grab;
@@ -389,7 +394,12 @@ header{
 
 /* ---------- the camp card ---------- */
 .ccard{
-  position:absolute;top:0;left:0;width:100%;
+  position:relative;grid-area:1 / 1;width:100%;
+  /* Every card is given the SAME height, measured from the tallest one.
+     We set it outright rather than letting the grid stretch them, because a
+     <button> is not stretched to fill its cell by Safari on iOS — which is why
+     this looked right on a laptop and wrong on a phone. */
+  height:var(--deckH, auto);align-self:stretch;
   isolation:isolate;transform-origin:50% 92%;
   border-radius:var(--r);overflow:hidden;cursor:pointer;padding:0;
   display:flex;flex-direction:column;text-align:left;font:inherit;color:var(--ink);
@@ -446,7 +456,9 @@ header{
 .ccard.front:hover::before{opacity:1}
 
 .ccard .banner{
-  height:150px;position:relative;flex:none;
+  /* the poster area is a 16:9 window — the same shape as a 1920x1080 image,
+     so a poster drawn at that size drops in without being cut about */
+  aspect-ratio:16 / 9;height:auto;position:relative;flex:none;
   background:linear-gradient(150deg, color-mix(in srgb, var(--accent) 85%, #fff 15%), var(--accent));
   background-size:cover;background-position:center;
 }
@@ -481,7 +493,7 @@ header{
   min-height:calc(14px * 1.6 * 3);           /* always three lines tall */
   display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
 }
-.ccard .meta{display:flex;flex-direction:column;gap:6px;font-size:13.5px;margin-bottom:auto}
+.ccard .meta{display:flex;flex-direction:column;gap:2px;font-size:13.5px;margin-bottom:auto}
 .ccard .meta div{display:flex;gap:10px;align-items:baseline}
 .ccard .meta .lbl{color:var(--dim);flex:none;min-width:56px;font-size:12px;text-transform:uppercase;letter-spacing:.5px}
 .ccard .meta .val{font-weight:600}
@@ -1512,7 +1524,7 @@ function buildCards(){
          ${metaRow('Cost', 'តម្លៃ', camp.costEn, camp.costKm)}
        </div>
        <div class="go">
-         <span><span class="en">View &amp; register</span><span class="km">មើល និងចុះឈ្មោះ</span></span>
+         <span><span class="en">Read More &amp; Register</span><span class="km">អានបន្ថែម និងចុះឈ្មោះ</span></span>
          <span class="chev">→</span>
        </div>`;
 
@@ -1636,11 +1648,17 @@ function setActive(i){
   layout();
 }
 
-/** the deck is absolutely positioned, so it has no height of its own */
+/* Measure the tallest card and give that height to all of them. Do it here in
+   script rather than leaving it to the grid: a <button> is not stretched to fill
+   its grid cell on iOS, so on a phone the cards kept their own heights and the
+   side ones sat at different levels. offsetHeight ignores the scale and slide
+   we put on the cards, so it reports the true height either way. */
 function sizeDeck(){
   const cards = cardsIn();
   if (!cards.length) return;
-  rail.style.height = Math.max(...cards.map(c => c.offsetHeight)) + 'px';
+  rail.style.setProperty('--deckH', 'auto');       // let each card find its own height
+  const h = Math.max(...cards.map(c => c.offsetHeight));
+  rail.style.setProperty('--deckH', h + 'px');     // then hold them all at the tallest
 }
 
 function buildDots(){
@@ -1661,6 +1679,11 @@ $('#prevBtn').onclick = () => go(-1);
 $('#nextBtn').onclick = () => go(1);
 
 window.addEventListener('resize', () => { sizeDeck(); layout(); });
+/* a webfont arriving late re-wraps the text, so measure once more when the
+   fonts have actually landed — otherwise the phone keeps the fallback height */
+if (document.fonts && document.fonts.ready) {
+  document.fonts.ready.then(() => { sizeDeck(); layout(); });
+}
 
 /* --- drag / swipe ---------------------------------------------------------
    The middle card follows the finger while the card you are pulling toward
@@ -1910,6 +1933,9 @@ function setLang(l){
   document.documentElement.lang = l === 'km' ? 'km' : 'en';
   $$('.langtoggle button').forEach(b => b.setAttribute('aria-pressed', b.dataset.lang === l));
   try { localStorage.setItem('svLang', l); } catch(e){}
+  // Khmer runs to different lengths and sits on taller lines, so the cards
+  // have to be measured again or they keep the height the English text needed
+  requestAnimationFrame(() => { sizeDeck(); layout(); });
 }
 $$('.langtoggle button').forEach(b => b.onclick = () => setLang(b.dataset.lang));
 try { const saved = localStorage.getItem('svLang'); if (saved) setLang(saved); } catch(e){}
