@@ -9,7 +9,7 @@
 window.CAMPS = {
 
   "settings": {
-    "endpoint": "",
+    "endpoint": "https://script.google.com/macros/s/AKfycbxizaa7U0o0Dzy38oXRsWU2-I4aCZYxvofmWxB15WtbVx7wxjhpFH87lceNpV0WNBAcbQ/exec",
     "whatsappUrl": "https://wa.me/qr/PMDGIQLFHZ22O1",
     "telegramUrl": "https://t.me/s_thirteen",
     "contactEmail": "bookings@shalomvalley.org",
