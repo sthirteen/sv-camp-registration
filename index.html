@@ -78,27 +78,31 @@ img{max-width:100%;display:block}
     radial-gradient(120% 90% at 50% 118%, #2A0E06 0%, transparent 62%),
     linear-gradient(180deg, #08060A 0%, #0E0908 55%, #170C08 100%);
 }
-.aurora i{
+/* NOTE the child combinator. The ember blobs are direct children of .aurora,
+   but the stars are <i> elements too, sitting inside .stars — a plain
+   descendant selector caught them as well and put filter:blur(100px) on every
+   star, which is why no star was ever visible on any device. Keep the ">". */
+.aurora > i{
   position:absolute;display:block;border-radius:50%;
   filter:blur(100px);will-change:transform;mix-blend-mode:screen;
 }
 /* the deep base heat, low and wide like a fire bed */
-.aurora i:nth-child(1){
+.aurora > i:nth-child(1){
   width:78vw;height:46vw;left:-8vw;bottom:-22vh;background:#FF4A0F;opacity:.3;
   animation:emberDrift1 62s ease-in-out infinite, flicker 15s ease-in-out infinite;
 }
 /* the bright core, travelling across the middle */
-.aurora i:nth-child(2){
+.aurora > i:nth-child(2){
   width:52vw;height:52vw;left:6vw;top:14vh;background:#FF8A1E;opacity:.2;
   animation:emberDrift2 84s ease-in-out infinite, flicker 12s ease-in-out infinite .6s;
 }
 /* a deep red counter-drift */
-.aurora i:nth-child(3){
+.aurora > i:nth-child(3){
   width:60vw;height:44vw;right:-12vw;top:-8vh;background:#C41B12;opacity:.2;
   animation:emberDrift3 98s ease-in-out infinite, flicker 19s ease-in-out infinite 1.4s;
 }
 /* the hot yellow tip, small and quick */
-.aurora i:nth-child(4){
+.aurora > i:nth-child(4){
   width:30vw;height:30vw;right:16vw;bottom:2vh;background:#FFC53D;opacity:.16;
   animation:emberDrift4 54s ease-in-out infinite, flicker 11s ease-in-out infinite .3s;
 }
@@ -135,10 +139,10 @@ img{max-width:100%;display:block}
   58%    {opacity:calc(var(--o,.34) * 1.16)}
   74%    {opacity:calc(var(--o,.34) * .9)}
 }
-.aurora i:nth-child(1){--o:.3}
-.aurora i:nth-child(2){--o:.2}
-.aurora i:nth-child(3){--o:.2}
-.aurora i:nth-child(4){--o:.16}
+.aurora > i:nth-child(1){--o:.3}
+.aurora > i:nth-child(2){--o:.2}
+.aurora > i:nth-child(3){--o:.2}
+.aurora > i:nth-child(4){--o:.16}
 
 /* ---------- the flames themselves ----------
    The big blobs above are ambient heat: they set the colour of the room and
@@ -223,7 +227,7 @@ img{max-width:100%;display:block}
 
 /* nothing animates while the page is not on screen — without this the fire
    kept burning at full cost behind other apps */
-body.asleep .aurora i,
+body.asleep .aurora > i,
 body.asleep .flames span,
 body.asleep .sparks span,
 body.asleep .stars i{animation-play-state:paused !important}
@@ -235,7 +239,7 @@ body.asleep .stars i{animation-play-state:paused !important}
 @media (max-width:900px), (hover: none){
   /* the stars stay on a phone now — they cost nothing once they stop twinkling.
      Everything else that moves still goes. */
-  .aurora i, .flames, .sparks{display:none}
+  .aurora > i, .flames, .sparks{display:none}
   /* held still, so they have to be brighter than the twinkling ones to read */
   .stars i{animation:none !important;opacity:.8}
   .stars i.bright{opacity:1;box-shadow:0 0 12px 3px rgba(255,230,190,.85)}
@@ -882,19 +886,19 @@ footer .place{color:var(--dim);margin-bottom:6px}
     background:#14100E;
   }
   .card,.ccard,.fact{border-color:rgba(255,255,255,.16)}
-  .aurora i{opacity:.28}
+  .aurora > i{opacity:.28}
 }
 
 /* the reader has asked their OS to cut transparency or motion */
 @media (prefers-reduced-transparency: reduce){
   .card,.ccard,.fact,.mode,.check,header{background:#17100D}
-  .aurora i{opacity:.2;animation:none}
+  .aurora > i{opacity:.2;animation:none}
   .flames{display:none}
   .sparks{display:none}
 }
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto}
-  .aurora i{animation:none}
+  .aurora > i{animation:none}
   .flames span{animation:none;opacity:.5}
   .sparks{display:none}
   .rail{scroll-behavior:auto}
@@ -905,7 +909,7 @@ footer .place{color:var(--dim);margin-bottom:6px}
 /* very small screens: blur is the most expensive thing here, so ease off */
 @media (max-width:480px){
   :root{--g-blur:blur(18px) saturate(150%)}
-  .aurora i{filter:blur(70px)}
+  .aurora > i{filter:blur(70px)}
 }
 
 /* ---------- the deck deals itself in ----------
