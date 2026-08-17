@@ -240,9 +240,9 @@ body.asleep .stars i{animation-play-state:paused !important}
   /* the stars stay on a phone now — they cost nothing once they stop twinkling.
      Everything else that moves still goes. */
   .aurora > i, .flames, .sparks{display:none}
-  /* held still, so they have to be brighter than the twinkling ones to read */
-  .stars i{animation:none !important;opacity:.8}
-  .stars i.bright{opacity:1;box-shadow:0 0 12px 3px rgba(255,230,190,.85)}
+  /* held still, so a little brighter than the twinkling ones — but still soft */
+  .stars i{animation:none !important;opacity:.56}
+  .stars i.bright{opacity:.7;box-shadow:0 0 12px 3px rgba(255,230,190,.6)}
   .stars i:nth-child(n+34){display:none}
   .aurora{
     background:
@@ -269,16 +269,20 @@ body.asleep .stars i{animation-play-state:paused !important}
 .stars{position:absolute;inset:0 0 70% 0;z-index:2;pointer-events:none;overflow:hidden}
 .stars i{
   position:absolute;display:block;border-radius:50%;background:#FFF8EC;
-  opacity:.5;
-  box-shadow:0 0 5px 1px rgba(255,230,190,.4);
+  opacity:.35;
+  /* softened on purpose: sharp bright dots competed with the headings sitting
+     over them. This blur is deliberate and small — not to be confused with the
+     blur(100px) that the ember rules used to leak onto the stars (see .aurora > i). */
+  filter:blur(1.2px);
+  box-shadow:0 0 5px 1px rgba(255,230,190,.28);
 }
-.stars i.bright{box-shadow:0 0 11px 2.5px rgba(255,230,190,.8)}
+.stars i.bright{box-shadow:0 0 11px 2.5px rgba(255,230,190,.55)}
 @keyframes twinkle{
-  0%,100%{opacity:.42}
-  45%    {opacity:1}
-  55%    {opacity:.9}
+  0%,100%{opacity:.3}
+  45%    {opacity:.7}
+  55%    {opacity:.62}
 }
-@media (prefers-reduced-motion: reduce){ .stars i{animation:none !important;opacity:.7} }
+@media (prefers-reduced-motion: reduce){ .stars i{animation:none !important;opacity:.5} }
 @media (max-width:640px){ .stars i:nth-child(n+30){display:none} }
 
 /* subtle noise so large glass panes don't band */
