@@ -342,9 +342,10 @@ header{
   padding:34px 26px 16px;max-width:1180px;margin:0 auto;
 }
 .carousel-head h2{margin:0;font-size:17px;font-weight:700;letter-spacing:.2px}
-/* the count reads as a subtitle, sitting under the heading rather than beside it */
-.chead-text{display:flex;flex-direction:column;gap:1px;min-width:0;align-items:center;text-align:center}
+/* one line: "Open for Registration | 5 Camps" */
+.chead-text{display:flex;align-items:baseline;gap:9px;min-width:0;flex-wrap:wrap;justify-content:center}
 .carousel-head .count{color:var(--dim);font-size:13px}
+.carousel-head .count::before{content:'|';margin-right:9px;opacity:.4}
 .arrows{display:flex;gap:9px;flex:none}
 .arrow{
   width:44px;height:44px;border-radius:50%;cursor:pointer;flex:none;
@@ -975,7 +976,10 @@ body.home .rail{
 body.home .dots{flex:none;padding:30px 0 4px}   /* clear air under the deck */
 /* the footer is a signature, not a section — it should take the least room of
    anything on the page and leave the deck breathing */
-body.home footer{flex:none;padding:2px 22px 12px;font-size:11.5px}
+body.home footer{
+  flex:none;font-size:11.5px;
+  padding:2px 22px calc(20px + env(safe-area-inset-bottom, 0px));
+}
 body.home footer .org{font-size:12.5px;margin-bottom:0}
 body.home footer .place{margin-bottom:1px;font-size:11.5px}
 body.home .footin{gap:26px}
@@ -1117,7 +1121,7 @@ body.intro{overflow:hidden}
 
   <div class="carousel-head">
     <div class="chead-text">
-      <h2><span class="en">Open for registration</span><span class="km">បើកឱ្យចុះឈ្មោះ</span></h2>
+      <h2><span class="en">Open for Registration</span><span class="km">បើកឱ្យចុះឈ្មោះ</span></h2>
       <span class="count" id="campCount"></span>
     </div>
     <div style="display:flex;align-items:center;gap:14px">
@@ -1682,7 +1686,7 @@ function buildCards(){
     $('.carousel-head').classList.add('hidden');
     return;
   }
-  $('#campCount').textContent = OPEN.length + (OPEN.length === 1 ? ' camp' : ' camps');
+  $('#campCount').textContent = OPEN.length + (OPEN.length === 1 ? ' Camp' : ' Camps');
 
   OPEN.forEach((camp, i) => {
     const btn = document.createElement('button');
