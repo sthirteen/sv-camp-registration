@@ -852,15 +852,24 @@ footer a:hover{text-decoration:underline}
 footer .org{font-weight:600;color:var(--muted);margin-bottom:2px;font-size:15px;line-height:1.5}
 footer .place{color:var(--dim);margin-bottom:6px}
 #contactLinks{display:flex;gap:12px;justify-content:center}
-/* a narrow phone cannot hold two columns: stack them, and the rule goes on top */
+/* A phone keeps the two columns — stacking them looked nothing like the intended
+   layout and ate the vertical space the footer is meant to save. It fits at this
+   width once the gap, the icons and the label are all brought in; the label is
+   allowed to wrap onto two lines rather than forcing the row wider. */
 @media(max-width:520px){
-  .footin{flex-direction:column;gap:14px}
-  .fwho{text-align:center}
-  .fmore{
-    padding-left:0;padding-top:14px;
-    border-left:0;border-top:1px solid rgba(255,255,255,.16);
-    width:100%;max-width:260px;
-  }
+  .footin{gap:15px}
+  .fmore{padding-left:15px}
+  .flabel{white-space:normal;font-size:11.5px;line-height:1.35;margin-bottom:8px}
+  #contactLinks{gap:7px}
+  .cico{width:28px;height:28px}
+  .cico svg{width:13px;height:13px}
+  footer .org{font-size:13px}
+}
+/* the very narrowest phones: drop the label, the icons speak for themselves */
+@media(max-width:360px){
+  .footin{gap:11px}
+  .fmore{padding-left:11px}
+  .flabel{display:none}
 }
 .cico{
   width:36px;height:36px;flex:none;border-radius:50%;display:grid;place-items:center;
@@ -974,8 +983,10 @@ body.home .fmore{padding-left:26px}
 body.home .flabel{font-size:12px;margin-bottom:7px}
 body.home #contactLinks{gap:9px}
 @media(max-width:520px){
-  body.home .footin{gap:9px}
-  body.home .fmore{padding-top:9px}
+  body.home .footin{gap:13px}
+  body.home .fmore{padding-left:13px}
+  body.home .cico{width:26px;height:26px}
+  body.home .cico svg{width:12px;height:12px}
 }
 body.home .cico{width:30px;height:30px}
 body.home .cico svg{width:14px;height:14px}
