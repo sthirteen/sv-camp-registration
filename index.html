@@ -78,10 +78,11 @@ img{max-width:100%;display:block}
     radial-gradient(120% 90% at 50% 118%, #2A0E06 0%, transparent 62%),
     linear-gradient(180deg, #08060A 0%, #0E0908 55%, #170C08 100%);
 }
-/* NOTE the child combinator. The ember blobs are direct children of .aurora,
-   but the stars are <i> elements too, sitting inside .stars — a plain
-   descendant selector caught them as well and put filter:blur(100px) on every
-   star, which is why no star was ever visible on any device. Keep the ">". */
+/* Keep the child combinator. There used to be a star layer in here whose dots
+   were also <i> elements, and a plain descendant selector put this blur(100px)
+   on every one of them — invisible stars, three rounds of chasing brightness.
+   The stars are gone now, but anything nested in .aurora later would hit the
+   same trap. */
 .aurora > i{
   position:absolute;display:block;border-radius:50%;
   filter:blur(100px);will-change:transform;mix-blend-mode:screen;
@@ -229,23 +230,14 @@ img{max-width:100%;display:block}
    kept burning at full cost behind other apps */
 body.asleep .aurora > i,
 body.asleep .flames span,
-body.asleep .sparks span,
-body.asleep .stars i{animation-play-state:paused !important}
+body.asleep .sparks span{animation-play-state:paused !important}
 
 /* ── phones and tablets: no moving parts at all ──
    The backdrop below is a painted fire: a hot bed of embers low down, warm
    light rising through it, cooling to night at the top. Plus the same grain
    the rest of the page uses, so it doesn't band on a cheap screen. */
 @media (max-width:900px), (hover: none){
-  /* the stars stay on a phone now — they cost nothing once they stop twinkling.
-     Everything else that moves still goes. */
   .aurora > i, .flames, .sparks{display:none}
-  /* Held still, and a phone screen is small and held close, so these need to be
-     DIMMER than the laptop ones, not brighter. Softer blur too — at this size a
-     star is only a suggestion of light, not a dot. */
-  .stars i{animation:none !important;opacity:.26;filter:blur(1.7px)}
-  .stars i.bright{opacity:.36;box-shadow:0 0 10px 2px rgba(255,230,190,.32)}
-  .stars i:nth-child(n+26){display:none}
   .aurora{
     background:
       radial-gradient(120% 58% at 50% 112%, #FF6A16 0%, rgba(255,74,15,.55) 26%, transparent 62%),
@@ -263,39 +255,6 @@ body.asleep .stars i{animation-play-state:paused !important}
 
 
 
-/* ---------- the night sky above the fire ----------
-   Stars sit ABOVE the vignette (z-index), or the darkening wash that keeps the
-   headings readable would swallow them. Each takes its own turn to brighten:
-   long durations with scattered negative delays, so they never pulse together. */
-/* The night sky occupies the top third of the screen and stops there. A soft
-   oval is cleared out of the middle of it, because that is exactly where the
-   heading and the strapline sit — stars behind words make both harder to read.
-   The clearing fades rather than cuts, so there is no visible edge to it, and
-   it is set in percentages so it follows the text on any screen size. */
-.stars{
-  position:absolute;inset:0 0 70% 0;z-index:2;pointer-events:none;overflow:hidden;
-  -webkit-mask-image:radial-gradient(72% 64% at 50% 56%,
-    transparent 0%, transparent 50%, rgba(0,0,0,.55) 72%, #000 92%);
-          mask-image:radial-gradient(72% 64% at 50% 56%,
-    transparent 0%, transparent 50%, rgba(0,0,0,.55) 72%, #000 92%);
-}
-.stars i{
-  position:absolute;display:block;border-radius:50%;background:#FFF8EC;
-  opacity:.35;
-  /* softened on purpose: sharp bright dots competed with the headings sitting
-     over them. This blur is deliberate and small — not to be confused with the
-     blur(100px) that the ember rules used to leak onto the stars (see .aurora > i). */
-  filter:blur(1.2px);
-  box-shadow:0 0 5px 1px rgba(255,230,190,.22);
-}
-.stars i.bright{box-shadow:0 0 11px 2.5px rgba(255,230,190,.4)}
-@keyframes twinkle{
-  0%,100%{opacity:.3}
-  45%    {opacity:.7}
-  55%    {opacity:.62}
-}
-@media (prefers-reduced-motion: reduce){ .stars i{animation:none !important;opacity:.5} }
-@media (max-width:640px){ .stars i:nth-child(n+30){display:none} }
 
 /* subtle noise so large glass panes don't band */
 body::after{
@@ -431,7 +390,10 @@ header{
   isolation:isolate;transform-origin:50% 92%;
   border-radius:var(--r);overflow:hidden;cursor:pointer;padding:0;
   display:flex;flex-direction:column;text-align:left;font:inherit;color:var(--ink);
-  background:rgba(20,13,11,.82);
+  /* fully opaque. The glass look belongs to the front card only, and only while
+     it is still — a part-transparent card with no blur behind it just looks
+     see-through and broken, which is what showed during a swipe. */
+  background:#150E0C;
   border:1px solid var(--g-line);
   box-shadow:var(--rim), var(--lift);
   /* transform and opacity only — both run on the GPU. Anything else in this
@@ -453,11 +415,13 @@ header{
     0 18px 36px rgba(0,0,0,.55),
     0 36px 76px rgba(0,0,0,.5);
 }
-/* while a card is travelling, drop the blur entirely — nobody can read a
-   moving pane, and this is what keeps the swipe at full frame rate */
+/* While a card is travelling, drop the blur entirely — nobody can read a moving
+   pane, and this is what keeps the swipe at full frame rate. The background must
+   go fully opaque at the same time: take the blur away from a part-transparent
+   pane and it stops looking like glass and starts looking see-through. */
 .rail.dragging .ccard.front{
   -webkit-backdrop-filter:none; backdrop-filter:none;
-  background:rgba(20,13,11,.82);
+  background:#150E0C;
 }
 
 .rail.dragging .ccard{transition:none}
@@ -1083,7 +1047,7 @@ body.intro{overflow:hidden}
 })();
 </script>
 
-<div class="aurora" aria-hidden="true"><i></i><i></i><i></i><i></i><div class="stars" id="stars"></div><div class="flames"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="sparks"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div>
+<div class="aurora" aria-hidden="true"><i></i><i></i><i></i><i></i><div class="flames"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="sparks"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div>
 
 <header>
   <div class="bar">
@@ -2119,30 +2083,6 @@ function renderCamp(isDraft){
   const idle = () => document.body.classList.toggle('asleep', document.hidden);
   document.addEventListener('visibilitychange', idle);
   idle();
-})();
-
-/* ---------- night sky ----------
-   Scattered rather than hand-placed, so the sky never looks like a grid.
-   Higher stars are denser and dimmer; the few bright ones carry a soft halo. */
-(() => {
-  const sky = document.getElementById('stars');
-  if (!sky) return;
-  const N = 56;   // phones show the first 34 of these, and hold them still
-  let out = '';
-  for (let i = 0; i < N; i++){
-    const x  = (Math.random() * 100).toFixed(2);
-    // spread through the band rather than crowding the very top, where the
-    // header bar sits over them and you would never see them
-    const y  = (14 + Math.random() * 82).toFixed(2);
-    const sz = (Math.random() * 2.1 + 1.6).toFixed(2);
-    const bright = Math.random() < 0.34;
-    const dur = (Math.random() * 7 + 5).toFixed(1);               // 5–12s each
-    const del = (-Math.random() * 12).toFixed(1);                 // all out of step
-    out += `<i class="${bright ? 'bright' : ''}" style="left:${x}%;top:${y}%;` +
-           `width:${sz}px;height:${sz}px;` +
-           `animation:twinkle ${dur}s ease-in-out ${del}s infinite"></i>`;
-  }
-  sky.innerHTML = out;
 })();
 
 /* ---------- language ---------- */
