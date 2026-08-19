@@ -337,9 +337,12 @@ header{
 }
 .lhero p{margin:0 auto;font-size:17px;color:var(--muted);max-width:560px}
 
+/* Stacked, both centred: the label line, then the arrows directly beneath it and
+   directly above the deck. The arrows are hidden on a phone, so in practice this
+   only changes the desktop layout. */
 .carousel-head{
-  display:flex;align-items:center;justify-content:space-between;gap:16px;
-  padding:34px 26px 16px;max-width:1180px;margin:0 auto;
+  display:flex;flex-direction:column;align-items:center;gap:12px;
+  padding:34px 26px 14px;max-width:1180px;margin:0 auto;
 }
 .carousel-head h2{margin:0;font-size:13px;font-weight:500;letter-spacing:.2px;color:var(--dim)}
 /* one line: "Open for Registration | 5 Camps" */
@@ -1124,11 +1127,9 @@ body.intro{overflow:hidden}
       <h2><span class="en">Open for Registration</span><span class="km">បើកឱ្យចុះឈ្មោះ</span></h2>
       <span class="count" id="campCount"></span>
     </div>
-    <div style="display:flex;align-items:center;gap:14px">
-      <div class="arrows">
-        <button class="arrow" id="prevBtn" type="button" aria-label="Previous camps">‹</button>
-        <button class="arrow" id="nextBtn" type="button" aria-label="More camps">›</button>
-      </div>
+    <div class="arrows">
+      <button class="arrow" id="prevBtn" type="button" aria-label="Previous camps">‹</button>
+      <button class="arrow" id="nextBtn" type="button" aria-label="More camps">›</button>
     </div>
   </div>
 
