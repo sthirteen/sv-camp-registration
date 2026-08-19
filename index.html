@@ -360,7 +360,8 @@ header{
 .arrow:hover:not(:disabled){background:var(--g-sunk-2);border-color:var(--g-line-2);transform:scale(1.06)}
 .arrow:active:not(:disabled){transform:scale(.96)}
 .arrow:disabled{opacity:.25;cursor:default}
-@media(max-width:640px){.arrows{display:none}}
+/* The arrows stay on every device on purpose: if the swipe gesture is not
+   obvious, or a browser mishandles the drag, these are the way through. */
 
 .carousel-wrap{max-width:1180px;margin:0 auto;position:relative;padding:10px 26px 34px}
 /* The deck. Cards are absolutely positioned on top of one another; the ones
@@ -511,7 +512,10 @@ header{
    long or short the wording happens to be. */
 .ccard h3{
   margin:0 0 10px;font-size:19px;font-weight:700;line-height:1.32;letter-spacing:-.01em;
-  min-height:calc(19px * 1.32 * 2);          /* always two lines tall */
+  /* No reserved second line. A one-line name lets the blurb sit up close to it
+     instead of leaving a hole. Still capped at two lines, so a long name cannot
+     push the rest of the card about. The "Read More" row is pinned to the bottom
+     regardless, so cards still finish on the same line as each other. */
   display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
 }
 .ccard .blurb{
@@ -554,6 +558,22 @@ header{
 
 #regview{display:none}
 #regview.on{display:block}
+
+/* ---------- moving between the deck and the form ----------
+   The deck eases back and fades; the form rises in. Short enough not to be in
+   the way of somebody who knows where they are going. */
+#landing{transition:opacity .19s ease-out, scale .19s ease-out}
+#landing.leaving{opacity:0;scale:.985}
+@keyframes viewIn{
+  from{opacity:0; translate:0 12px}
+  to  {opacity:1; translate:0 0}
+}
+#regview.entering{animation:viewIn .34s cubic-bezier(.2,.85,.25,1)}
+@media (prefers-reduced-motion: reduce){
+  #landing{transition:none}
+  #landing.leaving{opacity:1;scale:1}
+  #regview.entering{animation:none}
+}
 
 /* ---------- hero ---------- */
 .preview{
@@ -959,36 +979,20 @@ footer .place{color:var(--dim);margin-bottom:6px}
 }
 
 /* ---------- "you can swipe this" ----------
-   A hand crosses the middle of the deck twice, and the front card leans with it,
-   so the gesture is shown rather than explained. Purely decorative and never in
-   the way: pointer-events:none, and the script removes it after one run. */
-.swipehint{
-  position:absolute;left:0;right:0;top:50%;height:0;z-index:30;
-  display:grid;place-items:center;pointer-events:none;
-}
-.sh-hand{
-  display:block;width:40px;height:40px;color:#FFF3E2;opacity:0;
-  filter:drop-shadow(0 3px 10px rgba(0,0,0,.65));
-  animation:shSwipe 1.05s cubic-bezier(.42,0,.3,1) 2;
-}
-.sh-hand svg{width:100%;height:100%;display:block}
+   The card shows the gesture by doing it: a lean left, back through centre, a
+   lean right, and back to rest — once, over two seconds. No hand, no pop at the
+   end; it returns to exactly where it started so nothing appears to jump.
+   `translate` is used because the script owns `transform` for the deck layout. */
 @keyframes shSwipe{
-  0%  {opacity:0; translate:52px 0;  rotate:8deg}
-  18% {opacity:.95;                  rotate:0deg}
-  58% {opacity:.95; translate:-52px 0; rotate:-8deg}
-  78% {opacity:0;  translate:-52px 0}
-  100%{opacity:0;  translate:-52px 0}
+  0%   {translate:0 0}
+  22%  {translate:-38px 0}
+  44%  {translate:0 0}
+  66%  {translate:30px 0}
+  88%  {translate:0 0}
+  100% {translate:0 0}
 }
-/* the card leans the same way — a hand floating over a still deck says nothing */
-@keyframes shNudge{
-  0%,100%{translate:0 0}
-  30%    {translate:-13px 0}
-  62%    {translate:5px 0}
-}
-.rail.hinting .ccard.front{animation:shNudge 1.05s cubic-bezier(.42,0,.3,1) 2}
-@media (prefers-reduced-motion: reduce){
-  .sh-hand, .rail.hinting .ccard.front{animation:none}
-}
+.rail.hinting .ccard.front{animation:shSwipe 2s cubic-bezier(.42,0,.35,1) 1}
+@media (prefers-reduced-motion: reduce){ .rail.hinting .ccard.front{animation:none} }
 
 /* ---------- the deck deals itself in ----------
    On arrival the cards rise into place one after another, which draws the eye to
@@ -1822,10 +1826,7 @@ function buildCards(){
     btn.addEventListener('click', () => {
       if (dragMoved) return;
       if (i !== active){ setActive(i); return; }   // bring a card from behind to the front
-      // a quick swell so the tap feels answered, then open
-      toss(btn, 0, .045, 240);
-      layout();
-      setTimeout(() => openCamp(camp.slug, true), 130);
+      openWithFade(camp.slug);
     });
     rail.append(btn);
   });
@@ -1842,6 +1843,26 @@ function buildCards(){
 
 /** Runs the cards' arrival animation. Restarting it needs the class taken off
     and the layout read once, or the browser sees no change and skips it. */
+/* Opening a camp: the deck settles away and the form rises in behind it, rather
+   than the page swapping in one frame. Under reduced motion it just swaps. */
+function openWithFade(slug){
+  let quiet = false;
+  try { quiet = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch(e){}
+  if (quiet){ openCamp(slug, true); return; }
+
+  const landing = $('#landing');
+  landing.classList.add('leaving');
+  setTimeout(() => {
+    landing.classList.remove('leaving');
+    openCamp(slug, true);                 // this is what swaps the two views
+    const rv = $('#regview');
+    rv.classList.remove('entering');
+    void rv.offsetWidth;                  // let the browser see the class come off
+    rv.classList.add('entering');
+    setTimeout(() => rv.classList.remove('entering'), 420);
+  }, 190);
+}
+
 function dealIn(){
   rail.classList.remove('dealt');
   void rail.offsetWidth;
@@ -1850,12 +1871,10 @@ function dealIn(){
 }
 
 /* ---------- "you can swipe this" ----------
-   A hand crosses the deck twice while the front card leans with it. Shown once
-   per fresh launch only, and only when there is actually another camp to swipe
-   to. If the reader has already touched the deck they clearly do not need it. */
-const HAND = '<svg viewBox="0 0 24 24" aria-hidden="true">' +
-  '<path fill="currentColor" d="M9 11V5.6a1.6 1.6 0 0 1 3.2 0V11h.6V7.2a1.6 1.6 0 0 1 3.2 0V11h.6V8.8a1.6 1.6 0 0 1 3.2 0v6.4c0 3.1-2.2 5.4-5.3 5.4h-2.2c-1.7 0-3.2-.8-4.2-2.2L4.6 14a1.6 1.6 0 0 1 2.5-2l1.9 2Z"/></svg>';
-
+   The front card leans left then right, once, so the gesture is demonstrated
+   rather than described. Shown on a fresh launch only, after the opening has
+   cleared, and only when there is another camp to swipe to. If the reader has
+   already touched the deck they plainly do not need telling. */
 function maybeSwipeHint(){
   if (!window.__svFresh) return;                 // not a fresh launch
   if (window.__svTouched) return;                // already used it
@@ -1867,19 +1886,11 @@ function maybeSwipeHint(){
 }
 
 function swipeHint(){
-  const wrap = $('.carousel-wrap');
-  if (!wrap || window.__svTouched || $('.swipehint')) return;
-  const hint = document.createElement('div');
-  hint.className = 'swipehint';
-  hint.setAttribute('aria-hidden', 'true');       // decorative: never announced
-  hint.innerHTML = '<span class="sh-hand">' + HAND + '</span>';
-  wrap.appendChild(hint);
+  if (window.__svTouched) return;                // they got there first
   rail.classList.add('hinting');
-  setTimeout(() => {
-    if (hint.parentNode) hint.parentNode.removeChild(hint);
-    rail.classList.remove('hinting');
-  }, 2100);
+  setTimeout(() => rail.classList.remove('hinting'), 2100);
 }
+
 /** Always renders a row — an empty camp field shows a dash rather than
  *  collapsing, which would knock this card's rows out of line with its neighbours. */
 function metaRow(en, km, vEn, vKm){
@@ -2081,7 +2092,11 @@ rail.addEventListener('pointermove', e => {
   if (axis !== 'x') return;
 
   dx = mx;
-  if (Math.abs(dx) > 5) dragMoved = true;
+  /* How far the pointer must travel before this counts as a swipe rather than a
+     click. It was 5px, which is less than the drift of a normal trackpad click —
+     so on a laptop the card often refused to open, the click having been thrown
+     away as a swipe. A deliberate swipe travels far more than this. */
+  if (Math.abs(dx) > 14) dragMoved = true;
 
   const cards = cardsIn(), n = cards.length;
   if (n < 2) return;
