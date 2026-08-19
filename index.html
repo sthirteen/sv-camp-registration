@@ -1028,8 +1028,8 @@ body.home #landing.on{
   justify-items:center;
 }
 body.home .ltop{
-  align-self:center;display:flex;flex-direction:column;align-items:center;
-  width:100%;
+  align-self:stretch;display:flex;flex-direction:column;align-items:center;
+  justify-content:space-evenly;width:100%;
 }
 body.home .lnav{align-self:center;display:flex;flex-direction:column;align-items:center;gap:10px}
 body.home #lempty{grid-row:2}
@@ -2016,10 +2016,10 @@ function fitHome(){
      Sizing it any larger would push the deck below the middle, which is the thing
      being avoided. A little is held back so it never touches either side. */
   const h = el => (el ? el.offsetHeight : 0);
-  const above = h($('.ltop'));
+  const above = h($('.lhero')) + h($('.carousel-head'));
   const below = h($('.lnav'));
   const side  = Math.max(above, below);
-  const room  = landing.clientHeight - 2 * side - 16;
+  const room  = landing.clientHeight - 2 * side - 72;
   const fit  = Math.max(.45, Math.min(1, room / deckH));
   rail.style.setProperty('--fit', fit.toFixed(3));
 }
