@@ -961,10 +961,19 @@ body.home header{flex:none}
    instead of the deck floating in the middle with a hole above it. */
 body.home #landing.on{
   flex:1 1 auto;min-height:0;
-  display:flex;flex-direction:column;justify-content:space-evenly;
+  display:grid;
+  grid-template-rows:minmax(min-content, 1fr) auto minmax(min-content, 1fr);
+  justify-items:center;
 }
+body.home .ltop{
+  align-self:center;display:flex;flex-direction:column;align-items:center;
+  width:100%;
+}
+body.home .lnav{align-self:center;display:flex;flex-direction:column;align-items:center;gap:10px}
+body.home #lempty{grid-row:2}
+.lnav{display:flex;flex-direction:column;align-items:center;gap:12px}
 
-body.home .lhero{padding:0 22px;flex:none}
+body.home .lhero{padding:0 22px;flex:none;text-align:center}
 body.home .lhero h1{font-size:clamp(21px, 5.4vw, 32px);margin-bottom:4px}
 body.home .lhero p{font-size:14px}
 body.home .carousel-head{padding:0 26px;flex:none}
@@ -985,7 +994,7 @@ body.home .rail{
   flex:none;transform:scale(var(--fit, 1));transform-origin:50% 0;
   margin-bottom:calc((var(--fit, 1) - 1) * var(--deckH, 0px));
 }
-body.home .dots{flex:none;padding:22px 0 0}   /* clear air under the deck */
+body.home .dots{flex:none;padding:0}   /* .lnav handles the spacing now */
 /* the footer is a signature, not a section — it should take the least room of
    anything on the page and leave the deck breathing */
 body.home footer{
@@ -1123,6 +1132,8 @@ body.intro{overflow:hidden}
 
 <!-- ══════════ LANDING: CAMP CARDS ══════════ -->
 <div id="landing">
+  <!-- everything above the deck, grouped so it can be treated as one block -->
+  <div class="ltop">
   <section class="lhero">
     <h1><span class="en">Camps at Shalom Valley</span><span class="km">ជំរុំនៅ Shalom Valley</span></h1>
     <p>
@@ -1136,14 +1147,20 @@ body.intro{overflow:hidden}
       <h2><span class="en">Open for Registration</span><span class="km">បើកឱ្យចុះឈ្មោះ</span></h2>
       <span class="count" id="campCount"></span>
     </div>
+  </div>
+  </div><!-- /.ltop -->
+
+  <div class="carousel-wrap">
+    <div class="rail" id="rail" role="list"></div>
+  </div>
+  <!-- under the deck: arrows and dots together. Keeping them here rather than
+       above the deck is what lets the deck stay both centred and full size —
+       every pixel above the deck costs two pixels of deck height. -->
+  <div class="lnav">
     <div class="arrows">
       <button class="arrow" id="prevBtn" type="button" aria-label="Previous camps">‹</button>
       <button class="arrow" id="nextBtn" type="button" aria-label="More camps">›</button>
     </div>
-  </div>
-
-  <div class="carousel-wrap">
-    <div class="rail" id="rail" role="list"></div>
     <div class="dots" id="dots"></div>
   </div>
 
@@ -1892,13 +1909,18 @@ function fitHome(){
   rail.style.setProperty('--fit', '1');            // measure at full size first
   const deckH = parseFloat(getComputedStyle(rail).getPropertyValue('--deckH'));
   if (!deckH) return;
-  // everything in the landing that is not the deck itself
+  /* The deck must sit dead centre of the screen. That means the space above it
+     and the space below it have to be equal — so the deck can only be as tall as
+     the screen minus TWICE the taller of the two sides. The text above is much
+     taller than the dots below, so the text is what sets the limit.
+
+     Sizing it any larger would push the deck below the middle, which is the thing
+     being avoided. A little is held back so it never touches either side. */
   const h = el => (el ? el.offsetHeight : 0);
-  const others = h($('.lhero')) + h($('.carousel-head')) + h($('#dots'));
-  // GAPS is held back so space-evenly always has something to share out; without
-  // it a full page would sit edge to edge with no breathing room at all
-  const GAPS = 40;
-  const room = landing.clientHeight - others - GAPS;
+  const above = h($('.ltop'));
+  const below = h($('.lnav'));
+  const side  = Math.max(above, below);
+  const room  = landing.clientHeight - 2 * side - 16;
   const fit  = Math.max(.45, Math.min(1, room / deckH));
   rail.style.setProperty('--fit', fit.toFixed(3));
 }
