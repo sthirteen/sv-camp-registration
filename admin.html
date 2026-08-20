@@ -207,6 +207,8 @@ table.list tr:hover td{background:var(--g-sunk)}
       <!-- Camper data lives in the Sheet, behind a real Google login. This page is
            served from a public address and cannot authenticate anyone, so it must
            never hold names, phone numbers or children's dates of birth. -->
+      <a class="btnlink" href="index.html" title="Back to the registration site">‹ Registration Site</a>
+      <button id="btnRevert" title="Throw away the draft in this browser and load what is published in camps.js">↻ Load Published</button>
       <a class="btnlink" id="btnSheet" target="_blank" rel="noopener noreferrer"
          title="Opens your Google Sheet, where registrations are stored">📋 View Registrations</a>
     </div>
@@ -998,6 +1000,21 @@ $('#s_sheet').addEventListener('input', refreshSheetLink);
 window.addEventListener('beforeunload', e => {
   if (dirty){ e.preventDefault(); e.returnValue = ''; }
 });
+
+/* This page keeps a working draft in the browser, and that draft wins on load —
+   which is right while editing, but means a half-finished draft from weeks ago
+   can mask what is actually published, and hide settings that arrived in
+   camps.js since. This is the way back. */
+$('#btnRevert').onclick = () => {
+  const mine = state.camps.length, live = published.camps.length;
+  const msg = 'Throw away the draft in this browser and load what is published?' +
+    '\n\nIn this browser: ' + mine + ' camp' + (mine === 1 ? '' : 's') +
+    '\nPublished in camps.js: ' + live + ' camp' + (live === 1 ? '' : 's') +
+    '\n\nAnything not yet saved to camps.js will be lost.';
+  if (!confirm(msg)) return;
+  try { localStorage.removeItem(LSKEY); } catch(e){}
+  location.reload();
+};
 
 /* ---------- go ---------- */
 renderList();

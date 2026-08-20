@@ -1167,6 +1167,17 @@ body.intro{overflow:hidden}
   #splash .mark{animation:svMark .25s ease forwards}
 }
 
+/* the tap counter on the way into the camp manager */
+#adminHint{
+  position:fixed;left:50%;translate:-50% 0;bottom:26px;z-index:9998;
+  padding:10px 18px;border-radius:999px;pointer-events:none;
+  font-size:13px;font-weight:600;color:var(--ink);
+  background:rgba(12,8,7,.92);border:1px solid var(--g-line-2);
+  -webkit-backdrop-filter:blur(18px); backdrop-filter:blur(18px);
+  opacity:0;transition:opacity .22s;
+}
+#adminHint.on{opacity:1}
+
 @media print{
   #splash{display:none}
   .aurora,header,.arrows,.dots,.backbar{display:none}
@@ -2248,6 +2259,34 @@ $('#backBtn').onclick = () => showLanding(true);
   b.onclick = home;
   b.onkeydown = e => { if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); home(); } };
   if (!OPEN.length){ b.style.cursor = 'default'; b.removeAttribute('role'); b.removeAttribute('tabindex'); }
+
+  /* ── the way in to the camp manager ──
+     Five taps on the logo inside three seconds. Deliberately not a visible link:
+     campers have no business there. It is a convenience, NOT a lock — anyone can
+     type admin.html — which is why that page holds no camper data.
+     Same origin, so an installed home-screen app stays inside itself. */
+  let taps = 0, timer = null;
+  b.addEventListener('click', () => {
+    taps++;
+    clearTimeout(timer);
+    timer = setTimeout(() => { taps = 0; }, 3000);
+    if (taps >= 3 && taps < 5) adminToast(5 - taps);
+    if (taps >= 5){ taps = 0; location.href = 'admin.html'; }
+  });
+
+  function adminToast(left){
+    let t = $('#adminHint');
+    if (!t){
+      t = document.createElement('div');
+      t.id = 'adminHint';
+      t.setAttribute('aria-hidden','true');
+      document.body.appendChild(t);
+    }
+    t.textContent = left + ' more for the camp manager';
+    t.classList.add('on');
+    clearTimeout(t._h);
+    t._h = setTimeout(() => t.classList.remove('on'), 1600);
+  }
 })();
 
 window.addEventListener('popstate', e => {
