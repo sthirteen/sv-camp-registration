@@ -349,10 +349,10 @@ header{
 .chead-text{display:flex;align-items:baseline;gap:9px;min-width:0;flex-wrap:wrap;justify-content:center}
 .carousel-head .count{color:var(--dim);font-size:13px}
 .carousel-head .count::before{content:'|';margin-right:9px;opacity:.4}
-.arrows{display:flex;gap:7px;flex:none}
+.arrows{display:flex;gap:10px;flex:none}
 .arrow{
-  width:30px;height:30px;border-radius:50%;cursor:pointer;flex:none;
-  display:grid;place-items:center;font-size:14px;line-height:1;
+  width:40px;height:40px;border-radius:50%;cursor:pointer;flex:none;
+  display:grid;place-items:center;font-size:19px;line-height:1;
   color:var(--ink);background:var(--g-bg-2);border:1px solid var(--g-line);
   -webkit-backdrop-filter:blur(18px); backdrop-filter:blur(18px);
   box-shadow:var(--rim);transition:.2s;
@@ -659,7 +659,7 @@ label{font-size:14px;font-weight:600}
 label .hint{display:block;font-weight:400;font-size:12.5px;color:var(--dim);margin-top:3px}
 
 input[type=text],input[type=tel],input[type=email],input[type=number],input[type=date],select,textarea{
-  font:inherit;font-size:15px;padding:13px 15px;width:100%;color:var(--ink);
+  font:inherit;font-size:16px;padding:13px 15px;width:100%;color:var(--ink);
   min-width:0;                 /* or a date field refuses to shrink to its cell */
   background:var(--g-sunk);
   border:1px solid var(--g-line);border-radius:14px;
@@ -726,7 +726,7 @@ legend{font-size:14px;font-weight:600;margin-bottom:9px;padding:0}
   .row .r-med{grid-column:1/-1}
   .row .del{grid-column:1/-1}
 }
-.row input,.row select{font-size:14px;padding:11px 12px;border-radius:12px}
+.row input,.row select{font-size:16px;padding:11px 12px;border-radius:12px}
 .rhead{
   display:grid;grid-template-columns:1.8fr .7fr 1.1fr 1.5fr 1.8fr;gap:9px;
   font-size:10.5px;text-transform:uppercase;letter-spacing:.9px;color:var(--dim);
@@ -734,7 +734,7 @@ legend{font-size:14px;font-weight:600;margin-bottom:9px;padding:0}
 }
 @media(max-width:720px){.rhead{display:none}}
 .del{
-  grid-column:1/-1;justify-self:start;
+  grid-column:1/-1;justify-self:end;   /* sits on the right of its row */
   border-radius:11px;padding:7px 15px;font:inherit;font-size:12.5px;font-weight:600;
   cursor:pointer;margin-top:2px;
   color:var(--red);background:rgba(255,122,110,.1);border:1px solid rgba(255,122,110,.28);
@@ -769,6 +769,15 @@ ul.prog li .when{font-weight:700;color:var(--ember);flex:none;min-width:104px;fo
   ul.prog li{flex-direction:column;gap:3px}
   ul.prog li .when{min-width:0}
 }
+.morebtn{
+  display:inline-flex;align-items:center;gap:9px;margin-top:4px;
+  border-radius:999px;padding:11px 20px;font:inherit;font-size:14px;font-weight:600;
+  cursor:pointer;color:var(--ember);background:rgba(255,154,60,.11);
+  border:1px solid rgba(255,154,60,.42);transition:.2s;
+}
+.morebtn:hover{background:rgba(255,154,60,.2);border-color:rgba(255,154,60,.7)}
+.morebtn .chev{transition:rotate .25s;font-size:11px}
+.morebtn[aria-expanded="true"] .chev{rotate:180deg}
 #aboutCard .num{font-size:15px}
 #purposeText{padding-left:42px;font-size:15px;color:var(--muted);line-height:1.7}
 
@@ -798,7 +807,16 @@ ul.prog li .when{font-weight:700;color:var(--ember);flex:none;min-width:104px;fo
 }
 
 /* ---------- two-step form ---------- */
-.stepbar{display:flex;align-items:center;gap:12px;justify-content:center;margin:0 0 22px;flex-wrap:wrap}
+.stepbar{
+  display:flex;align-items:center;gap:12px;justify-content:center;flex-wrap:wrap;
+  position:sticky;top:0;z-index:55;margin:0 0 22px;padding:12px 14px;
+  background:rgba(12,8,7,.88);
+  -webkit-backdrop-filter:blur(22px) saturate(170%); backdrop-filter:blur(22px) saturate(170%);
+  border-bottom:1px solid rgba(255,255,255,.09);
+}
+/* the header is sticky too and sits above this, so scroll-into-view has to stop
+   clear of both or a section lands underneath them */
+#form [id^="step"], #form .card{scroll-margin-top:150px}
 .stepbar .dot{display:inline-flex;align-items:center;gap:9px;font-size:13.5px;font-weight:600;color:var(--dim);transition:.25s}
 .stepbar .dot b{
   width:26px;height:26px;border-radius:50%;display:grid;place-items:center;
@@ -1297,13 +1315,23 @@ body.intro{overflow:hidden}
 
 <!-- camp purpose & programme -->
 <div class="card hidden" id="aboutCard">
-  <h2><span class="num">★</span><span class="en">About this camp</span><span class="km">អំពីជំរុំនេះ</span></h2>
+  <h2><span class="num">★</span><span class="en">About This Camp</span><span class="km">អំពីជំរុំនេះ</span></h2>
   <p class="sub" id="purposeText"></p>
+
+  <!-- Everything below is folded away by default. The whole lot at once was a
+       wall of text at the top of the form, which is the worst place for it. -->
+  <button type="button" class="morebtn" id="aboutMore" aria-expanded="false" aria-controls="aboutMoreWrap">
+    <span class="en">See What's Included</span><span class="km">មើលអ្វីដែលរួមបញ្ចូល</span>
+    <span class="chev" aria-hidden="true">▾</span>
+  </button>
+
+  <div id="aboutMoreWrap" class="hidden">
   <div id="programWrap" class="hidden">
     <h3 style="font-size:15px;margin:4px 0 12px"><span class="en">What happens at camp</span><span class="km">អ្វីដែលកើតឡើងនៅជំរុំ</span></h3>
     <ul class="prog" id="programList"></ul>
   </div>
   <div class="note hidden" id="includesNote"></div>
+  </div><!-- /#aboutMoreWrap -->
 </div>
 
 <!-- shown when the link has no valid camp, or the camp is closed/full -->
@@ -1326,7 +1354,7 @@ body.intro{overflow:hidden}
 
   <!-- 1. WHO IS REGISTERING -->
   <div class="card">
-    <h2><span class="num">1</span><span class="en">Who is registering?</span><span class="km">តើអ្នកណាកំពុងចុះឈ្មោះ?</span></h2>
+    <h2><span class="num">1</span><span class="en">Who Is Registering?</span><span class="km">តើអ្នកណាកំពុងចុះឈ្មោះ?</span></h2>
     <p class="sub"><span class="en">Choose one. Group leaders can register everyone in their group at once.</span><span class="km">សូមជ្រើសរើសមួយ។ អ្នកដឹកនាំក្រុមអាចចុះឈ្មោះសមាជិកទាំងអស់ក្នុងក្រុមរបស់ខ្លួនក្នុងពេលតែមួយ។</span></p>
     <div class="modes">
       <button type="button" class="mode" data-mode="individual" aria-pressed="true">
@@ -1353,21 +1381,20 @@ body.intro{overflow:hidden}
 
     <div class="grid">
       <div class="f">
-        <label for="fullName"><span class="en">Full name (English)</span><span class="km">ឈ្មោះពេញ (អង់គ្លេស)</span><span class="req">*</span></label>
+        <label for="fullName"><span class="en">Full Name (English)</span><span class="km">ឈ្មោះពេញ (អង់គ្លេស)</span><span class="req">*</span></label>
         <input type="text" id="fullName" name="fullName" required autocomplete="name">
       </div>
       <div class="f">
-        <label for="nameKhmer"><span class="en">Full name (Khmer)</span><span class="km">ឈ្មោះពេញ (ខ្មែរ)</span></label>
+        <label for="nameKhmer"><span class="en">Full Name (Khmer)</span><span class="km">ឈ្មោះពេញ (ខ្មែរ)</span></label>
         <input type="text" id="nameKhmer" name="nameKhmer">
       </div>
       <div class="f">
-        <label for="phone"><span class="en">Phone number</span><span class="km">លេខទូរស័ព្ទ</span><span class="req">*</span>
-          <span class="hint"><span class="en">Telegram number preferred</span><span class="km">ចូលចិត្តលេខតេលេក្រាម</span></span>
+        <label for="phone"><span class="en">Phone Number</span><span class="km">លេខទូរស័ព្ទ</span><span class="req">*</span>
         </label>
-        <input type="tel" id="phone" name="phone" required autocomplete="tel" placeholder="0XX XXX XXX">
+        <input type="tel" id="phone" name="phone" required autocomplete="tel" placeholder="Telegram number preferred">
       </div>
       <div class="f">
-        <label for="email"><span class="en">Email address</span><span class="km">អ៊ីមែល</span></label>
+        <label for="email"><span class="en">Email Address</span><span class="km">អ៊ីមែល</span></label>
         <input type="email" id="email" name="email" autocomplete="email" placeholder="name@example.com">
       </div>
       <div class="f">
@@ -1375,7 +1402,7 @@ body.intro{overflow:hidden}
         <input type="text" id="church" name="church">
       </div>
       <div class="f">
-        <label for="province"><span class="en">Province / city</span><span class="km">ខេត្ត / ក្រុង</span></label>
+        <label for="province"><span class="en">Province / City</span><span class="km">ខេត្ត / ក្រុង</span></label>
         <input type="text" id="province" name="province">
       </div>
     </div>
@@ -1385,7 +1412,7 @@ body.intro{overflow:hidden}
       <div class="grid">
         <div class="f">
           <fieldset>
-            <legend><span class="en">I am registering as</span><span class="km">ខ្ញុំចុះឈ្មោះជា</span><span class="req">*</span></legend>
+            <legend><span class="en">I Am Registering As</span><span class="km">ខ្ញុំចុះឈ្មោះជា</span><span class="req">*</span></legend>
             <div class="radios">
               <label><input type="radio" name="role" value="Camper" required><span class="en">Camper</span><span class="km">អ្នកចូលរួមជំរុំ</span></label>
               <label><input type="radio" name="role" value="Leader"><span class="en">Leader / staff</span><span class="km">អ្នកដឹកនាំ / បុគ្គលិក</span></label>
@@ -1402,16 +1429,16 @@ body.intro{overflow:hidden}
           </fieldset>
         </div>
         <div class="f">
-          <label for="dob"><span class="en">Date of birth</span><span class="km">ថ្ងៃខែឆ្នាំកំណើត</span><span class="req">*</span></label>
+          <label for="dob"><span class="en">Date of Birth</span><span class="km">ថ្ងៃខែឆ្នាំកំណើត</span><span class="req">*</span></label>
           <input type="date" id="dob" name="dob" required>
         </div>
         <div class="f">
-          <label for="age"><span class="en">Age at camp</span><span class="km">អាយុនៅពេលជំរុំ</span></label>
+          <label for="age"><span class="en">Age at Camp</span><span class="km">អាយុនៅពេលជំរុំ</span></label>
           <input type="number" id="age" name="age" min="3" max="99" readonly>
         </div>
       </div>
 
-      <h3 style="font-size:15px;margin:22px 0 12px"><span class="en">Emergency contact</span><span class="km">អ្នកទំនាក់ទំនងពេលមានអាសន្ន</span></h3>
+      <h3 style="font-size:15px;margin:22px 0 12px"><span class="en">Emergency Contact</span><span class="km">អ្នកទំនាក់ទំនងពេលមានអាសន្ន</span></h3>
       <div class="grid">
         <div class="f">
           <label for="ecName"><span class="en">Name</span><span class="km">ឈ្មោះ</span><span class="req">*</span></label>
@@ -1422,7 +1449,7 @@ body.intro{overflow:hidden}
           <input type="tel" id="ecPhone" name="ecPhone" required>
         </div>
         <div class="f full">
-          <label for="ecRelation"><span class="en">Relationship to camper</span><span class="km">ត្រូវជាអ្វីនឹងអ្នកចូលរួមជំរុំ</span><span class="req">*</span></label>
+          <label for="ecRelation"><span class="en">Relationship to Camper</span><span class="km">ត្រូវជាអ្វីនឹងអ្នកចូលរួមជំរុំ</span><span class="req">*</span></label>
           <input type="text" id="ecRelation" name="ecRelation" required placeholder="e.g. Mother, Guardian, Pastor">
         </div>
       </div>
@@ -1432,11 +1459,11 @@ body.intro{overflow:hidden}
     <div data-only="group" class="hidden">
       <div class="grid">
         <div class="f">
-          <label for="groupName"><span class="en">Group name</span><span class="km">ឈ្មោះក្រុម</span><span class="req">*</span></label>
+          <label for="groupName"><span class="en">Group Name</span><span class="km">ឈ្មោះក្រុម</span><span class="req">*</span></label>
           <input type="text" id="groupName" name="groupName">
         </div>
         <div class="f">
-          <label for="leaderCount"><span class="en">Number of adult leaders (including you)</span><span class="km">ចំនួនអ្នកដឹកនាំពេញវ័យ (រួមទាំងអ្នក)</span><span class="req">*</span></label>
+          <label for="leaderCount"><span class="en">Number of Adult Leaders (Including You)</span><span class="km">ចំនួនអ្នកដឹកនាំពេញវ័យ (រួមទាំងអ្នក)</span><span class="req">*</span></label>
           <input type="number" id="leaderCount" name="leaderCount" min="1" max="200" value="1">
         </div>
       </div>
@@ -1445,7 +1472,7 @@ body.intro{overflow:hidden}
 
   <!-- 3. ROSTER (group only) -->
   <div class="card hidden" data-only="group" id="rosterCard">
-    <h2><span class="num">3</span><span class="en">Your group list</span><span class="km">បញ្ជីឈ្មោះក្រុមរបស់អ្នក</span></h2>
+    <h2><span class="num">3</span><span class="en">Your Group List</span><span class="km">បញ្ជីឈ្មោះក្រុមរបស់អ្នក</span></h2>
     <p class="sub"><span class="en">Add every person attending, campers and leaders. You can update this list with us later if numbers change.</span><span class="km">សូមបញ្ចូលឈ្មោះមនុស្សគ្រប់រូបដែលនឹងចូលរួម ទាំងអ្នកចូលរួមជំរុំ និងអ្នកដឹកនាំ។ អ្នកអាចកែប្រែបញ្ជីនេះជាមួយយើងក្រោយបាន ប្រសិនបើចំនួនផ្លាស់ប្តូរ។</span></p>
 
     <div class="rhead">
@@ -1464,7 +1491,7 @@ body.intro{overflow:hidden}
 
   <!-- 4. TRANSPORT -->
   <div class="card">
-    <h2><span class="num" data-step="transport">4</span><span class="en">Getting to camp</span><span class="km">ការធ្វើដំណើរទៅជំរុំ</span></h2>
+    <h2><span class="num" data-step="transport">4</span><span class="en">Getting to Camp</span><span class="km">ការធ្វើដំណើរទៅជំរុំ</span></h2>
     <p class="sub"><span class="en">Shalom Valley is in Kep Province. Transport is arranged by each group, but tell us your plan so we can prepare parking and driver meals.</span><span class="km">Shalom Valley ស្ថិតនៅខេត្តកែប។ ការធ្វើដំណើរត្រូវរៀបចំដោយក្រុមនីមួយៗ ប៉ុន្តែសូមប្រាប់យើងអំពីផែនការរបស់អ្នក ដើម្បីយើងអាចរៀបចំកន្លែងចតរថយន្ត និងអាហារសម្រាប់អ្នកបើកបរ។</span></p>
 
     <div class="f">
@@ -1480,27 +1507,18 @@ body.intro{overflow:hidden}
 
     <div class="grid">
       <div class="f">
-        <label for="departFrom"><span class="en">Travelling from</span><span class="km">ធ្វើដំណើរចេញពី</span></label>
+        <label for="departFrom"><span class="en">Travelling From</span><span class="km">ធ្វើដំណើរចេញពី</span></label>
         <input type="text" id="departFrom" name="departFrom" placeholder="e.g. Phnom Penh">
       </div>
       <div class="f">
-        <label for="arriveTime"><span class="en">Expected arrival time</span><span class="km">ពេលវេលាមកដល់ប៉ាន់ស្មាន</span></label>
+        <label for="arriveTime"><span class="en">Expected Arrival Time</span><span class="km">ពេលវេលាមកដល់ប៉ាន់ស្មាន</span></label>
         <input type="text" id="arriveTime" name="arriveTime" placeholder="e.g. around 2pm">
       </div>
     </div>
 
     <div data-only="group" class="hidden">
       <div class="grid">
-        <div class="f">
-          <label for="busCount"><span class="en">Number of buses / vans</span><span class="km">ចំនួនរថយន្តក្រុង / រថយន្តតូច</span></label>
-          <input type="number" id="busCount" name="busCount" min="0" max="30" value="0">
-        </div>
-        <div class="f">
-          <label for="driverCount"><span class="en">Number of drivers staying overnight</span><span class="km">ចំនួនអ្នកបើកបរដែលស្នាក់នៅមួយយប់</span>
-            <span class="hint"><span class="en">Driver meals are free. Drivers usually sleep in their vehicle.</span><span class="km">អាហារអ្នកបើកបរឥតគិតថ្លៃ។ អ្នកបើកបរជាធម្មតាគេងក្នុងរថយន្ត។</span></span>
-          </label>
-          <input type="number" id="driverCount" name="driverCount" min="0" max="30" value="0">
-        </div>
+        
       </div>
     </div>
   </div>
@@ -1517,7 +1535,7 @@ body.intro{overflow:hidden}
 
   <!-- 5. PAYMENT -->
   <div class="card">
-    <h2><span class="num" data-step="payment">5</span><span class="en">Camp fee &amp; payment</span><span class="km">ថ្លៃជំរុំ និងការទូទាត់</span></h2>
+    <h2><span class="num" data-step="payment">5</span><span class="en">Camp Fee &amp; Payment</span><span class="km">ថ្លៃជំរុំ និងការទូទាត់</span></h2>
     <p class="sub"><span class="en">Pay by KHQR bank transfer, or bring cash on arrival.</span><span class="km">អាចទូទាត់តាម KHQR ឬយកសាច់ប្រាក់មកនៅថ្ងៃមកដល់។</span></p>
 
     <div class="pay">
@@ -1541,7 +1559,7 @@ body.intro{overflow:hidden}
           </fieldset>
         </div>
         <div class="f">
-          <label for="payRef"><span class="en">Transfer reference or receipt name</span><span class="km">លេខយោង ឬឈ្មោះលើបង្កាន់ដៃ</span>
+          <label for="payRef"><span class="en">Transfer Reference or Receipt Name</span><span class="km">លេខយោង ឬឈ្មោះលើបង្កាន់ដៃ</span>
             <span class="hint"><span class="en">If you have already transferred, tell us the name it was sent under.</span><span class="km">ប្រសិនបើអ្នកបានផ្ទេរប្រាក់រួច សូមប្រាប់យើងឈ្មោះដែលបានផ្ញើ។</span></span>
           </label>
           <input type="text" id="payRef" name="payRef">
@@ -1562,7 +1580,7 @@ body.intro{overflow:hidden}
     <label class="check">
       <input type="checkbox" name="agreeRules" value="Yes" required>
       <span class="txt">
-        <strong><span class="en">Camp rules &amp; Child Protection Agreement</span><span class="km">បទបញ្ជាជំរុំ និងកិច្ចព្រមព្រៀងការពារកុមារ</span></strong>
+        <strong><span class="en">Camp Rules &amp; Child Protection Agreement</span><span class="km">បទបញ្ជាជំរុំ និងកិច្ចព្រមព្រៀងការពារកុមារ</span></strong>
         <span class="en">I have read and agree to the <a href="#" id="lnkRules" target="_blank" rel="noopener">Shalom Valley Camp Rules &amp; Child Protection Agreement</a>. I understand Shalom Valley is a no-alcohol, no-smoking, no-drugs site.</span>
         <span class="km">ខ្ញុំបានអាន និងយល់ព្រមតាម <a href="#" id="lnkRulesKm" target="_blank" rel="noopener">បទបញ្ជាជំរុំ និងកិច្ចព្រមព្រៀងការពារកុមារ Shalom Valley</a>។ ខ្ញុំយល់ថា Shalom Valley ជាកន្លែងគ្មានស្រា គ្មានការជក់បារី និងគ្មានសារធាតុញៀន។</span>
       </span>
@@ -1571,7 +1589,7 @@ body.intro{overflow:hidden}
     <label class="check">
       <input type="checkbox" name="agreePhoto" value="Yes">
       <span class="txt">
-        <strong><span class="en">Photo &amp; media release</span><span class="km">ការអនុញ្ញាតប្រើរូបភាព និងវីដេអូ</span></strong>
+        <strong><span class="en">Photo &amp; Media Release</span><span class="km">ការអនុញ្ញាតប្រើរូបភាព និងវីដេអូ</span></strong>
         <span class="en">I give permission for photos and video taken at camp to be used by Shalom Valley and Alongsiders in reports, websites and social media. <em>Leave unticked if you do not consent.</em></span>
         <span class="km">ខ្ញុំអនុញ្ញាតឱ្យរូបភាព និងវីដេអូដែលថតនៅជំរុំ ត្រូវប្រើប្រាស់ដោយ Shalom Valley និង Alongsiders ក្នុងរបាយការណ៍ គេហទំព័រ និងបណ្តាញសង្គម។ <em>សូមកុំគូសធីក ប្រសិនបើអ្នកមិនយល់ព្រម។</em></span>
       </span>
@@ -1604,7 +1622,7 @@ body.intro{overflow:hidden}
 <!-- SUCCESS -->
 <div class="card hidden" id="done">
   <div class="tick">✓</div>
-  <h2><span class="en">Registration received</span><span class="km">បានទទួលការចុះឈ្មោះ</span></h2>
+  <h2><span class="en">Registration Received</span><span class="km">បានទទួលការចុះឈ្មោះ</span></h2>
   <p><span class="en">Thank you. We have your details and will be in touch on the phone number you gave us with confirmation and payment information.</span><span class="km">អរគុណ។ យើងបានទទួលព័ត៌មានរបស់អ្នក ហើយនឹងទាក់ទងតាមលេខទូរស័ព្ទដែលអ្នកបានផ្តល់ ជាមួយការបញ្ជាក់ និងព័ត៌មានទូទាត់។</span></p>
   <div class="ref"><span class="en">Reference</span><span class="km">លេខយោង</span>: <span id="refNo"></span></div>
 
@@ -1719,6 +1737,17 @@ const CHANNELS = [
     `<a href="${esc(c.url)}"${c.ext ? ' target="_blank" rel="noopener noreferrer"' : ''}>` +
     `${esc(c.key === 'contactEmail' && em ? em : c.label)}</a>`
   ).join('');
+})();
+
+/* The camp detail stays folded until asked for. aria-expanded carries the state
+   so a screen reader announces it, rather than it being visual only. */
+(() => {
+  const btn = $('#aboutMore'), wrap = $('#aboutMoreWrap');
+  if (!btn || !wrap) return;
+  btn.addEventListener('click', () => {
+    const open = wrap.classList.toggle('hidden') === false;
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
 })();
 
 /* ---------- gate: no camp, unknown camp, or closed camp ---------- */
@@ -2260,6 +2289,11 @@ function renderCamp(isDraft){
   const prog    = Array.isArray(c.program) ? c.program : [];
   const inc     = c.includesEn || c.includesKm || '';
   $('#aboutCard').classList.toggle('hidden', !purpose && !prog.length && !inc);
+  // no button when there is nothing folded behind it, and it always starts closed
+  const hasMore = prog.length > 0 || !!inc;
+  $('#aboutMore').classList.toggle('hidden', !hasMore);
+  $('#aboutMore').setAttribute('aria-expanded', 'false');
+  $('#aboutMoreWrap').classList.add('hidden');
   bi($('#purposeText'), c.purposeEn, c.purposeKm);
   $('#programWrap').classList.toggle('hidden', !prog.length);
   $('#programList').innerHTML = prog.map(p =>
@@ -2318,6 +2352,7 @@ function setLang(l){
   document.documentElement.lang = l === 'km' ? 'km' : 'en';
   $$('.langtoggle button').forEach(b => b.setAttribute('aria-pressed', b.dataset.lang === l));
   try { localStorage.setItem('svLang', l); } catch(e){}
+  try { relabelRoster(); } catch(e){}   // roster words are script-chosen, not spans
   // Khmer runs to different lengths and sits on taller lines, so the cards
   // have to be measured again or they keep the height the English text needed
   requestAnimationFrame(() => { sizeDeck(); layout(); });
@@ -2363,22 +2398,33 @@ $('#dob').addEventListener('change', e => {
 
 
 /* ---------- roster rows ---------- */
+/* One language at a time in the roster rows. These are <option> elements and
+   plain placeholders, so the usual .en/.km span trick cannot be used — the text
+   has to be chosen in script and re-chosen when the language changes. */
+const ROSTER_WORDS = {
+  en:{name:'Full name', age:'Age', gender:'Gender…', male:'Male', female:'Female',
+      camper:'Camper', leader:'Leader', med:'Allergies, medication…'},
+  km:{name:'ឈ្មោះពេញ', age:'អាយុ', gender:'ភេទ…', male:'ប្រុស', female:'ស្រី',
+      camper:'អ្នកចូលរួម', leader:'អ្នកដឹកនាំ', med:'អាឡែរហ្សី ថ្នាំ…'}
+};
+
 function addRow(){
+  const t = ROSTER_WORDS[isKm() ? 'km' : 'en'];
   const row = document.createElement('div');
   row.className = 'row';
   row.innerHTML = `
-    <input type="text"   class="r-name"   placeholder="Full name" aria-label="Full name">
-    <input type="number"  class="r-age"    placeholder="Age" min="3" max="99" aria-label="Age">
+    <input type="text"   class="r-name"   placeholder="${t.name}" aria-label="Full name">
+    <input type="number" class="r-age"    placeholder="${t.age}" min="3" max="99" aria-label="Age">
     <select class="r-gender" aria-label="Gender">
-      <option value="">Gender…</option>
-      <option value="Male">Male / ប្រុស</option>
-      <option value="Female">Female / ស្រី</option>
+      <option value="">${t.gender}</option>
+      <option value="Male">${t.male}</option>
+      <option value="Female">${t.female}</option>
     </select>
     <select class="r-role" aria-label="Camper or leader">
-      <option value="Camper">Camper / អ្នកចូលរួម</option>
-      <option value="Leader">Leader / អ្នកដឹកនាំ</option>
+      <option value="Camper">${t.camper}</option>
+      <option value="Leader">${t.leader}</option>
     </select>
-    <input type="text" class="r-med" placeholder="Allergies, medication…" aria-label="Allergies or medical needs">
+    <input type="text" class="r-med" placeholder="${t.med}" aria-label="Allergies or medical needs">
     <button type="button" class="del" aria-label="Remove this person">
       <span class="en">Remove</span><span class="km">លុបចេញ</span>
     </button>`;
@@ -2388,6 +2434,25 @@ function addRow(){
   countRows();
   return row;
 }
+
+/** Re-word rows that already exist, keeping whatever the reader has chosen. */
+function relabelRoster(){
+  const t = ROSTER_WORDS[isKm() ? 'km' : 'en'];
+  $$('#roster .row').forEach(r => {
+    r.querySelector('.r-name').placeholder = t.name;
+    r.querySelector('.r-age').placeholder  = t.age;
+    r.querySelector('.r-med').placeholder  = t.med;
+    const g = r.querySelector('.r-gender'), ro = r.querySelector('.r-role');
+    const gv = g.value, rv = ro.value;
+    g.options[0].textContent = t.gender;
+    g.options[1].textContent = t.male;
+    g.options[2].textContent = t.female;
+    ro.options[0].textContent = t.camper;
+    ro.options[1].textContent = t.leader;
+    g.value = gv; ro.value = rv;          // selections survive the re-wording
+  });
+}
+
 function countRows(){
   $('#rcount').textContent = readRoster().length;
 }
@@ -2494,7 +2559,7 @@ $('#form').addEventListener('submit', async e => {
   // drop fields belonging to the mode that is not active, in case the
   // registrant filled one section then switched
   const dropFor = {
-    individual: ['groupName','leaderCount','busCount','driverCount'],
+    individual: ['groupName','leaderCount'],
     group:      ['role','gender','dob','age','ecName','ecPhone','ecRelation']
   };
   dropFor[mode].forEach(k => delete data[k]);
