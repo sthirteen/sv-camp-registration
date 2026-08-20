@@ -16,6 +16,7 @@ window.CAMPS = {
     "contactEmail": "bookings@shalomvalley.org",
     "websiteUrl": "https://www.shalomvalley.org",
     "siteBaseUrl": "https://sthirteen.github.io/sv-camp-registration/",
+    "sheetUrl": "https://docs.google.com/spreadsheets/d/1_Q9cexcNd6_z6e-AdJGbWpHJtRLrAuVInxGgynFGMSY/edit",
     "qrImage": "qr-code.png?v=3",
     "qrCaption": "ABA PAY / KHQR — Alongsiders Organization · Shalom Valley · 007 190 860",
     "rulesPdfEn": "camp-rules-en.pdf",
