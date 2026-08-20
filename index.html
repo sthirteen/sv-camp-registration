@@ -650,15 +650,17 @@ main{max-width:860px;margin:26px auto 70px;padding:0 22px}
 
 /* ---------- form ---------- */
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:17px}
+.grid > *{min-width:0}
 @media(max-width:640px){.grid{grid-template-columns:1fr}}
-.f{display:flex;flex-direction:column;gap:7px;margin-bottom:17px}
+.f{display:flex;flex-direction:column;gap:7px;margin-bottom:17px;min-width:0}
 .f.full{grid-column:1/-1}
 label{font-size:14px;font-weight:600}
-label .req{color:var(--red);margin-left:3px}
+.req{color:var(--red);margin-left:3px}
 label .hint{display:block;font-weight:400;font-size:12.5px;color:var(--dim);margin-top:3px}
 
 input[type=text],input[type=tel],input[type=email],input[type=number],input[type=date],select,textarea{
   font:inherit;font-size:15px;padding:13px 15px;width:100%;color:var(--ink);
+  min-width:0;                 /* or a date field refuses to shrink to its cell */
   background:var(--g-sunk);
   border:1px solid var(--g-line);border-radius:14px;
   -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
@@ -671,6 +673,10 @@ input:focus,select:focus,textarea:focus{
   box-shadow:0 0 0 4px rgba(255,154,60,.18), inset 0 1px 0 rgba(255,255,255,.16);
 }
 input:invalid:not(:placeholder-shown){border-color:rgba(255,122,110,.6)}
+/* iOS gives date and number fields a mind of their own about width and spinners.
+   Deliberately NOT applied to <select> — that would strip the dropdown arrow and
+   leave no sign the field opens. */
+input[type=date],input[type=number]{-webkit-appearance:none;appearance:none}
 input[readonly]{background:rgba(0,0,0,.34);color:var(--muted)}
 select option{background:#170F0C;color:var(--ink)}
 textarea{resize:vertical;min-height:92px}
@@ -1401,7 +1407,7 @@ body.intro{overflow:hidden}
         </div>
         <div class="f">
           <label for="age"><span class="en">Age at camp</span><span class="km">អាយុនៅពេលជំរុំ</span></label>
-          <input type="number" id="age" name="age" min="3" max="99" readonly style="background:#F7F4EE">
+          <input type="number" id="age" name="age" min="3" max="99" readonly>
         </div>
       </div>
 
