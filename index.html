@@ -983,13 +983,17 @@ footer .place{color:var(--dim);margin-bottom:6px}
    lean right, and back to rest — once, over two seconds. No hand, no pop at the
    end; it returns to exactly where it started so nothing appears to jump.
    `translate` is used because the script owns `transform` for the deck layout. */
+/* The tilt matches a real drag: leaning left turns anticlockwise, right turns
+   clockwise, and both pivot about the same low point (transform-origin:50% 92%)
+   that the live swipe uses — so the demonstration and the real thing move alike.
+   `rotate` is its own property, like `translate`, so the script keeps `transform`. */
 @keyframes shSwipe{
-  0%   {translate:0 0}
-  22%  {translate:-38px 0}
-  44%  {translate:0 0}
-  66%  {translate:30px 0}
-  88%  {translate:0 0}
-  100% {translate:0 0}
+  0%   {translate:0 0;     rotate:0deg}
+  22%  {translate:-38px 0; rotate:-10deg}
+  44%  {translate:0 0;     rotate:0deg}
+  66%  {translate:30px 0;  rotate:10deg}
+  88%  {translate:0 0;     rotate:0deg}
+  100% {translate:0 0;     rotate:0deg}
 }
 .rail.hinting .ccard.front{animation:shSwipe 2s cubic-bezier(.42,0,.35,1) 1}
 @media (prefers-reduced-motion: reduce){ .rail.hinting .ccard.front{animation:none} }
@@ -1867,6 +1871,13 @@ function dealIn(){
   rail.classList.remove('dealt');
   void rail.offsetWidth;
   rail.classList.add('dealt');
+  /* Take the class off once the arrival has finished. It must not linger: the
+     swipe guide sets its own animation on the front card, and when the guide
+     ends the card falls back to whatever rule is still standing. With `dealt`
+     still on, that is the arrival animation — which restarts, and the card
+     drops and re-rises. That was the glitch after the guide played.
+     0.6s duration + 0.34s worst-case stagger, plus a margin. */
+  setTimeout(() => rail.classList.remove('dealt'), 1200);
   maybeSwipeHint();
 }
 
