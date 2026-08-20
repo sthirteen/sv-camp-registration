@@ -1169,7 +1169,9 @@ body.intro{overflow:hidden}
 
 /* the tap counter on the way into the camp manager */
 #adminHint{
-  position:fixed;left:50%;translate:-50% 0;bottom:26px;z-index:9998;
+  /* under the header, not at the foot: the homepage does not scroll, so the
+     bottom is occupied by the footer and the note landed on the contact icons */
+  position:fixed;left:50%;translate:-50% 0;top:74px;z-index:9998;
   padding:10px 18px;border-radius:999px;pointer-events:none;
   font-size:13px;font-weight:600;color:var(--ink);
   background:rgba(12,8,7,.92);border:1px solid var(--g-line-2);
