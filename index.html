@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Camp Registration | Shalom Valley</title>
 <link rel="icon" type="image/png" sizes="32x32" href="img/app-icon-32.png">
 <link rel="icon" type="image/png" sizes="192x192" href="img/app-icon-192.png">
 <link rel="apple-touch-icon" sizes="180x180" href="img/app-icon-180.png">
-<meta name="theme-color" content="#08060A">
+<meta name="theme-color" content="#0C1730">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Khmer:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -23,7 +23,7 @@
 
 :root{
   /* surfaces — night */
-  --bg:#08060A;
+  --bg:#0A1020;   /* the canvas: shows in the phone's safe areas, so it matches the moonlight */
   --bg2:#120B0A;
   --ink:#F6EFE8;
   --muted:#CDBFB5;
@@ -290,7 +290,9 @@ body.lang-km div.km, body.lang-km p.km, body.lang-km li.km{display:block}
 
 /* ---------- header ---------- */
 header{
-  position:sticky; top:0; z-index:60; padding:10px 0;
+  position:sticky; top:0; z-index:60;
+  /* clear of the notch / status bar, now that the page extends under it */
+  padding:calc(10px + env(safe-area-inset-top, 0px)) 0 10px;
   background:rgba(10,7,6,.72);
   -webkit-backdrop-filter:blur(26px) saturate(180%); backdrop-filter:blur(26px) saturate(180%);
   border-bottom:1px solid rgba(255,255,255,.09);
