@@ -72,7 +72,7 @@ window.CAMPS = {
       "slug": "leaders-retreat-2027",
       "status": "open",
       "nameEn": "Leaders Rest & Renewal Retreat",
-      "nameKm": "ការឈប់សម្រាក និងស្តារកម្លាំងសម្រាប់អ្នកដឹកនាំ",
+      "nameKm": "ជំរុំសម្រាកសម្រាប់អ្នកដឹកនាំ",
       "image": "img/poster-leaders.svg?v=3",
       "accent": "#25506F",
       "accentDark": "#16304A",
