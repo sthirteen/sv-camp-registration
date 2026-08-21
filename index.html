@@ -1049,23 +1049,27 @@ footer .place{color:var(--dim);margin-bottom:6px}
 .rail.hinting .ccard.front{animation:shSwipe 2s cubic-bezier(.42,0,.35,1) 1}
 @media (prefers-reduced-motion: reduce){ .rail.hinting .ccard.front{animation:none} }
 
-/* ---------- the deck deals itself in ----------
-   On arrival the cards rise into place one after another, which draws the eye to
-   the deck instead of leaving it sitting there. This uses the `translate`
-   property, NOT `transform`: the script owns `transform` on every card, and the
-   two would fight. As separate properties the browser composes them for us. */
-@keyframes cardIn{
-  from{ translate:0 34px }
-  60% { translate:0 -4px }      /* a small overshoot is what makes it feel like a pop */
-  to  { translate:0 0 }
+/* ---------- the deck shuffles itself into place ----------
+   Every load, the cards come in from alternating sides at a tilt and settle into
+   the ring, like a hand of cards being squared up. `translate` and `rotate` are
+   used, NOT `transform`: the script owns transform for the deck positions, and
+   the two would fight over it. As separate properties the browser composes them.
+
+   Opacity is deliberately left alone — layout() sets it inline to hide the cards
+   waiting behind, and animating it here would make them flash into view. */
+@keyframes shuffleIn{
+  0%   { translate:var(--sx, -70px) 30px; rotate:var(--sr, -7deg) }
+  62%  { translate:0 -6px;                rotate:0deg }
+  100% { translate:0 0;                   rotate:0deg }
 }
-.rail.dealt .ccard{ animation:cardIn .6s cubic-bezier(.2,.85,.25,1) backwards }
-.rail.dealt .ccard:nth-child(1){animation-delay:.04s}
-.rail.dealt .ccard:nth-child(2){animation-delay:.10s}
-.rail.dealt .ccard:nth-child(3){animation-delay:.16s}
-.rail.dealt .ccard:nth-child(4){animation-delay:.22s}
-.rail.dealt .ccard:nth-child(5){animation-delay:.28s}
-.rail.dealt .ccard:nth-child(n+6){animation-delay:.34s}
+.rail.dealt .ccard{ animation:shuffleIn .72s cubic-bezier(.2,.85,.25,1) backwards }
+/* alternating sides, so it reads as a shuffle rather than a queue */
+.rail.dealt .ccard:nth-child(1){--sx:-72px; --sr:-7deg; animation-delay:.02s}
+.rail.dealt .ccard:nth-child(2){--sx: 80px; --sr: 8deg; animation-delay:.09s}
+.rail.dealt .ccard:nth-child(3){--sx:-64px; --sr:-6deg; animation-delay:.16s}
+.rail.dealt .ccard:nth-child(4){--sx: 68px; --sr: 6deg; animation-delay:.23s}
+.rail.dealt .ccard:nth-child(5){--sx:-76px; --sr:-8deg; animation-delay:.30s}
+.rail.dealt .ccard:nth-child(n+6){--sx: 70px; --sr: 7deg; animation-delay:.36s}
 @media (prefers-reduced-motion: reduce){ .rail.dealt .ccard{animation:none} }
 
 /* ---------- the homepage holds still ----------
@@ -1946,8 +1950,8 @@ function dealIn(){
      ends the card falls back to whatever rule is still standing. With `dealt`
      still on, that is the arrival animation — which restarts, and the card
      drops and re-rises. That was the glitch after the guide played.
-     0.6s duration + 0.34s worst-case stagger, plus a margin. */
-  setTimeout(() => rail.classList.remove('dealt'), 1200);
+     0.72s duration + 0.36s worst-case stagger, plus a margin. */
+  setTimeout(() => rail.classList.remove('dealt'), 1500);
   maybeSwipeHint();
 }
 
