@@ -75,8 +75,12 @@ img{max-width:100%;display:block}
 .aurora{
   position:fixed;inset:0;z-index:-2;overflow:hidden;pointer-events:none;
   background:
+    /* moonlight: the cool answer to the fire at the bottom. Painted, not animated,
+       so it costs nothing on a phone. */
+    radial-gradient(86% 40% at 50% -10%, rgba(150,190,255,.55) 0%, rgba(72,118,200,.34) 30%, rgba(30,56,110,.18) 54%, transparent 76%),
+    radial-gradient(40% 20% at 26% -4%, rgba(178,208,255,.26) 0%, transparent 60%),
     radial-gradient(120% 90% at 50% 118%, #2A0E06 0%, transparent 62%),
-    linear-gradient(180deg, #08060A 0%, #0E0908 55%, #170C08 100%);
+    linear-gradient(180deg, #0C1730 0%, #0A0E1C 22%, #0C0A0F 44%, #150C08 74%, #170C08 100%);
 }
 /* Keep the child combinator. There used to be a star layer in here whose dots
    were also <i> elements, and a plain descendant selector put this blur(100px)
@@ -110,9 +114,12 @@ img{max-width:100%;display:block}
 /* darkens the top so the header and headings stay readable */
 .aurora::after{
   content:'';position:absolute;inset:0;
+  /* Eased at the very top on purpose. This wash is here to keep headings readable
+     over the fire, but at full strength it swallowed the moonlight completely —
+     the same trap that made the old star layer invisible. */
   background:
     radial-gradient(120% 62% at 50% 108%, transparent 16%, rgba(8,6,10,.62) 74%),
-    linear-gradient(180deg, rgba(8,6,10,.5) 0%, rgba(8,6,10,.72) 42%, rgba(8,6,10,.5) 100%);
+    linear-gradient(180deg, transparent 0%, rgba(8,6,10,.34) 24%, rgba(8,6,10,.66) 50%, rgba(8,6,10,.5) 100%);
 }
 
 @keyframes emberDrift1{
@@ -240,14 +247,18 @@ body.asleep .sparks span{animation-play-state:paused !important}
   .aurora > i, .flames, .sparks{display:none}
   .aurora{
     background:
+      /* moonlight: the cool answer to the fire at the bottom. Painted, not animated,
+         so it costs nothing on a phone. */
+      radial-gradient(86% 40% at 50% -10%, rgba(150,190,255,.55) 0%, rgba(72,118,200,.34) 30%, rgba(30,56,110,.18) 54%, transparent 76%),
+      radial-gradient(40% 20% at 26% -4%, rgba(178,208,255,.26) 0%, transparent 60%),
       radial-gradient(120% 58% at 50% 112%, #FF6A16 0%, rgba(255,74,15,.55) 26%, transparent 62%),
       radial-gradient(90%  42% at 22% 104%, rgba(255,154,60,.5) 0%, transparent 60%),
       radial-gradient(80%  40% at 82% 100%, rgba(196,27,18,.45) 0%, transparent 62%),
       radial-gradient(60%  30% at 50% 88%,  rgba(255,197,61,.28) 0%, transparent 70%),
-      linear-gradient(180deg, #08060A 0%, #0D0808 42%, #180D08 74%, #22110A 100%);
+      linear-gradient(180deg, #0C1730 0%, #0A0E1C 22%, #0C0A0F 44%, #180D08 74%, #22110A 100%);
   }
   .aurora::after{
-    background:radial-gradient(130% 62% at 50% 106%, transparent 22%, rgba(8,6,10,.72) 78%);
+    background:linear-gradient(180deg, transparent 0%, rgba(8,6,10,.34) 26%, rgba(8,6,10,.62) 52%, rgba(8,6,10,.42) 100%);
   }
   /* a touch more grain on a phone, where the gradient is doing all the work */
   body::after{opacity:.05}
@@ -523,6 +534,14 @@ header{
   min-height:calc(14px * 1.6 * 3);           /* always three lines tall */
   display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
 }
+/* Khmer sets line-height:1.9 on the whole page, which quietly inflated every row
+   inside a card and made the deck a different size in each language. Inside a
+   card the line heights are pinned, so the same number of lines takes the same
+   space whichever language is showing. Measured: 42px difference → 26px, and the
+   26px that remains is one Khmer camp name genuinely needing a second line. */
+.ccard{line-height:1.5}
+.ccard .meta div{line-height:1.5}
+.ccard .go{line-height:1.4}
 .ccard .meta{display:flex;flex-direction:column;gap:2px;font-size:13.5px;margin-bottom:auto}
 .ccard .meta div{display:flex;gap:10px;align-items:baseline}
 .ccard .meta .lbl{color:var(--dim);flex:none;min-width:56px;font-size:12px;text-transform:uppercase;letter-spacing:.5px}
@@ -1167,18 +1186,6 @@ body.intro{overflow:hidden}
   #splash .mark{animation:svMark .25s ease forwards}
 }
 
-/* the tap counter on the way into the camp manager */
-#adminHint{
-  /* under the header, not at the foot: the homepage does not scroll, so the
-     bottom is occupied by the footer and the note landed on the contact icons */
-  position:fixed;left:50%;translate:-50% 0;top:74px;z-index:9998;
-  padding:10px 18px;border-radius:999px;pointer-events:none;
-  font-size:13px;font-weight:600;color:var(--ink);
-  background:rgba(12,8,7,.92);border:1px solid var(--g-line-2);
-  -webkit-backdrop-filter:blur(18px); backdrop-filter:blur(18px);
-  opacity:0;transition:opacity .22s;
-}
-#adminHint.on{opacity:1}
 
 @media print{
   #splash{display:none}
@@ -1879,7 +1886,11 @@ function buildCards(){
 
     btn.append(banner, body);
     btn.addEventListener('click', () => {
-      if (dragMoved) return;
+      /* A short press is a tap, however far the pointer wandered inside 40px.
+         Judging on distance alone kept discarding real clicks — trackpads and
+         thumbs both drift. Only a slow, long movement counts as a swipe now. */
+      const quick = (Date.now() - downAt) < 350 && Math.abs(dx) < 40;
+      if (dragMoved && !quick) return;
       if (i !== active){ setActive(i); return; }   // bring a card from behind to the front
       openWithFade(camp.slug);
     });
@@ -1967,7 +1978,7 @@ function metaRow(en, km, vEn, vKm){
    the left and the next one on the right. Swiping just turns the ring: every
    card slides to its new place, so nothing ever flies off or pops back in. */
 const rail = $('#rail');
-let active = 0, dragMoved = false;
+let active = 0, dragMoved = false, downAt = 0;
 
 /* Only three are ever on show: the one in the middle and one either side.
    Anything further round the ring waits tucked behind the side cards, at the
@@ -2138,6 +2149,7 @@ rail.addEventListener('pointerdown', e => {
   if (e.pointerType === 'mouse' && e.button !== 0) return;
   dragging = true; dragMoved = false; axis = null;
   startX = e.clientX; startY = e.clientY; dx = 0;
+  downAt = Date.now();                    // for the tap test in the card's click handler
   rail.classList.add('dragging');
   if (rail.setPointerCapture){ try { rail.setPointerCapture(e.pointerId); } catch(err){} }
 });
@@ -2262,33 +2274,11 @@ $('#backBtn').onclick = () => showLanding(true);
   b.onkeydown = e => { if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); home(); } };
   if (!OPEN.length){ b.style.cursor = 'default'; b.removeAttribute('role'); b.removeAttribute('tabindex'); }
 
-  /* ── the way in to the camp manager ──
-     Five taps on the logo inside three seconds. Deliberately not a visible link:
-     campers have no business there. It is a convenience, NOT a lock — anyone can
-     type admin.html — which is why that page holds no camper data.
-     Same origin, so an installed home-screen app stays inside itself. */
-  let taps = 0, timer = null;
-  b.addEventListener('click', () => {
-    taps++;
-    clearTimeout(timer);
-    timer = setTimeout(() => { taps = 0; }, 3000);
-    if (taps >= 3 && taps < 5) adminToast(5 - taps);
-    if (taps >= 5){ taps = 0; location.href = 'admin.html'; }
-  });
-
-  function adminToast(left){
-    let t = $('#adminHint');
-    if (!t){
-      t = document.createElement('div');
-      t.id = 'adminHint';
-      t.setAttribute('aria-hidden','true');
-      document.body.appendChild(t);
-    }
-    t.textContent = left + ' more for the camp manager';
-    t.classList.add('on');
-    clearTimeout(t._h);
-    t._h = setTimeout(() => t.classList.remove('on'), 1600);
-  }
+  /* The five-tap way in to the camp manager was removed on 20 August 2026: the
+     manager is no longer published, so there would be nothing to open. It is now
+     run from Sam's own computer, which is the only real way to keep it private on
+     a host with no server. If it is ever published again, the tap code is in the
+     project notes. */
 })();
 
 window.addEventListener('popstate', e => {
