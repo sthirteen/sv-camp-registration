@@ -295,6 +295,14 @@ header{
   -webkit-backdrop-filter:blur(26px) saturate(180%); backdrop-filter:blur(26px) saturate(180%);
   border-bottom:1px solid rgba(255,255,255,.09);
 }
+/* On the homepage the bar is dropped altogether so the moonlight runs unbroken
+   from the very top. Kept on the registration form, where the page DOES scroll —
+   without it the questions would slide under the logo and the language switch. */
+body.home header{
+  background:transparent;
+  -webkit-backdrop-filter:none; backdrop-filter:none;
+  border-bottom:0;
+}
 /* three columns, so the logo sits dead centre whatever is beside it */
 .bar{
   max-width:1180px; margin:0 auto; padding:6px 18px;
