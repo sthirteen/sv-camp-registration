@@ -918,7 +918,18 @@ ul.prog li .when{font-weight:700;color:var(--ember);flex:none;min-width:104px;fo
 .paynow .pnsub{font-size:13.5px;color:var(--muted);margin:0 0 16px;line-height:1.6}
 .paynow img{width:190px;margin:0 auto 16px;border-radius:12px;background:#fff;padding:9px}
 .paynow .paybtn{display:inline-block;text-decoration:none;padding:14px 30px;font-size:15px}
-.paynow .pnhint{font-size:12.5px;color:var(--dim);line-height:1.6;margin:16px 0 0}
+.paynow .paybtns{display:flex;gap:11px;justify-content:center;flex-wrap:wrap}
+.paynow .paybtn2{
+  font:inherit;font-size:14.5px;font-weight:700;cursor:pointer;
+  border-radius:999px;padding:14px 26px;color:var(--ember);
+  background:rgba(255,154,60,.12);border:1px solid rgba(255,154,60,.45);transition:.2s;
+}
+.paynow .paybtn2:hover{background:rgba(255,154,60,.22);border-color:rgba(255,154,60,.75)}
+.paynow .pnacct{
+  font-family:ui-monospace,monospace;font-size:15px;letter-spacing:1px;
+  color:var(--ink);margin:16px 0 0;
+}
+.paynow .pnhint{font-size:12.5px;color:var(--dim);line-height:1.6;margin:12px 0 0}
 
 #done .again{
   margin-top:26px;border-radius:999px;padding:12px 26px;font:inherit;font-size:14px;font-weight:600;
@@ -1669,12 +1680,22 @@ body.intro{overflow:hidden}
       <span class="km">ការចុះឈ្មោះរបស់អ្នកត្រូវបានរក្សាទុករួចរាល់ — អ្នកអាចទូទាត់ឥឡូវ ឬពេលក្រោយ។</span>
     </p>
     <img id="payQr" alt="KHQR payment code">
-    <a class="btn paybtn" id="openBank" href="#">
-      <span class="en">Open my banking app</span><span class="km">បើកកម្មវិធីធនាគាររបស់ខ្ញុំ</span>
-    </a>
+    <div class="paybtns">
+      <a class="btn paybtn" id="saveQr" download="shalom-valley-khqr.png" href="#">
+        <span class="en">Save QR Code</span><span class="km">រក្សាទុកកូដ QR</span>
+      </a>
+      <button type="button" class="paybtn2" id="copyAcct">
+        <span class="en">Copy Account Number</span><span class="km">ចម្លងលេខគណនី</span>
+      </button>
+    </div>
+    <p class="pnacct" id="payAcct"></p>
     <p class="pnhint">
-      <span class="en">Scan the code above from inside your banking app. On a phone, press and hold the code to save it, then open your app and choose the saved image.</span>
-      <span class="km">សូមស្កេនកូដខាងលើពីក្នុងកម្មវិធីធនាគាររបស់អ្នក។ នៅលើទូរស័ព្ទ សូមចុចឱ្យជាប់លើកូដដើម្បីរក្សាទុក រួចបើកកម្មវិធីធនាគារ ហើយជ្រើសរើសរូបភាពដែលបានរក្សាទុក។</span>
+      <!-- Deliberately no "open my banking app": a web page cannot launch an
+           arbitrary bank app, and the old button that pretended to never worked.
+           A real handoff needs an ABA PayWay merchant account and a server — see
+           PROJECT-NOTES §9h. -->
+      <span class="en">Save the code, then open your own banking app, choose Scan, and pick the saved image from your photos. Or pay to the account number above.</span>
+      <span class="km">សូមរក្សាទុកកូដ រួចបើកកម្មវិធីធនាគាររបស់អ្នក ជ្រើសរើស ស្កេន ហើយយករូបភាពដែលបានរក្សាទុក។ ឬទូទាត់ទៅលេខគណនីខាងលើ។</span>
     </p>
   </div>
   <div><button type="button" class="again" id="again"><span class="en">Register someone else</span><span class="km">ចុះឈ្មោះមនុស្សផ្សេងទៀត</span></button></div>
@@ -2655,12 +2676,17 @@ $('#form').addEventListener('submit', async e => {
 
 
 /* ---------- paying after you register ----------
-   A web page cannot silently launch another app — browsers block that, and
-   there is no way to know which bank someone uses. What we can do: save the
-   registration first (so nothing is ever lost), then offer the QR and a link
-   that opens a banking app if one is installed and registers a URL scheme. */
-const BANK_SCHEMES = ['abamobilebank://', 'wingmoney://', 'acledabank://'];
+   There is no "launch the payer's bank app" here, and there cannot be: a web page
+   cannot open an arbitrary app, and KHQR is designed to be scanned from inside the
+   bank app. The button that used to claim otherwise probed guessed app addresses
+   through a hidden frame — a technique browsers stopped honouring years ago, with
+   addresses I had never verified. It never worked.
 
+   A genuine handoff (ABA app opens, amount filled, one tap, returns here) needs an
+   ABA PayWay merchant account, a server to sign the API call, and ABA whitelisting
+   the domain. See PROJECT-NOTES §9h.
+
+   What is offered instead works on every phone: save the code, or copy the account. */
 function showPayNow(method){
   const box = $('#payNow');
   const wantsQr = String(method || '').toLowerCase().includes('khqr');
@@ -2668,27 +2694,31 @@ function showPayNow(method){
   box.classList.toggle('hidden', !(wantsQr && qr));
   if (!wantsQr || !qr) return;
   $('#payQr').src = qr;
+  $('#saveQr').href = qr;
+
+  // the account number, so someone can pay without scanning anything at all
+  const acct = SETTINGS.bankAccount || '';
+  $('#payAcct').textContent = acct;
+  $('#payAcct').classList.toggle('hidden', !acct);
+  $('#copyAcct').classList.toggle('hidden', !acct);
 }
 
-$('#openBank').addEventListener('click', e => {
-  e.preventDefault();
-  // try each scheme in turn; if none is installed the page simply stays put
-  let i = 0;
-  const tryNext = () => {
-    if (i >= BANK_SCHEMES.length) return;
-    const scheme = BANK_SCHEMES[i++];
-    const t0 = Date.now();
-    const frame = document.createElement('iframe');
-    frame.style.display = 'none';
-    frame.src = scheme;
-    document.body.append(frame);
-    setTimeout(() => {
-      frame.remove();
-      // still here after a moment → that app is not installed, try the next
-      if (Date.now() - t0 < 2200 && !document.hidden) tryNext();
-    }, 900);
-  };
-  tryNext();
+$('#copyAcct').addEventListener('click', async () => {
+  const acct = SETTINGS.bankAccount || '';
+  if (!acct) return;
+  const label = $('#copyAcct');
+  const before = label.innerHTML;
+  try {
+    await navigator.clipboard.writeText(acct);
+  } catch (e) {
+    // clipboard refused (older browser, or no permission) — select it instead so
+    // it can be copied by hand rather than leaving the reader with nothing
+    const r = document.createRange();
+    r.selectNodeContents($('#payAcct'));
+    const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r);
+  }
+  label.textContent = isKm() ? 'បានចម្លង ✓' : 'Copied ✓';
+  setTimeout(() => { label.innerHTML = before; }, 1600);
 });
 
 $('#again').onclick = () => {
